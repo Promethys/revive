@@ -3,14 +3,14 @@
 namespace Mango\FilamentRevive\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
-use Mango\FilamentRevive\Models\RecycleBinItem;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Mango\FilamentRevive\Models\RecycleBinItem;
 
 trait Recyclable
 {
     public static function bootRecyclable(): void
     {
-        if (!method_exists(static::class, 'bootSoftDeletes')) {
+        if (! method_exists(static::class, 'bootSoftDeletes')) {
             throw new \Exception(static::class . ' must use SoftDeletes to be recyclable.');
         }
     }
@@ -27,7 +27,7 @@ trait Recyclable
         static::deleted(function ($model) {
             $model->recycleBinItem()->create([
                 'state' => $model,
-                'deleted_at' => $model->deleted_at
+                'deleted_at' => $model->deleted_at,
             ]);
         });
 
@@ -38,7 +38,7 @@ trait Recyclable
 
     /**
      * Scope to retrieve only the authenticated user's trashed records.
-     * You can override this method in each of your models to define how 
+     * You can override this method in each of your models to define how
      * the plugin would retrieve the records.
      */
     public function scopeRecycleBinQuery(Builder $query): Builder

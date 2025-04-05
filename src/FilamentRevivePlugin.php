@@ -3,13 +3,12 @@
 namespace Mango\FilamentRevive;
 
 use Closure;
-use Filament\Panel;
-use Livewire\Component;
-use Filament\FilamentManager;
 use Filament\Contracts\Plugin;
-use Illuminate\Database\Eloquent\Model;
-use Mango\FilamentRevive\Pages\RecycleBin;
+use Filament\FilamentManager;
+use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
+use Livewire\Component;
+use Mango\FilamentRevive\Pages\RecycleBin;
 use Mango\FilamentRevive\Tables\RecycleBin as RecycleBinTable;
 
 class FilamentRevivePlugin implements Plugin
@@ -53,7 +52,7 @@ class FilamentRevivePlugin implements Plugin
     {
         $panel
             ->pages([
-                $this->recycleBin
+                $this->recycleBin,
             ]);
     }
 
@@ -149,7 +148,7 @@ class FilamentRevivePlugin implements Plugin
 
     /**
      * TODO: register custom table. Also do a custom page registering.
-     * @param \Livewire\Component $table
+     *
      * @return FilamentRevivePlugin
      */
     public function table(Component $table): static

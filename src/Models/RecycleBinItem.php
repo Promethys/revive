@@ -11,7 +11,7 @@ class RecycleBinItem extends Model
         'model_id',
         'model_type',
         'state',
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
@@ -20,8 +20,6 @@ class RecycleBinItem extends Model
 
     /**
      * Get the parent model that owns the RecycleBinItem
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function model(): MorphTo
     {

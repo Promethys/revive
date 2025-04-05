@@ -2,22 +2,22 @@
 
 namespace Mango\FilamentRevive\Tables;
 
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
-use Illuminate\Database\Eloquent\Collection;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Mango\FilamentRevive\Models\RecycleBinItem;
-use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Livewire\Component;
+use Mango\FilamentRevive\Models\RecycleBinItem;
 
 class RecycleBin extends Component implements HasForms, HasTable
 {
@@ -66,7 +66,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                 //     }),
             ])
             ->headerActions([
-                // 
+                //
             ])
             ->actions([
                 Action::make('restore')
@@ -77,11 +77,11 @@ class RecycleBin extends Component implements HasForms, HasTable
                     ->requiresConfirmation()
                     ->modalHeading('Restore model')
                     // ->modalDescription(fn($record) => <<<BLADE
-                    //     <p>Do you really want to restore the 
+                    //     <p>Do you really want to restore the
                     //         <x-filament::badge>
                     //             {{ $record->model_type }}
                     //         </x-filament::badge>
-                    //         with ID 
+                    //         with ID
                     //         <x-filament::badge>
                     //             {{ $record->id }}
                     //         </x-filament::badge>
@@ -124,7 +124,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                         }
                     })
                     ->successNotification(Notification::make()
-                        ->title("Record successfully restored")
+                        ->title('Record successfully restored')
                         ->success())
                     ->deselectRecordsAfterCompletion(),
                 BulkAction::make('force_delete_selected')
@@ -150,7 +150,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                         }
                     })
                     ->successNotification(Notification::make()
-                        ->title("Record permanently deleted")
+                        ->title('Record permanently deleted')
                         ->success())
                     ->deselectRecordsAfterCompletion(),
             ]);

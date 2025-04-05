@@ -2,13 +2,12 @@
 
 namespace Mango\FilamentRevive;
 
-use Livewire\Livewire;
 use Filament\Support\Assets\Asset;
-use Spatie\LaravelPackageTools\Package;
 use Filament\Support\Facades\FilamentAsset;
-use Mango\FilamentRevive\Commands\Installer;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class FilamentReviveServiceProvider extends PackageServiceProvider
 {
@@ -25,12 +24,12 @@ class FilamentReviveServiceProvider extends PackageServiceProvider
                     ->publishMigrations()
                     ->askToRunMigrations()
                     ->askToStarRepoOnGitHub('MangoDevMG/filament-revive')
-                    ->endWith(function(InstallCommand $command) {
+                    ->endWith(function (InstallCommand $command) {
                         $command->info('✨ Happy Mango coding 🥭 ✨');
                     });
             });
 
-        if (file_exists($package->basePath("/../config/" . static::$name . ".php"))) {
+        if (file_exists($package->basePath('/../config/' . static::$name . '.php'))) {
             $package->hasConfigFile();
         }
 
