@@ -1,35 +1,39 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "mango/filament-revive",
+    "description": "A 'RecycleBin' page where users can restore soft-deleted models.",
     "keywords": [
-        ":vendor_name",
+        "Mango",
         "laravel",
-        ":package_slug"
+        "filament-revive",
+        "RecycleBin",
+        "filament"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/MangoDevMG/filament-revive",
     "support": {
-        "issues": "https://github.com/:vendor_slug/:package_slug/issues",
-        "source": "https://github.com/:vendor_slug/:package_slug"
+        "issues": "https://github.com/MangoDevMG/filament-revive/issues",
+        "source": "https://github.com/MangoDevMG/filament-revive"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Ilainiriko Tambaza",
+            "email": "ilainiriko.tambaza@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "filament/filament": "^3.0",
         "filament/forms": "^3.0",
         "filament/tables": "^3.0",
+        "illuminate/contracts": "*",
+        "illuminate/database": "*",
+        "illuminate/support": "*",
         "spatie/laravel-package-tools": "^1.15.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.9",
-        "nunomaduro/larastan": "^2.0.1",
         "orchestra/testbench": "^8.0",
         "pestphp/pest": "^2.1",
         "pestphp/pest-plugin-arch": "^2.0",
@@ -41,13 +45,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Mango\\FilamentRevive\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Mango\\FilamentRevive\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -67,10 +70,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Mango\\FilamentRevive\\FilamentReviveServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "FilamentRevive": "Mango\\FilamentRevive\\Facades\\FilamentRevive"
             }
         }
     },
