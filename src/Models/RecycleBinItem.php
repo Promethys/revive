@@ -18,6 +18,8 @@ class RecycleBinItem extends Model
         'state' => 'array',
     ];
 
+    protected $with = ['model'];
+
     /**
      * Get the parent model that owns the RecycleBinItem
      */

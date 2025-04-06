@@ -31,7 +31,8 @@ class FilamentRevivePlugin implements Plugin
 
     protected string $modelsNamespace = 'App\\Models\\';
 
-    protected Component $table = RecycleBinTable::class;
+    // protected Component $table;
+    // protected Page $page;
 
     public function getId(): string
     {
@@ -151,15 +152,27 @@ class FilamentRevivePlugin implements Plugin
      *
      * @return FilamentRevivePlugin
      */
-    public function table(Component $table): static
-    {
-        $this->table = $table;
+    // public function table(Component $table): static
+    // {
+    //     $this->table = $table;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getTable(): Component
-    {
-        return $this->evaluate($this->table);
-    }
+    // public function getTable(): Component
+    // {
+    //     return $this->evaluate($this->table);
+    // }
+
+    // public function page(Component $table): static
+    // {
+    //     $this->table = $table;
+
+    //     return $this;
+    // }
+
+    // public function getPage(): Component
+    // {
+    //     return $this->evaluate($this->table);
+    // }
 }
