@@ -9,7 +9,6 @@ use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;
 use MangoDev\FilamentRevive\Pages\RecycleBin;
-use MangoDev\FilamentRevive\Tables\RecycleBin as RecycleBinTable;
 
 class FilamentRevivePlugin implements Plugin
 {

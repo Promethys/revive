@@ -2,23 +2,22 @@
 
 namespace MangoDev\FilamentRevive\Tables;
 
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Filters\SelectFilter;
-use MangoDev\FilamentRevive\FilamentRevive;
-use Illuminate\Database\Eloquent\Collection;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Livewire\Component;
 use MangoDev\FilamentRevive\Models\RecycleBinItem;
 
 class RecycleBin extends Component implements HasForms, HasTable
@@ -100,7 +99,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 ->success()
                                 ->title('Model restored')
                                 ->send();
-                        } catch(\Throwable $th) {
+                        } catch (\Throwable $th) {
                             Notification::make()
                                 ->danger()
                                 ->title('Failed restoring model')
@@ -120,7 +119,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 ->success()
                                 ->title('Model permanently deleted')
                                 ->send();
-                        } catch(\Throwable $th) {
+                        } catch (\Throwable $th) {
                             Notification::make()
                                 ->danger()
                                 ->title('Failed deleted model permanently')
@@ -148,7 +147,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 $restored_models++;
                             } catch (\Throwable $th) {
                                 Notification::make()
-                                    ->title("Unable to restore model")
+                                    ->title('Unable to restore model')
                                     ->danger()
                                     ->send();
 
@@ -181,7 +180,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 $this->forceDeleteModel($model);
                             } catch (\Throwable $th) {
                                 Notification::make()
-                                    ->title("Unable to delete model permanently")
+                                    ->title('Unable to delete model permanently')
                                     ->danger()
                                     ->send();
 
