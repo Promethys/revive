@@ -1,5 +1,5 @@
 <?php
 
-use Mango\FilamentRevive\Tests\TestCase;
+use MangoDev\FilamentRevive\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

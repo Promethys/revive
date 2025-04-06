@@ -1,10 +1,10 @@
 <?php
 
-namespace Mango\FilamentRevive\Traits;
+namespace MangoDev\FilamentRevive\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Mango\FilamentRevive\Models\RecycleBinItem;
+use MangoDev\FilamentRevive\Models\RecycleBinItem;
 
 trait Recyclable
 {

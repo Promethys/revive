@@ -1,6 +1,6 @@
 <?php
 
-namespace Mango\FilamentRevive;
+namespace MangoDev\FilamentRevive;
 
 use Closure;
 use Filament\Contracts\Plugin;
@@ -8,8 +8,8 @@ use Filament\FilamentManager;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;
-use Mango\FilamentRevive\Pages\RecycleBin;
-use Mango\FilamentRevive\Tables\RecycleBin as RecycleBinTable;
+use MangoDev\FilamentRevive\Pages\RecycleBin;
+use MangoDev\FilamentRevive\Tables\RecycleBin as RecycleBinTable;
 
 class FilamentRevivePlugin implements Plugin
 {

@@ -1,8 +1,8 @@
 {
-    "name": "mango/filament-revive",
-    "description": "A 'RecycleBin' page where users can restore soft-deleted models.",
+    "name": "mangodev/filament-revive",
+    "description": "A 'RecycleBin' page where users can restore or delete permanently soft-deleted models.",
     "keywords": [
-        "Mango",
+        "MangoDev",
         "laravel",
         "filament-revive",
         "RecycleBin",
@@ -26,7 +26,7 @@
         "filament/filament": "^3.0",
         "filament/forms": "^3.0",
         "filament/tables": "^3.0",
-        "illuminate/contracts": "*",
+        "illuminate/contracts": "^12.0|^11.0|^10.0",
         "illuminate/database": "*",
         "illuminate/support": "*",
         "spatie/laravel-package-tools": "^1.15.0"
@@ -45,12 +45,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Mango\\FilamentRevive\\": "src/"
+            "MangoDev\\FilamentRevive\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mango\\FilamentRevive\\Tests\\": "tests/"
+            "MangoDev\\FilamentRevive\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -70,10 +70,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Mango\\FilamentRevive\\FilamentReviveServiceProvider"
+                "MangoDev\\FilamentRevive\\FilamentReviveServiceProvider"
             ],
             "aliases": {
-                "FilamentRevive": "Mango\\FilamentRevive\\Facades\\FilamentRevive"
+                "FilamentRevive": "MangoDev\\FilamentRevive\\Facades\\FilamentRevive"
             }
         }
     },

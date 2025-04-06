@@ -1,6 +1,6 @@
 <?php
 
-namespace Mango\FilamentRevive\Tables;
+namespace MangoDev\FilamentRevive\Tables;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -17,7 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
-use Mango\FilamentRevive\Models\RecycleBinItem;
+use MangoDev\FilamentRevive\Models\RecycleBinItem;
 
 class RecycleBin extends Component implements HasForms, HasTable
 {
