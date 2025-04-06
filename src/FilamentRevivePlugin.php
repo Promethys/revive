@@ -25,9 +25,11 @@ class FilamentRevivePlugin implements Plugin
 
     protected string | Closure $navigationIcon = 'heroicon-o-archive-box-arrow-down';
 
+    protected string | Closure $activeNavigationIcon = 'heroicon-o-archive-box-arrow-down';
+
     protected string | Closure | null $navigationLabel = null;
 
-    protected string | Closure $slug = 'filament-revive';
+    protected string | Closure $slug = 'recycle-bin';
 
     protected string $modelsNamespace = 'App\\Models\\';
 
@@ -108,6 +110,18 @@ class FilamentRevivePlugin implements Plugin
     public function getNavigationIcon(): string
     {
         return $this->evaluate($this->navigationIcon);
+    }
+
+    public function activeNavigationIcon(string | Closure $activeNavigationIcon): static
+    {
+        $this->activeNavigationIcon = $activeNavigationIcon;
+
+        return $this;
+    }
+
+    public function getActiveNavigationIcon(): string
+    {
+        return $this->evaluate($this->activeNavigationIcon);
     }
 
     public function navigationLabel(string | Closure | null $navigationLabel): static

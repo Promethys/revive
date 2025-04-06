@@ -24,6 +24,11 @@ class RecycleBin extends Page
         return FilamentRevivePlugin::get()->getNavigationIcon();
     }
 
+    public static function getActiveNavigationIcon(): string
+    {
+        return FilamentRevivePlugin::get()->getActiveNavigationIcon();
+    }
+
     public static function getNavigationLabel(): string
     {
         return FilamentRevivePlugin::get()->getNavigationLabel();
@@ -31,7 +36,7 @@ class RecycleBin extends Page
 
     public static function getSlug(): string
     {
-        return 'recycle-bin';
+        return FilamentRevivePlugin::get()->getSlug();
     }
 
     public function getTitle(): string

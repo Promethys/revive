@@ -1,6 +1,6 @@
 <?php
 
-namespace MangoDev\FilamentRevive\Traits;
+namespace MangoDev\FilamentRevive\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
