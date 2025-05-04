@@ -120,7 +120,7 @@ class RecycleBin extends Component implements HasForms, HasTable
 
                                 return $result;
                             } else {
-                                throw new \Exception();
+                                throw new \Exception;
                             }
                         } catch (\Throwable $th) {
                             return false;
@@ -183,10 +183,10 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 $this->forceDeleteModel($model);
                             } catch (\Throwable $th) {
                                 Notification::make()
-                                ->title('Unable to delete model permanently')
-                                ->danger()
-                                ->send();
-                                
+                                    ->title('Unable to delete model permanently')
+                                    ->danger()
+                                    ->send();
+
                                 continue;
                             }
                         }
