@@ -4,7 +4,6 @@ namespace Promethys\FilamentRevive\Tables;
 
 use Carbon\Carbon;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Illuminate\Support\Facades\App;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Notifications\Notification;
@@ -19,6 +18,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\App;
 use Livewire\Component;
 use Promethys\FilamentRevive\Models\RecycleBinItem;
 
@@ -51,7 +51,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                 TextColumn::make('deleted_at')
                     ->label(__('filament-revive::translations.tables.columns.deleted_at'))
                     ->dateTime()
-                    ->tooltip(function($state) {
+                    ->tooltip(function ($state) {
                         $date = new Carbon($state);
 
                         return $date
