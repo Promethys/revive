@@ -23,9 +23,9 @@ class FilamentReviveServiceProvider extends PackageServiceProvider
                 $command
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('MangoDevMG/filament-revive')
+                    ->askToStarRepoOnGitHub('Promethys/filament-revive')
                     ->endWith(function (InstallCommand $command) {
-                        $command->info('✨ Happy Mango coding 🥭 ✨');
+                        $command->info('✨ Happy coding 🔥 ✨');
                     });
             });
 
@@ -57,7 +57,7 @@ class FilamentReviveServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'mango/filament-revive';
+        return 'promethys/filament-revive';
     }
 
     /**

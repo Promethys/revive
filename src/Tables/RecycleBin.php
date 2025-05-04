@@ -2,22 +2,25 @@
 
 namespace Promethys\FilamentRevive\Tables;
 
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Notifications\Notification;
+use Livewire\Component;
+use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
+use Filament\Tables\Actions\RestoreAction;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Livewire\Component;
+use Filament\Tables\Actions\ForceDeleteAction;
+use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Promethys\FilamentRevive\Models\RecycleBinItem;
 
 class RecycleBin extends Component implements HasForms, HasTable
@@ -31,29 +34,30 @@ class RecycleBin extends Component implements HasForms, HasTable
 
         return $table
             ->query($query)
-            ->emptyStateHeading('You don\'t have any Recyclable model.')
+            ->emptyStateHeading(__('filament-revive::translations.tables.empty_state'))
             ->defaultSort('deleted_at', 'desc')
             ->recordAction('view_details')
             ->columns([
                 TextColumn::make('model_id')
-                    ->label('Model ID')
+                    ->label(__('filament-revive::translations.tables.columns.model_id'))
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('model_type')
-                    ->label('Model Type')
+                    ->label(__('filament-revive::translations.tables.columns.model_type'))
                     ->badge()
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('deleted_at')
-                    ->label('Deleted At')
+                    ->label(__('filament-revive::translations.tables.columns.deleted_at'))
                     ->dateTime()
                     ->sinceTooltip()
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('model_type')
+                    ->label(__('filament-revive::translations.tables.columns.model_type'))
                     ->options(function () use ($query) {
                         return $query->get()->pluck('model_type', 'model_type')->toArray();
                     })
@@ -66,19 +70,15 @@ class RecycleBin extends Component implements HasForms, HasTable
             ->actions([
                 ViewAction::make('view_details')
                     ->button()
-                    // ->hidden()
-                    ->modalHeading('Record details')
+                    ->modalHeading(__('filament-revive::translations.tables.actions.view_details.modal_heading'))
                     ->infolist([
-                        KeyValueEntry::make('state')
-                            ->keyLabel('Model column'),
+                        KeyValueEntry::make('state'),
                     ]),
-                Action::make('restore')
+                RestoreAction::make('restore')
                     ->button()
-                    ->color('gray')
-                    ->icon('heroicon-s-arrow-uturn-left')
-                    ->tooltip('Restore model')
+                    ->visible(true)
                     ->requiresConfirmation()
-                    ->modalHeading('Restore model')
+                    // ->modalHeading('Restore model')
                     // ->modalDescription(fn($record) => <<<BLADE
                     //     <p>Do you really want to restore the
                     //         <x-filament::badge>
@@ -97,20 +97,18 @@ class RecycleBin extends Component implements HasForms, HasTable
 
                             Notification::make()
                                 ->success()
-                                ->title('Model restored')
+                                ->title(__('filament-revive::translations.tables.actions.restore.success_notification_title'))
                                 ->send();
                         } catch (\Throwable $th) {
                             Notification::make()
                                 ->danger()
-                                ->title('Failed restoring model')
+                                ->title(__('filament-revive::translations.tables.actions.restore.failure_notification_title'))
                                 ->send();
                         }
                     }),
-                DeleteAction::make('force_delete')
+                ForceDeleteAction::make('force_delete')
                     ->button()
-                    ->tooltip('Delete permanently')
-                    ->requiresConfirmation()
-                    ->modalHeading('Delete permanently')
+                    ->visible(true)
                     ->using(function ($record) {
                         try {
                             $is_deleted = $this->forceDeleteModel($record);
@@ -120,7 +118,7 @@ class RecycleBin extends Component implements HasForms, HasTable
 
                                 return $result;
                             } else {
-                                throw new \Exception;
+                                throw new \Exception();
                             }
                         } catch (\Throwable $th) {
                             return false;
@@ -128,24 +126,15 @@ class RecycleBin extends Component implements HasForms, HasTable
                     })
                     ->successNotification(Notification::make()
                         ->success()
-                        ->title('Model permanently deleted'))
+                        ->title(__('filament-revive::translations.tables.actions.force_delete.success_notification_title')))
                     ->failureNotification(Notification::make()
                         ->danger()
-                        ->title('Failed to delete model permanently')),
+                        ->title(__('filament-revive::translations.tables.actions.force_delete.failure_notification_title'))),
             ])
             ->bulkActions([
-                BulkAction::make('restore_selected')
+                RestoreBulkAction::make('restore_selected')
                     ->button()
-                    ->label('Restore')
-                    ->icon('heroicon-s-arrow-uturn-left')
-                    ->color('gray')
-                    ->tooltip('Restore selected models')
-                    ->requiresConfirmation()
-                    ->modalHeading('Restore selected models')
                     ->action(function (Collection $models) {
-                        $selected_models = count($models->toArray());
-                        $model_name = $selected_models > 1 ? 'models' : 'model';
-
                         foreach ($models as $model) {
                             try {
                                 $this->restoreModel($model);
@@ -158,26 +147,11 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 continue;
                             }
                         }
-
-                        Notification::make()
-                            ->title("Restored selected $model_name")
-                            ->success()
-                            ->send();
                     })
-                    ->successNotification(null)
                     ->deselectRecordsAfterCompletion(),
-                BulkAction::make('force_delete_selected')
+                ForceDeleteBulkAction::make('force_delete_selected')
                     ->button()
-                    ->label('Delete')
-                    ->icon('heroicon-s-trash')
-                    ->color('danger')
-                    ->tooltip('Delete permanently')
-                    ->requiresConfirmation()
-                    ->modalHeading('Delete permanently')
                     ->action(function (Collection $models) {
-                        $selected_models = count($models->toArray());
-                        $model_name = $selected_models > 1 ? 'models' : 'model';
-
                         foreach ($models as $model) {
                             try {
                                 $this->forceDeleteModel($model);
@@ -190,15 +164,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 continue;
                             }
                         }
-
-                        Notification::make()
-                            ->title("Permanently deleted selected $model_name")
-                            ->success()
-                            ->send();
                     })
-                    ->successNotification(Notification::make()
-                        ->title('Record permanently deleted')
-                        ->success())
                     ->deselectRecordsAfterCompletion(),
             ]);
     }

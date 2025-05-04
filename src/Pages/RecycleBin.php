@@ -41,7 +41,7 @@ class RecycleBin extends Page
 
     public function getTitle(): string
     {
-        return 'Recycle bin';
+        return FilamentRevivePlugin::get()->getTitle();
     }
 
     public static function canAccess(): bool

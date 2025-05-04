@@ -30,6 +30,8 @@ class FilamentRevivePlugin implements Plugin
 
     protected string | Closure $slug = 'recycle-bin';
 
+    protected string | Closure $title = '';
+
     protected string $modelsNamespace = 'App\\Models\\';
 
     // protected Component $table;
@@ -65,7 +67,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function authorize(bool | Closure $callback = true): static
     {
-        $this->authorizeUsing = $callback;
+        $this->authorizeUsing = $this->evaluate($callback);
 
         return $this;
     }
@@ -77,7 +79,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function navigationGroup(string | Closure | null $navigationGroup): static
     {
-        $this->navigationGroup = $navigationGroup;
+        $this->navigationGroup = $this->evaluate($navigationGroup);
 
         return $this;
     }
@@ -89,7 +91,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function navigationSort(int | Closure $navigationSort): static
     {
-        $this->navigationSort = $navigationSort;
+        $this->navigationSort = $this->evaluate($navigationSort);
 
         return $this;
     }
@@ -101,7 +103,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function navigationIcon(string | Closure $navigationIcon): static
     {
-        $this->navigationIcon = $navigationIcon;
+        $this->navigationIcon = $this->evaluate($navigationIcon);
 
         return $this;
     }
@@ -113,7 +115,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function activeNavigationIcon(string | Closure $activeNavigationIcon): static
     {
-        $this->activeNavigationIcon = $activeNavigationIcon;
+        $this->activeNavigationIcon = $this->evaluate($activeNavigationIcon);
 
         return $this;
     }
@@ -125,7 +127,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function navigationLabel(string | Closure | null $navigationLabel): static
     {
-        $this->navigationLabel = $navigationLabel;
+        $this->navigationLabel = $this->evaluate($navigationLabel);
 
         return $this;
     }
@@ -138,7 +140,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function slug(string | Closure $slug): static
     {
-        $this->slug = $slug;
+        $this->slug = $this->evaluate($slug);
 
         return $this;
     }
@@ -146,6 +148,18 @@ class FilamentRevivePlugin implements Plugin
     public function getSlug(): string
     {
         return $this->evaluate($this->slug);
+    }
+
+    public function title(string | Closure $title): static
+    {
+        $this->title = empty($title) ? __('filament-revive::translations.pages.title') : $this->evaluate($title);
+
+        return $this;
+    }
+
+    public function getTitle(): string
+    {
+        return empty($this->title) ? __('filament-revive::translations.pages.title') : $this->evaluate($this->title);
     }
 
     public function modelsNamespace(string $modelsNamespace): static

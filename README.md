@@ -2,12 +2,12 @@
 
 # Filament RecycleBin for Laravel Models
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mango/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/mango/filament-revive/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mango/filament-revive/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/mango/filament-revive/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/mango/filament-revive/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/mango/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/promethys/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/promethys/filament-revive/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/promethys/filament-revive/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/promethys/filament-revive/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/promethys/filament-revive/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/promethys/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
 
-**Filament Revive** is a plugin for [Filament](https://filamentphp.com) that brings a central **Recycle Bin** to your application. It lets you restore or permanently delete soft-deleted Eloquent models in just a few clicks.
+**Filament Revive** is a plugin for [FilamentPHP](https://filamentphp.com) that brings a central **Recycle Bin** to your application. It lets you restore or permanently delete soft-deleted Eloquent models in just a few clicks.
 
 This plugin is especially useful for SaaS applications, admin dashboards, or any multi-user platform where recovering accidentally deleted data is important.
 
@@ -68,16 +68,16 @@ $panel->plugins([
         ->activeNavigationIcon('heroicon-o-archive-box-arrow-down')
         ->navigationSort(1)
         ->navigationLabel('Custom Label')
+        ->title('Custom Title')
         ->slug('custom-slug')
-        ->modelsNamespace('App\\MyCoolApp\\Custom\\Models') // Default is App\\Models
 ]);
 ```
 
-> ⚠️ The plugin currently supports only **one models namespace**.  
+> ⚠️ The plugin currently supports only the models in the `App\Models` namespace.  
 > If you want to register a third-party model (e.g., from another package), create a wrapper class that extends it and add the `Recyclable` trait there:
 
 ```php
-namespace App\MyCoolApp\Custom\Models;
+namespace App\Models;
 
 use Promethys\FilamentRevive\Traits\Recyclable;
 use Vendor\Package\Models\Foo as BaseFoo;
