@@ -17,6 +17,6 @@ return [
             'view_details' => [
                 'modal_heading' => '레코드 세부정보',
             ],
-        ]
-    ]
+        ],
+    ],
 ];
