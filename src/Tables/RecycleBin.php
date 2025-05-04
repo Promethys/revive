@@ -2,25 +2,22 @@
 
 namespace Promethys\FilamentRevive\Tables;
 
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\BulkAction;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ForceDeleteAction;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\RestoreAction;
+use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Actions\RestoreAction;
-use Illuminate\Database\Eloquent\Collection;
-use Filament\Tables\Actions\ForceDeleteAction;
-use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Component;
 use Promethys\FilamentRevive\Models\RecycleBinItem;
 
 class RecycleBin extends Component implements HasForms, HasTable
@@ -118,7 +115,7 @@ class RecycleBin extends Component implements HasForms, HasTable
 
                                 return $result;
                             } else {
-                                throw new \Exception();
+                                throw new \Exception;
                             }
                         } catch (\Throwable $th) {
                             return false;

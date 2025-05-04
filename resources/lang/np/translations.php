@@ -17,6 +17,6 @@ return [
             'view_details' => [
                 'modal_heading' => 'रेकर्ड विवरण',
             ],
-        ]
-    ]
+        ],
+    ],
 ];
