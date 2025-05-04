@@ -2,9 +2,11 @@
 
 namespace Promethys\FilamentRevive\Tables;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\App;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\ViewAction;
@@ -52,7 +54,13 @@ class RecycleBin extends Component implements HasForms, HasTable
                 TextColumn::make('deleted_at')
                     ->label(__('filament-revive::translations.tables.columns.deleted_at'))
                     ->dateTime()
-                    ->sinceTooltip()
+                    ->tooltip(function($state) {
+                        $date = new Carbon($state);
+
+                        return $date
+                            ->locale(App::getLocale())
+                            ->diffForHumans();
+                    })
                     ->sortable(),
             ])
             ->filters([

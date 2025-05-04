@@ -134,8 +134,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function getNavigationLabel(): string
     {
-        // TODO: use translations : filament.revive.navigation.label
-        return $this->evaluate($this->navigationLabel) ?? 'Recycle Bin';
+        return $this->evaluate($this->navigationLabel) ?? $this->getTitle();
     }
 
     public function slug(string | Closure $slug): static
