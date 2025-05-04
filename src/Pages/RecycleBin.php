@@ -1,9 +1,9 @@
 <?php
 
-namespace MangoDev\FilamentRevive\Pages;
+namespace Promethys\FilamentRevive\Pages;
 
 use Filament\Pages\Page;
-use MangoDev\FilamentRevive\FilamentRevivePlugin;
+use Promethys\FilamentRevive\FilamentRevivePlugin;
 
 class RecycleBin extends Page
 {

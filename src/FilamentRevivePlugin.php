@@ -1,6 +1,6 @@
 <?php
 
-namespace MangoDev\FilamentRevive;
+namespace Promethys\FilamentRevive;
 
 use Closure;
 use Filament\Contracts\Plugin;
@@ -8,7 +8,7 @@ use Filament\FilamentManager;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;
-use MangoDev\FilamentRevive\Pages\RecycleBin;
+use Promethys\FilamentRevive\Pages\RecycleBin;
 
 class FilamentRevivePlugin implements Plugin
 {

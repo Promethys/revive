@@ -1,6 +1,6 @@
 <?php
 
-namespace MangoDev\FilamentRevive;
+namespace Promethys\FilamentRevive;
 
 use Filament\Support\Assets\Asset;
 use Filament\Support\Facades\FilamentAsset;
@@ -52,7 +52,7 @@ class FilamentReviveServiceProvider extends PackageServiceProvider
             $this->getAssetPackageName()
         );
 
-        Livewire::component('filament-revive.tables.recycle-bin', \MangoDev\FilamentRevive\Tables\RecycleBin::class);
+        Livewire::component('filament-revive.tables.recycle-bin', \Promethys\FilamentRevive\Tables\RecycleBin::class);
     }
 
     protected function getAssetPackageName(): ?string

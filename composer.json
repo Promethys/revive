@@ -1,17 +1,17 @@
 {
-    "name": "mangodev/filament-revive",
+    "name": "promethys/filament-revive",
     "description": "A 'RecycleBin' page where users can restore or delete permanently soft-deleted models.",
     "keywords": [
-        "MangoDev",
+        "Promethys",
         "laravel",
         "filament-revive",
         "RecycleBin",
         "filament"
     ],
-    "homepage": "https://github.com/MangoDevMG/filament-revive",
+    "homepage": "https://github.com/Promethys/filament-revive",
     "support": {
-        "issues": "https://github.com/MangoDevMG/filament-revive/issues",
-        "source": "https://github.com/MangoDevMG/filament-revive"
+        "issues": "https://github.com/Promethys/filament-revive/issues",
+        "source": "https://github.com/Promethys/filament-revive"
     },
     "license": "MIT",
     "authors": [
@@ -45,12 +45,12 @@
     },
     "autoload": {
         "psr-4": {
-            "MangoDev\\FilamentRevive\\": "src/"
+            "Promethys\\FilamentRevive\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MangoDev\\FilamentRevive\\Tests\\": "tests/"
+            "Promethys\\FilamentRevive\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -70,10 +70,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MangoDev\\FilamentRevive\\FilamentReviveServiceProvider"
+                "Promethys\\FilamentRevive\\FilamentReviveServiceProvider"
             ],
             "aliases": {
-                "FilamentRevive": "MangoDev\\FilamentRevive\\Facades\\FilamentRevive"
+                "FilamentRevive": "Promethys\\FilamentRevive\\Facades\\FilamentRevive"
             }
         }
     },

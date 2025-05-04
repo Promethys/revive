@@ -1,6 +1,6 @@
 <?php
 
-namespace MangoDev\FilamentRevive\Models;
+namespace Promethys\FilamentRevive\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;

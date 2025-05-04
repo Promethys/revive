@@ -1,6 +1,6 @@
 <?php
 
-namespace MangoDev\FilamentRevive\Tests;
+namespace Promethys\FilamentRevive\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
@@ -14,7 +14,7 @@ use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Livewire\LivewireServiceProvider;
-use MangoDev\FilamentRevive\FilamentReviveServiceProvider;
+use Promethys\FilamentRevive\FilamentReviveServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
@@ -25,7 +25,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'MangoDev\\FilamentRevive\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Promethys\\FilamentRevive\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 

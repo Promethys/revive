@@ -1,18 +1,18 @@
-<!-- ![calendar Banner](https://github.com/MangoDevMG/filament-revive/tree/main/resources/imgs/banner.jpg) -->
+<!-- ![calendar Banner](https://github.com/Promethys/filament-revive/tree/main/resources/imgs/banner.jpg) -->
 
 # Filament RecycleBin for Laravel Models
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mango/filament-revive.svg?style=flat-square)](https://packagist.org/packages/mangodev/filament-revive)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mango/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/mango/filament-revive/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mango/filament-revive/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/mango/filament-revive/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/mango/filament-revive/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/mango/filament-revive.svg?style=flat-square)](https://packagist.org/packages/mangodev/filament-revive)
+[![Total Downloads](https://img.shields.io/packagist/dt/mango/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
 
 **Filament Revive** is a plugin for [Filament](https://filamentphp.com) that brings a central **Recycle Bin** to your application. It lets you restore or permanently delete soft-deleted Eloquent models in just a few clicks.
 
 This plugin is especially useful for SaaS applications, admin dashboards, or any multi-user platform where recovering accidentally deleted data is important.
 
-![Preview Screenshot](https://github.com/MangoDevMG/filament-revive/tree/main/resources/imgs/preview.png)
-<!-- ![Preview Video](https://github.com/MangoDevMG/filament-revive/tree/main/resources/imgs/video-preview.mp4) -->
+![Preview Screenshot](https://github.com/Promethys/filament-revive/tree/main/resources/imgs/preview.png)
+<!-- ![Preview Video](https://github.com/Promethys/filament-revive/tree/main/resources/imgs/video-preview.mp4) -->
 
 ---
 
@@ -30,7 +30,7 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 Install the package via Composer:
 
 ```bash
-composer require mangodev/filament-revive
+composer require promethys/filament-revive
 php artisan filament-revive:install
 ```
 
@@ -48,7 +48,7 @@ php artisan migrate
 Register the plugin in your panel:
 
 ```php
-use MangoDev\FilamentRevive\FilamentRevivePlugin;
+use Promethys\FilamentRevive\FilamentRevivePlugin;
 
 $panel->plugins([
     FilamentRevivePlugin::make()
@@ -58,7 +58,7 @@ $panel->plugins([
 You can also customize the plugin using fluent configuration:
 
 ```php
-use MangoDev\FilamentRevive\FilamentRevivePlugin;
+use Promethys\FilamentRevive\FilamentRevivePlugin;
 
 $panel->plugins([
     FilamentRevivePlugin::make()
@@ -79,7 +79,7 @@ $panel->plugins([
 ```php
 namespace App\MyCoolApp\Custom\Models;
 
-use MangoDev\FilamentRevive\Traits\Recyclable;
+use Promethys\FilamentRevive\Traits\Recyclable;
 use Vendor\Package\Models\Foo as BaseFoo;
 
 class Foo extends BaseFoo
@@ -98,7 +98,7 @@ From there, users can restore deleted data or permanently remove it.
 ### 1. Add the `Recyclable` trait to any soft-deletable model
 
 ```php
-use MangoDev\FilamentRevive\Concerns\Recyclable;
+use Promethys\FilamentRevive\Concerns\Recyclable;
 
 class Post extends Model
 {
@@ -128,7 +128,7 @@ You don’t have to register the plugin in your panel to use the table.
 Instead, you can render the Livewire component directly in a Blade view:
 
 ```php
-@livewire(\MangoDev\FilamentRevive\Tables\RecycleBin::class)
+@livewire(\Promethys\FilamentRevive\Tables\RecycleBin::class)
 ```
 
 This is ideal if:
@@ -151,7 +151,7 @@ See [CONTRIBUTING](.github/CONTRIBUTING.md) for guidelines.
 
 ## Credits
 
-- [Ilainiriko Tambaza](https://github.com/MangoDevMG)
+- [Ilainiriko Tambaza](https://github.com/Promethys)
 - [mintellity/laravel-recycle-bin](https://github.com/mintellity/laravel-recycle-bin) — inspiration for this package
 - [All Contributors](../../contributors)
 

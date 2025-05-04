@@ -1,10 +1,10 @@
 <?php
 
-namespace MangoDev\FilamentRevive\Concerns;
+namespace Promethys\FilamentRevive\Concerns;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use MangoDev\FilamentRevive\Models\RecycleBinItem;
+use Promethys\FilamentRevive\Models\RecycleBinItem;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait Recyclable
