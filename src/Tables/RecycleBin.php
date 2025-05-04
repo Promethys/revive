@@ -113,19 +113,25 @@ class RecycleBin extends Component implements HasForms, HasTable
                     ->modalHeading('Delete permanently')
                     ->using(function ($record) {
                         try {
-                            $this->forceDeleteModel($record);
+                            $is_deleted = $this->forceDeleteModel($record);
 
-                            Notification::make()
-                                ->success()
-                                ->title('Model permanently deleted')
-                                ->send();
+                            if ($is_deleted === true) {
+                                $result = $record->delete();
+
+                                return $result;
+                            } else {
+                                throw new \Exception();
+                            }
                         } catch (\Throwable $th) {
-                            Notification::make()
-                                ->danger()
-                                ->title('Failed deleted model permanently')
-                                ->send();
+                            return false;
                         }
-                    }),
+                    })
+                    ->successNotification(Notification::make()
+                        ->success()
+                        ->title('Model permanently deleted'))
+                    ->failureNotification(Notification::make()
+                        ->danger()
+                        ->title('Failed to delete model permanently')),
             ])
             ->bulkActions([
                 BulkAction::make('restore_selected')
@@ -137,14 +143,12 @@ class RecycleBin extends Component implements HasForms, HasTable
                     ->requiresConfirmation()
                     ->modalHeading('Restore selected models')
                     ->action(function (Collection $models) {
-                        $restored_models = 0;
                         $selected_models = count($models->toArray());
                         $model_name = $selected_models > 1 ? 'models' : 'model';
 
                         foreach ($models as $model) {
                             try {
                                 $this->restoreModel($model);
-                                $restored_models++;
                             } catch (\Throwable $th) {
                                 Notification::make()
                                     ->title('Unable to restore model')
@@ -155,7 +159,7 @@ class RecycleBin extends Component implements HasForms, HasTable
                             }
 
                             Notification::make()
-                                ->title("Restored $restored_models $model_name out of $selected_models")
+                                ->title("Restored selected $model_name")
                                 ->success()
                                 ->send();
                         }
@@ -171,7 +175,6 @@ class RecycleBin extends Component implements HasForms, HasTable
                     ->requiresConfirmation()
                     ->modalHeading('Delete permanently')
                     ->action(function (Collection $models) {
-                        $deleted_models = 0;
                         $selected_models = count($models->toArray());
                         $model_name = $selected_models > 1 ? 'models' : 'model';
 
@@ -180,16 +183,16 @@ class RecycleBin extends Component implements HasForms, HasTable
                                 $this->forceDeleteModel($model);
                             } catch (\Throwable $th) {
                                 Notification::make()
-                                    ->title('Unable to delete model permanently')
-                                    ->danger()
-                                    ->send();
-
+                                ->title('Unable to delete model permanently')
+                                ->danger()
+                                ->send();
+                                
                                 continue;
                             }
                         }
 
                         Notification::make()
-                            ->title("Permanently deleted $deleted_models $model_name out of $selected_models")
+                            ->title("Permanently deleted selected $model_name")
                             ->success()
                             ->send();
                     })

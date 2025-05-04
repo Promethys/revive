@@ -2,15 +2,16 @@
 
 namespace MangoDev\FilamentRevive\Concerns;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use MangoDev\FilamentRevive\Models\RecycleBinItem;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait Recyclable
 {
     public static function bootRecyclable(): void
     {
-        if (! method_exists(static::class, 'bootSoftDeletes')) {
+        if (!method_exists(static::class, 'bootSoftDeletes')) {
             throw new \Exception(static::class . ' must use SoftDeletes to be recyclable.');
         }
     }
@@ -25,14 +26,26 @@ trait Recyclable
         parent::booted();
 
         static::deleted(function ($model) {
+            // avoid creating a RecycleBinItem for a forceDeleted model
+            if ($model->isForceDeleting()) {
+                return;
+            }
+
             $model->recycleBinItem()->create([
                 'state' => $model,
                 'deleted_at' => $model->deleted_at,
             ]);
         });
 
+        static::forceDeleted(function ($model) {
+            RecycleBinItem::where('model_id', $model->id)
+                ->where('model_type', get_class($model))
+                ->first()
+                    ?->delete();
+        });
+
         static::restored(function ($model) {
-            $model->recycleBinItem()?->delete();
+            $model->recycleBinItem?->delete();
         });
     }
 
