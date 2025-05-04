@@ -157,12 +157,12 @@ class RecycleBin extends Component implements HasForms, HasTable
 
                                 continue;
                             }
-
-                            Notification::make()
-                                ->title("Restored selected $model_name")
-                                ->success()
-                                ->send();
                         }
+
+                        Notification::make()
+                            ->title("Restored selected $model_name")
+                            ->success()
+                            ->send();
                     })
                     ->successNotification(null)
                     ->deselectRecordsAfterCompletion(),
