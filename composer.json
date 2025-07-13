@@ -26,7 +26,7 @@
         "filament/filament": "^3.0",
         "filament/forms": "^3.0",
         "filament/tables": "^3.0",
-        "illuminate/contracts": "^12.0|^11.0|^10.0",
+        "illuminate/contracts": "^12.0|^11.0",
         "illuminate/database": "*",
         "illuminate/support": "*",
         "spatie/laravel-package-tools": "^1.15.0"

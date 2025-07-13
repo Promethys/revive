@@ -25,6 +25,18 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 
 ---
 
+## ⚠️ Filament v4 Compatibility
+
+Filament v4 is currently in **beta**, and this plugin does **not support** it yet.
+
+We will begin testing and adapting the package once Filament v4 reaches a more stable release stage. Until then, please use this plugin with **Filament v3.x** only.
+
+> Trying to install this plugin on Filament v4 may result in unexpected errors or breaking changes.
+
+Stay tuned for updates when full support becomes available.
+
+---
+
 ## Installation
 
 Install the package via Composer:
@@ -134,6 +146,21 @@ Instead, you can render the Livewire component directly in a Blade view:
 This is ideal if:
 - You don’t want to clutter your navigation
 - You’re not using Filament Panels but still want a recycle bin in your app
+
+---
+
+## 🐛 Issue Guidelines
+
+If you encounter a bug or unexpected behavior, please help us help you by following these guidelines:
+
+* **👉 [Create an issue on GitHub](https://github.com/Promethys/revive/issues)**: Create an issue on Github
+* **Describe the issue clearly:** What did you try to do? What did you expect to happen? What actually happened?
+* **Include relevant code snippets:** Show any relevant model, config, or page setup related to the issue.
+* **Share error messages:** If possible, paste the full error output or stack trace.
+* **Attach screenshots:** Visuals often help us understand UI-related bugs or logic problems more quickly.
+* **Mention your setup:** Let us know your PHP version, Laravel version, Filament version, and the version of this plugin.
+
+> The more details you provide, the faster and better we can help. Thank you!
 
 ---
 
