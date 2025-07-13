@@ -1,6 +1,6 @@
 <?php
 
-// translations for Promethys/FilamentRevive
+// translations for Promethys/Revive
 return [
     'pages' => [
         'title' => 'Recycle bin',

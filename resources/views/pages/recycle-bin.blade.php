@@ -1,3 +1,3 @@
 <x-filament::page>
-    @livewire('filament-revive.tables.recycle-bin')
+    @livewire('revive.tables.recycle-bin')
 </x-filament::page>

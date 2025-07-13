@@ -1,18 +1,18 @@
-<!-- ![calendar Banner](https://github.com/Promethys/filament-revive/tree/main/resources/imgs/banner.jpg) -->
+<!-- ![calendar Banner](https://github.com/promethys/revive/tree/main/resources/imgs/banner.jpg) -->
 
 # Filament RecycleBin for Laravel Models
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/promethys/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/promethys/filament-revive/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/promethys/filament-revive/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/promethys/filament-revive/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/promethys/filament-revive/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/promethys/filament-revive.svg?style=flat-square)](https://packagist.org/packages/promethys/filament-revive)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/promethys/revive.svg?style=flat-square)](https://packagist.org/packages/promethys/revive)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/promethys/revive/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/promethys/revive/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/promethys/revive/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/promethys/revive/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/promethys/revive.svg?style=flat-square)](https://packagist.org/packages/promethys/revive)
 
 **Filament Revive** is a plugin for [FilamentPHP](https://filamentphp.com) that brings a central **Recycle Bin** to your application. It lets you restore or permanently delete soft-deleted Eloquent models in just a few clicks.
 
 This plugin is especially useful for SaaS applications, admin dashboards, or any multi-user platform where recovering accidentally deleted data is important.
 
-![Preview Screenshot](https://github.com/Promethys/filament-revive/tree/main/resources/imgs/preview.png)
-<!-- ![Preview Video](https://github.com/Promethys/filament-revive/tree/main/resources/imgs/video-preview.mp4) -->
+![Preview Screenshot](https://github.com/promethys/revive/tree/main/resources/imgs/preview.png)
+<!-- ![Preview Video](https://github.com/promethys/revive/tree/main/resources/imgs/video-preview.mp4) -->
 
 ---
 
@@ -30,14 +30,14 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 Install the package via Composer:
 
 ```bash
-composer require promethys/filament-revive
-php artisan filament-revive:install
+composer require promethys/revive
+php artisan revive:install
 ```
 
 If you prefer to manually publish and run the migrations:
 
 ```bash
-php artisan vendor:publish --tag="filament-revive-migrations"
+php artisan vendor:publish --tag="revive-migrations"
 php artisan migrate
 ```
 
@@ -48,20 +48,20 @@ php artisan migrate
 Register the plugin in your panel:
 
 ```php
-use Promethys\FilamentRevive\FilamentRevivePlugin;
+use Promethys\Revive\RevivePlugin;
 
 $panel->plugins([
-    FilamentRevivePlugin::make()
+    RevivePlugin::make()
 ]);
 ```
 
 You can also customize the plugin using fluent configuration:
 
 ```php
-use Promethys\FilamentRevive\FilamentRevivePlugin;
+use Promethys\Revive\RevivePlugin;
 
 $panel->plugins([
-    FilamentRevivePlugin::make()
+    RevivePlugin::make()
         ->authorize(auth()->user()->isAdmin()) // Accepts a boolean or Closure to control access
         ->navigationGroup('Settings') // Group the page under a custom sidebar section
         ->navigationIcon('heroicon-o-archive-box-arrow-down')
@@ -79,7 +79,7 @@ $panel->plugins([
 ```php
 namespace App\Models;
 
-use Promethys\FilamentRevive\Traits\Recyclable;
+use Promethys\Revive\Traits\Recyclable;
 use Vendor\Package\Models\Foo as BaseFoo;
 
 class Foo extends BaseFoo
@@ -98,7 +98,7 @@ From there, users can restore deleted data or permanently remove it.
 ### 1. Add the `Recyclable` trait to any soft-deletable model
 
 ```php
-use Promethys\FilamentRevive\Concerns\Recyclable;
+use Promethys\Revive\Concerns\Recyclable;
 
 class Post extends Model
 {
@@ -114,7 +114,7 @@ class Post extends Model
 If you already have soft-deleted records before installing the plugin, you’ll soon be able to “discover” them by running:
 
 ```bash
-php artisan filament-revive:discover-soft-deleted
+php artisan revive:discover-soft-deleted
 ```
 
 > 🧪 *This command is planned for version 1.*
@@ -128,7 +128,7 @@ You don’t have to register the plugin in your panel to use the table.
 Instead, you can render the Livewire component directly in a Blade view:
 
 ```php
-@livewire(\Promethys\FilamentRevive\Tables\RecycleBin::class)
+@livewire(\Promethys\Revive\Tables\RecycleBin::class)
 ```
 
 This is ideal if:

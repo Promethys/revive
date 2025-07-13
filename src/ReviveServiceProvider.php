@@ -1,6 +1,6 @@
 <?php
 
-namespace Promethys\FilamentRevive;
+namespace Promethys\Revive;
 
 use Filament\Support\Assets\Asset;
 use Filament\Support\Facades\FilamentAsset;
@@ -9,11 +9,11 @@ use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentReviveServiceProvider extends PackageServiceProvider
+class ReviveServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'filament-revive';
+    public static string $name = 'revive';
 
-    public static string $viewNamespace = 'filament-revive';
+    public static string $viewNamespace = 'revive';
 
     public function configurePackage(Package $package): void
     {
@@ -23,7 +23,7 @@ class FilamentReviveServiceProvider extends PackageServiceProvider
                 $command
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('Promethys/filament-revive')
+                    ->askToStarRepoOnGitHub('promethys/revive')
                     ->endWith(function (InstallCommand $command) {
                         $command->info('✨ Happy coding 🔥 ✨');
                     });
@@ -52,12 +52,12 @@ class FilamentReviveServiceProvider extends PackageServiceProvider
             $this->getAssetPackageName()
         );
 
-        Livewire::component('filament-revive.tables.recycle-bin', \Promethys\FilamentRevive\Tables\RecycleBin::class);
+        Livewire::component('revive.tables.recycle-bin', \Promethys\Revive\Tables\RecycleBin::class);
     }
 
     protected function getAssetPackageName(): ?string
     {
-        return 'promethys/filament-revive';
+        return 'promethys/revive';
     }
 
     /**

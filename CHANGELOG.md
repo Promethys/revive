@@ -1,8 +1,8 @@
 # Changelog
 
-All notable changes to `filament-revive` will be documented in this file.
+All notable changes to `revive` will be documented in this file.
 
-##  FilamentRevive official release - 2025-05-04
+##  Revive official release - 2025-05-04
 
 This is the first tag of the first version release 🥇
 

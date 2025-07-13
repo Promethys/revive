@@ -1,6 +1,6 @@
 <?php
 
-namespace Promethys\FilamentRevive\Tables;
+namespace Promethys\Revive\Tables;
 
 use Carbon\Carbon;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -20,7 +20,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Livewire\Component;
-use Promethys\FilamentRevive\Models\RecycleBinItem;
+use Promethys\Revive\Models\RecycleBinItem;
 
 class RecycleBin extends Component implements HasForms, HasTable
 {
@@ -33,23 +33,23 @@ class RecycleBin extends Component implements HasForms, HasTable
 
         return $table
             ->query($query)
-            ->emptyStateHeading(__('filament-revive::translations.tables.empty_state'))
+            ->emptyStateHeading(__('revive::translations.tables.empty_state'))
             ->defaultSort('deleted_at', 'desc')
             ->recordAction('view_details')
             ->columns([
                 TextColumn::make('model_id')
-                    ->label(__('filament-revive::translations.tables.columns.model_id'))
+                    ->label(__('revive::translations.tables.columns.model_id'))
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('model_type')
-                    ->label(__('filament-revive::translations.tables.columns.model_type'))
+                    ->label(__('revive::translations.tables.columns.model_type'))
                     ->badge()
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('deleted_at')
-                    ->label(__('filament-revive::translations.tables.columns.deleted_at'))
+                    ->label(__('revive::translations.tables.columns.deleted_at'))
                     ->dateTime()
                     ->tooltip(function ($state) {
                         $date = new Carbon($state);
@@ -62,7 +62,7 @@ class RecycleBin extends Component implements HasForms, HasTable
             ])
             ->filters([
                 SelectFilter::make('model_type')
-                    ->label(__('filament-revive::translations.tables.columns.model_type'))
+                    ->label(__('revive::translations.tables.columns.model_type'))
                     ->options(function () use ($query) {
                         return $query->get()->pluck('model_type', 'model_type')->toArray();
                     })
@@ -75,7 +75,7 @@ class RecycleBin extends Component implements HasForms, HasTable
             ->actions([
                 ViewAction::make('view_details')
                     ->button()
-                    ->modalHeading(__('filament-revive::translations.tables.actions.view_details.modal_heading'))
+                    ->modalHeading(__('revive::translations.tables.actions.view_details.modal_heading'))
                     ->infolist([
                         KeyValueEntry::make('state'),
                     ]),
@@ -102,12 +102,12 @@ class RecycleBin extends Component implements HasForms, HasTable
 
                             Notification::make()
                                 ->success()
-                                ->title(__('filament-revive::translations.tables.actions.restore.success_notification_title'))
+                                ->title(__('revive::translations.tables.actions.restore.success_notification_title'))
                                 ->send();
                         } catch (\Throwable $th) {
                             Notification::make()
                                 ->danger()
-                                ->title(__('filament-revive::translations.tables.actions.restore.failure_notification_title'))
+                                ->title(__('revive::translations.tables.actions.restore.failure_notification_title'))
                                 ->send();
                         }
                     }),
@@ -131,10 +131,10 @@ class RecycleBin extends Component implements HasForms, HasTable
                     })
                     ->successNotification(Notification::make()
                         ->success()
-                        ->title(__('filament-revive::translations.tables.actions.force_delete.success_notification_title')))
+                        ->title(__('revive::translations.tables.actions.force_delete.success_notification_title')))
                     ->failureNotification(Notification::make()
                         ->danger()
-                        ->title(__('filament-revive::translations.tables.actions.force_delete.failure_notification_title'))),
+                        ->title(__('revive::translations.tables.actions.force_delete.failure_notification_title'))),
             ])
             ->bulkActions([
                 RestoreBulkAction::make('restore_selected')
@@ -186,6 +186,6 @@ class RecycleBin extends Component implements HasForms, HasTable
 
     public function render()
     {
-        return view('filament-revive::tables.recycle-bin');
+        return view('revive::tables.recycle-bin');
     }
 }

@@ -1,5 +1,5 @@
 <?php
 
-use Promethys\FilamentRevive\Tests\TestCase;
+use Promethys\Revive\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

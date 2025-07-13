@@ -1,10 +1,10 @@
 <?php
 
-namespace Promethys\FilamentRevive\Concerns;
+namespace Promethys\Revive\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Promethys\FilamentRevive\Models\RecycleBinItem;
+use Promethys\Revive\Models\RecycleBinItem;
 
 trait Recyclable
 {

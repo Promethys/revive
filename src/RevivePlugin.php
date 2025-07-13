@@ -1,6 +1,6 @@
 <?php
 
-namespace Promethys\FilamentRevive;
+namespace Promethys\Revive;
 
 use Closure;
 use Filament\Contracts\Plugin;
@@ -8,9 +8,9 @@ use Filament\FilamentManager;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;
-use Promethys\FilamentRevive\Pages\RecycleBin;
+use Promethys\Revive\Pages\RecycleBin;
 
-class FilamentRevivePlugin implements Plugin
+class RevivePlugin implements Plugin
 {
     use EvaluatesClosures;
 
@@ -39,7 +39,7 @@ class FilamentRevivePlugin implements Plugin
 
     public function getId(): string
     {
-        return 'filament-revive';
+        return 'revive';
     }
 
     public static function make(): static
@@ -151,14 +151,14 @@ class FilamentRevivePlugin implements Plugin
 
     public function title(string | Closure $title): static
     {
-        $this->title = empty($title) ? __('filament-revive::translations.pages.title') : $this->evaluate($title);
+        $this->title = empty($title) ? __('revive::translations.pages.title') : $this->evaluate($title);
 
         return $this;
     }
 
     public function getTitle(): string
     {
-        return empty($this->title) ? __('filament-revive::translations.pages.title') : $this->evaluate($this->title);
+        return empty($this->title) ? __('revive::translations.pages.title') : $this->evaluate($this->title);
     }
 
     public function modelsNamespace(string $modelsNamespace): static
@@ -176,7 +176,7 @@ class FilamentRevivePlugin implements Plugin
     /**
      * TODO: register custom table. Also do a custom page registering.
      *
-     * @return FilamentRevivePlugin
+     * @return RevivePlugin
      */
     // public function table(Component $table): static
     // {

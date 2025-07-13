@@ -1,17 +1,17 @@
 {
-    "name": "promethys/filament-revive",
+    "name": "promethys/revive",
     "description": "A 'RecycleBin' page where users can restore or delete permanently soft-deleted models.",
     "keywords": [
         "Promethys",
         "laravel",
-        "filament-revive",
+        "revive",
         "RecycleBin",
         "filament"
     ],
-    "homepage": "https://github.com/Promethys/filament-revive",
+    "homepage": "https://github.com/Promethys/revive",
     "support": {
-        "issues": "https://github.com/Promethys/filament-revive/issues",
-        "source": "https://github.com/Promethys/filament-revive"
+        "issues": "https://github.com/Promethys/revive/issues",
+        "source": "https://github.com/Promethys/revive"
     },
     "license": "MIT",
     "authors": [
@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "filament/filament": "^3.0",
         "filament/forms": "^3.0",
         "filament/tables": "^3.0",
@@ -33,11 +33,11 @@
     },
     "require-dev": {
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^7.9",
+        "nunomaduro/collision": "^8.1",
         "orchestra/testbench": "^8.0",
-        "pestphp/pest": "^2.1",
-        "pestphp/pest-plugin-arch": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
@@ -45,12 +45,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Promethys\\FilamentRevive\\": "src/"
+            "Promethys\\Revive\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Promethys\\FilamentRevive\\Tests\\": "tests/"
+            "Promethys\\Revive\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -70,10 +70,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Promethys\\FilamentRevive\\FilamentReviveServiceProvider"
+                "Promethys\\Revive\\ReviveServiceProvider"
             ],
             "aliases": {
-                "FilamentRevive": "Promethys\\FilamentRevive\\Facades\\FilamentRevive"
+                "Revive": "Promethys\\Revive\\Facades\\Revive"
             }
         }
     },
