@@ -7,7 +7,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/promethys/revive/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/promethys/revive/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/promethys/revive.svg?style=flat-square)](https://packagist.org/packages/promethys/revive)
 
-**Filament Revive** is a plugin for [FilamentPHP](https://filamentphp.com) that brings a central **Recycle Bin** to your application. It lets you restore or permanently delete soft-deleted Eloquent models in just a few clicks.
+**Revive** is a plugin for [FilamentPHP](https://filamentphp.com) that brings a central **Recycle Bin** to your application. It lets you restore or permanently delete soft-deleted Eloquent models in just a few clicks.
 
 This plugin is especially useful for SaaS applications, admin dashboards, or any multi-user platform where recovering accidentally deleted data is important.
 
@@ -22,6 +22,8 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 - Register multiple models as "Recyclable" with a simple trait
 - Filter items by model type or search through deleted records
 - Customize the plugin’s appearance and behavior with ease
+- User and multi-tenancy support (**⌛ in development, available in v2**)
+
 
 ---
 
@@ -85,8 +87,8 @@ $panel->plugins([
 ]);
 ```
 
-> ⚠️ The plugin currently supports only the models in the `App\Models` namespace.  
-> If you want to register a third-party model (e.g., from another package), create a wrapper class that extends it and add the `Recyclable` trait there:
+> ⚠️ The plugin currently supports only the models in the `App\Models` namespace. 
+> If you want to register a third-party model (e.g., from another package), create a wrapper class that extends it and add the `Recyclable` trait there: 
 
 ```php
 namespace App\Models;
@@ -96,6 +98,7 @@ use Vendor\Package\Models\Foo as BaseFoo;
 
 class Foo extends BaseFoo
 {
+    use SoftDeletes;
     use Recyclable;
 }
 ```
@@ -104,8 +107,12 @@ class Foo extends BaseFoo
 
 ## Usage
 
-Once the plugin is installed and configured, you’ll see a new page in your Filament sidebar.  
+Once the plugin is installed and configured, you’ll see a new page in your Filament navigation menu.  
 From there, users can restore deleted data or permanently remove it.
+
+> In the V1, Revive will show in a single table all the Recyclable records, without any user-specific scope. 
+> You may use the plugin in your admin panel for now. 
+> User-specific scope will be available in V2
 
 ### 1. Add the `Recyclable` trait to any soft-deletable model
 
@@ -129,7 +136,7 @@ If you already have soft-deleted records before installing the plugin, you’ll 
 php artisan revive:discover-soft-deleted
 ```
 
-> 🧪 *This command is planned for version 1.*
+> 🧪 *This command is planned for V2.*
 
 ---
 
@@ -164,12 +171,6 @@ If you encounter a bug or unexpected behavior, please help us help you by follow
 
 ---
 
-## Changelog
-
-See [CHANGELOG](CHANGELOG.md) for a list of recent changes.
-
----
-
 ## Contributing
 
 See [CONTRIBUTING](.github/CONTRIBUTING.md) for guidelines.
@@ -180,7 +181,6 @@ See [CONTRIBUTING](.github/CONTRIBUTING.md) for guidelines.
 
 - [Ilainiriko Tambaza](https://github.com/Promethys)
 - [mintellity/laravel-recycle-bin](https://github.com/mintellity/laravel-recycle-bin) — inspiration for this package
-- [All Contributors](../../contributors)
 
 ---
 
