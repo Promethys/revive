@@ -22,7 +22,7 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 - Filter items by model type or search through deleted records
 - Customize the plugin's appearance and behavior with ease
 - User and multi-tenancy support (**⌛ in development, available in v2**)
-- Filament V4 support (**⌛ in development, available in v2**)
+- Filament V4 support (**available in v2**)
 
 
 ---
@@ -31,7 +31,7 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 
 Filament v4 is currently in **beta**, and this plugin does **not support** it yet.
 
-We will begin testing and adapting the package once Filament v4 reaches a more stable release stage. Until then, please use this plugin with **Filament v3.x** only.
+We will begin testing and adapting the package soon. Until then, please use this plugin with **Filament v3.x** only.
 
 > Trying to install this plugin on Filament v4 may result in unexpected errors or breaking changes.
 
