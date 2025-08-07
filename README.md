@@ -11,7 +11,7 @@
 
 This plugin is especially useful for SaaS applications, admin dashboards, or any multi-user platform where recovering accidentally deleted data is important.
 
-![Preview Screenshot](https://github.com/promethys/revive/tree/main/resources/imgs/preview.png)
+![Preview Screenshot](https://raw.githubusercontent.com/Promethys/revive/refs/heads/main/resources/imgs/preview.png)
 <!-- ![Preview Video](https://github.com/promethys/revive/tree/main/resources/imgs/video-preview.mp4) -->
 
 ---
@@ -23,6 +23,7 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 - Filter items by model type or search through deleted records
 - Customize the plugin’s appearance and behavior with ease
 - User and multi-tenancy support (**⌛ in development, available in v2**)
+- Filament V4 support (**⌛ in development, available in v2**)
 
 
 ---
@@ -179,7 +180,6 @@ See [CONTRIBUTING](.github/CONTRIBUTING.md) for guidelines.
 
 ## Credits
 
-- [Ilainiriko Tambaza](https://github.com/Promethys)
 - [mintellity/laravel-recycle-bin](https://github.com/mintellity/laravel-recycle-bin) — inspiration for this package
 
 ---
