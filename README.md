@@ -21,7 +21,7 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 - View, restore, and permanently delete soft-deleted records from a dedicated Filament page
 - Register multiple models as "Recyclable" with a simple trait
 - Filter items by model type or search through deleted records
-- Customize the plugin’s appearance and behavior with ease
+- Customize the plugin's appearance and behavior with ease
 - User and multi-tenancy support (**⌛ in development, available in v2**)
 - Filament V4 support (**⌛ in development, available in v2**)
 
@@ -88,7 +88,7 @@ $panel->plugins([
 ]);
 ```
 
-> ⚠️ The plugin currently supports only the models in the `App\Models` namespace. 
+> ⚠️ The plugin currently supports only models in the `App\Models` namespace. 
 > If you want to register a third-party model (e.g., from another package), create a wrapper class that extends it and add the `Recyclable` trait there: 
 
 ```php
@@ -108,12 +108,12 @@ class Foo extends BaseFoo
 
 ## Usage
 
-Once the plugin is installed and configured, you’ll see a new page in your Filament navigation menu.  
+Once the plugin is installed and configured, you'll see a new page in your Filament navigation menu.  
 From there, users can restore deleted data or permanently remove it.
 
-> In the V1, Revive will show in a single table all the Recyclable records, without any user-specific scope. 
+> In v1, Revive will show all the Recyclable records in a single table, without any user-specific scope. 
 > You may use the plugin in your admin panel for now. 
-> User-specific scope will be available in V2
+> User-specific scope will be available in v2.
 
 ### 1. Add the `Recyclable` trait to any soft-deletable model
 
@@ -131,19 +131,19 @@ class Post extends Model
 
 ### 2. Optional: Discover existing soft-deleted records
 
-If you already have soft-deleted records before installing the plugin, you’ll soon be able to “discover” them by running:
+If you already have soft-deleted records before installing the plugin, you'll soon be able to "discover" them by running:
 
 ```bash
 php artisan revive:discover-soft-deleted
 ```
 
-> 🧪 *This command is planned for V2.*
+> 🧪 *This command is planned for v2.*
 
 ---
 
 ## Use the table outside the default page
 
-You don’t have to register the plugin in your panel to use the table.
+You don't have to register the plugin in your panel to use the table.
 
 Instead, you can render the Livewire component directly in a Blade view:
 
@@ -152,8 +152,8 @@ Instead, you can render the Livewire component directly in a Blade view:
 ```
 
 This is ideal if:
-- You don’t want to clutter your navigation
-- You’re not using Filament Panels but still want a recycle bin in your app
+- You don't want to clutter your navigation
+- You're not using Filament Panels but still want a recycle bin in your app
 
 ---
 
@@ -161,7 +161,7 @@ This is ideal if:
 
 If you encounter a bug or unexpected behavior, please help us help you by following these guidelines:
 
-* **👉 [Create an issue on GitHub](https://github.com/Promethys/revive/issues)**: Create an issue on Github
+* **👉 [Create an issue on GitHub](https://github.com/Promethys/revive/issues)**: Create an issue on GitHub
 * **Describe the issue clearly:** What did you try to do? What did you expect to happen? What actually happened?
 * **Include relevant code snippets:** Show any relevant model, config, or page setup related to the issue.
 * **Share error messages:** If possible, paste the full error output or stack trace.
