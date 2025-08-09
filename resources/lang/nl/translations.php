@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Recorddetails',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model hersteld',
+                'failure_notification_title' => 'Herstellen van model mislukt',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model permanent verwijderd',
+                'failure_notification_title' => 'Permanent verwijderen van model mislukt',
+            ]
         ],
     ],
 ];

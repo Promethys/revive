@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Kayıt Detayları',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model geri yüklendi',
+                'failure_notification_title' => 'Model geri yüklenemedi',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model kalıcı olarak silindi',
+                'failure_notification_title' => 'Model kalıcı olarak silinemedi',
+            ]
         ],
     ],
 ];

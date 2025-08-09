@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'وردەکارییەکانی تۆمار',
             ],
+            'restore' => [
+                'success_notification_title' => 'مۆدێل گەڕایەوە',
+                'failure_notification_title' => 'شکستی گەڕاندنەوەی مۆدێل',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'مۆدێل بە تەواوی سڕایەوە',
+                'failure_notification_title' => 'شکستی سڕینەوەی تەواوی مۆدێل',
+            ]
         ],
     ],
 ];

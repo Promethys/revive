@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Datensatzdetails',
             ],
+            'restore' => [
+                'success_notification_title' => 'Modell wiederhergestellt',
+                'failure_notification_title' => 'Wiederherstellung des Modells fehlgeschlagen',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Modell dauerhaft gelöscht',
+                'failure_notification_title' => 'Dauerhaftes Löschen des Modells fehlgeschlagen',
+            ]
         ],
     ],
 ];

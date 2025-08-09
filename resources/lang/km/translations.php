@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'ព័ត៌មានលម្អិតអំពីកំណត់ត្រា',
             ],
+            'restore' => [
+                'success_notification_title' => 'ម៉ូដែលត្រូវបានស្ដារ',
+                'failure_notification_title' => 'បរាជ័យក្នុងការស្ដារម៉ូដែល',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'ម៉ូដែលត្រូវបានលុបជាអចិន្ត្រៃយ៍',
+                'failure_notification_title' => 'បរាជ័យក្នុងការលុបម៉ូដែលជាអចិន្ត្រៃយ៍',
+            ]
         ],
     ],
 ];

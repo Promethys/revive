@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Tietueen tiedot',
             ],
+            'restore' => [
+                'success_notification_title' => 'Malli palautettu',
+                'failure_notification_title' => 'Mallin palauttaminen epäonnistui',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Malli poistettu pysyvästi',
+                'failure_notification_title' => 'Mallin pysyvä poistaminen epäonnistui',
+            ]
         ],
     ],
 ];

@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'ჩანაწერის დეტალები',
             ],
+            'restore' => [
+                'success_notification_title' => 'მოდელი აღდგა',
+                'failure_notification_title' => 'მოდელის აღდგენა ვერ მოხერხდა',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'მოდელი სამუდამოდ წაიშალა',
+                'failure_notification_title' => 'მოდელის სამუდამო წაშლა ვერ მოხერხდა',
+            ]
         ],
     ],
 ];

@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Butiran Rekod',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model dipulihkan',
+                'failure_notification_title' => 'Gagal memulihkan model',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model dipadam secara kekal',
+                'failure_notification_title' => 'Gagal memadam model secara kekal',
+            ]
         ],
     ],
 ];

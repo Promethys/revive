@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Detalii înregistrare',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model restaurat',
+                'failure_notification_title' => 'Restaurarea modelului a eșuat',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model șters definitiv',
+                'failure_notification_title' => 'Ștergerea definitivă a modelului a eșuat',
+            ]
         ],
     ],
 ];

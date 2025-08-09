@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => '記錄詳情',
             ],
+            'restore' => [
+                'success_notification_title' => '模型已恢復',
+                'failure_notification_title' => '模型恢復失敗',
+            ],
+            'force_delete' => [
+                'success_notification_title' => '模型已永久刪除',
+                'failure_notification_title' => '模型永久刪除失敗',
+            ]
         ],
     ],
 ];

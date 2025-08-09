@@ -18,6 +18,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Record details',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model restored',
+                'failure_notification_title' => 'Failed to restore model',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model permanently deleted',
+                'failure_notification_title' => 'Failed to permanently delete model',
+            ]
         ],
     ],
 ];

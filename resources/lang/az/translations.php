@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Qeydin detalları',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model bərpa edildi',
+                'failure_notification_title' => 'Modeli bərpa etmək alınmadı',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model həmişəlik silindi',
+                'failure_notification_title' => 'Modeli həmişəlik silmək alınmadı',
+            ]
         ],
     ],
 ];

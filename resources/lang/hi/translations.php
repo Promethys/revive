@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'रिकॉर्ड विवरण',
             ],
+            'restore' => [
+                'success_notification_title' => 'मॉडल पुनर्स्थापित किया गया',
+                'failure_notification_title' => 'मॉडल पुनर्स्थापना में विफल',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'मॉडल स्थायी रूप से हटा दिया गया',
+                'failure_notification_title' => 'मॉडल स्थायी रूप से हटाने में विफल',
+            ]
         ],
     ],
 ];

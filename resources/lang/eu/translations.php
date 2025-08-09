@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Erregistroaren xehetasunak',
             ],
+            'restore' => [
+                'success_notification_title' => 'Eredua berreskuratu da',
+                'failure_notification_title' => 'Eredua berreskuratzeak huts egin du',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Eredua betirako ezabatu da',
+                'failure_notification_title' => 'Eredua betirako ezabatzeak huts egin du',
+            ]
         ],
     ],
 ];

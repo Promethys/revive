@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Chi tiết Bản ghi',
             ],
+            'restore' => [
+                'success_notification_title' => 'Mô hình đã được khôi phục',
+                'failure_notification_title' => 'Không thể khôi phục mô hình',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Mô hình đã được xóa vĩnh viễn',
+                'failure_notification_title' => 'Không thể xóa vĩnh viễn mô hình',
+            ]
         ],
     ],
 ];

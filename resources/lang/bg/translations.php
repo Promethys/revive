@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Детайли за записа',
             ],
+            'restore' => [
+                'success_notification_title' => 'Моделът е възстановен',
+                'failure_notification_title' => 'Неуспешно възстановяване на модела',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Моделът е изтрит завинаги',
+                'failure_notification_title' => 'Неуспешно окончателно изтриване на модела',
+            ]
         ],
     ],
 ];

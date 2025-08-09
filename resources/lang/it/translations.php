@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Dettagli del record',
             ],
+            'restore' => [
+                'success_notification_title' => 'Modello ripristinato',
+                'failure_notification_title' => 'Ripristino del modello fallito',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Modello eliminato definitivamente',
+                'failure_notification_title' => 'Eliminazione definitiva del modello fallita',
+            ]
         ],
     ],
 ];

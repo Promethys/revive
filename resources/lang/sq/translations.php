@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Detajet e Regjistrimit',
             ],
+            'restore' => [
+                'success_notification_title' => 'Modeli u rikthye',
+                'failure_notification_title' => 'Rikthimi i modelit dështoi',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Modeli u fshi përgjithmonë',
+                'failure_notification_title' => 'Fshirja përgjithmonë e modelit dështoi',
+            ]
         ],
     ],
 ];

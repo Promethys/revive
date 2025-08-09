@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Postdetaljer',
             ],
+            'restore' => [
+                'success_notification_title' => 'Modell gjenopprettet',
+                'failure_notification_title' => 'Kunne ikke gjenopprette modell',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Modell permanent slettet',
+                'failure_notification_title' => 'Kunne ikke slette modell permanent',
+            ]
         ],
     ],
 ];

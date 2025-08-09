@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'جزئیات رکورد',
             ],
+            'restore' => [
+                'success_notification_title' => 'مدل بازیابی شد',
+                'failure_notification_title' => 'بازیابی مدل ناموفق بود',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'مدل به طور دائمی حذف شد',
+                'failure_notification_title' => 'حذف دائمی مدل ناموفق بود',
+            ]
         ],
     ],
 ];

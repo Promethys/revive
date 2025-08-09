@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Maelezo ya Rekodi',
             ],
+            'restore' => [
+                'success_notification_title' => 'Muundo umerejeshwa',
+                'failure_notification_title' => 'Imeshindwa kurejesha muundo',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Muundo umefutwa kabisa',
+                'failure_notification_title' => 'Imeshindwa kufuta muundo kabisa',
+            ]
         ],
     ],
 ];

@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Podrobnosti zapisa',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model obnovljen',
+                'failure_notification_title' => 'Obnova modela ni uspela',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model trajno izbrisan',
+                'failure_notification_title' => 'Trajni izbris modela ni uspel',
+            ]
         ],
     ],
 ];

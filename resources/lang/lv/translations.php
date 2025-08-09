@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Ieraksta detaļas',
             ],
+            'restore' => [
+                'success_notification_title' => 'Modelis atjaunots',
+                'failure_notification_title' => 'Modeļa atjaunošana neizdevās',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Modelis neatgriezeniski izdzēsts',
+                'failure_notification_title' => 'Modeļa neatgriezeniska dzēšana neizdevās',
+            ]
         ],
     ],
 ];

@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Yozuv tafsilotlari',
             ],
+            'restore' => [
+                'success_notification_title' => 'Model qayta tiklandi',
+                'failure_notification_title' => 'Modelni qayta tiklash muvaffaqiyatsiz tugadi',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Model butunlay o\'chirildi',
+                'failure_notification_title' => 'Modelni butunlay o\'chirish muvaffaqiyatsiz tugadi',
+            ]
         ],
     ],
 ];

@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Λεπτομέρειες Εγγραφής',
             ],
+            'restore' => [
+                'success_notification_title' => 'Το μοντέλο επαναφέρθηκε',
+                'failure_notification_title' => 'Αποτυχία επαναφοράς μοντέλου',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Το μοντέλο διαγράφηκε οριστικά',
+                'failure_notification_title' => 'Αποτυχία οριστικής διαγραφής μοντέλου',
+            ]
         ],
     ],
 ];

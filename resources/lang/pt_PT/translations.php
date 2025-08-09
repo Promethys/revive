@@ -17,6 +17,14 @@ return [
             'view_details' => [
                 'modal_heading' => 'Detalhes do Registo',
             ],
+            'restore' => [
+                'success_notification_title' => 'Modelo restaurado',
+                'failure_notification_title' => 'Falha ao restaurar o modelo',
+            ],
+            'force_delete' => [
+                'success_notification_title' => 'Modelo eliminado permanentemente',
+                'failure_notification_title' => 'Falha ao eliminar permanentemente o modelo',
+            ]
         ],
     ],
 ];
