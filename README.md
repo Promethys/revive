@@ -130,13 +130,67 @@ class Post extends Model
 
 ### 2. Optional: Discover existing soft-deleted records
 
-If you already have soft-deleted records before installing the plugin, you'll soon be able to "discover" them by running:
+If you already have soft-deleted records before installing the plugin, you can "discover" them by running:
 
 ```bash
 php artisan revive:discover-soft-deleted
 ```
 
-> 🧪 *This command is planned for v2.*
+This command will:
+- Scan all models that use the `Recyclable` trait
+- Find existing soft-deleted records that aren't already tracked in the recycle bin
+- Add them to the plugin's tracking system so they appear in the Filament page
+
+#### Command Options
+
+**Preview changes without making them:**
+```bash
+php artisan revive:discover-soft-deleted --dry-run
+```
+Use this to see how many records would be discovered without actually adding them to the recycle bin.
+
+**Discover records for a specific model:**
+```bash
+php artisan revive:discover-soft-deleted --model=Product
+# or use the full class name
+php artisan revive:discover-soft-deleted --model="App\Models\Shop\Product"
+```
+
+**Combine options:**
+```bash
+php artisan revive:discover-soft-deleted --model=Category --dry-run
+```
+
+#### Example Output
+
+```bash
+$ php artisan revive:discover-soft-deleted
+
+Discovering soft-deleted records...
+
+🔍 Scanning Category...
+   No soft-deleted records found.
+🔍 Scanning Comment...
+   ✅ 0/3 records discovered
+🔍 Scanning Brand...
+   ✅ 8/8 records discovered
+🔍 Scanning Category...
+   ✅ 2/2 records discovered
+🔍 Scanning Customer...
+   ✅ 0/1 records discovered
+🔍 Scanning Order...
+   No soft-deleted records found.
+🔍 Scanning Product...
+   ✅ 12/15 records discovered
+
+✨ Discovery completed:
+   • 29 total soft-deleted records scanned
+   • 22 new records discovered and added to recycle bin
+```
+
+> **💡 Tips:** 
+> - Run the command with `--dry-run` first to preview what will be discovered, especially on production systems with large amounts of existing data.
+> - For large systems with extensive output, consider redirecting the command output to a file: `php artisan revive:discover-soft-deleted > discovery-results.txt`
 
 ---
 
@@ -156,11 +210,11 @@ This is ideal if:
 
 ---
 
-## 🐛 Issue Guidelines
+## Issue Guidelines
 
 If you encounter a bug or unexpected behavior, please help us help you by following these guidelines:
 
-* **👉 [Create an issue on GitHub](https://github.com/Promethys/revive/issues)**: Create an issue on GitHub
+* **[Create an issue on GitHub](https://github.com/Promethys/revive/issues)**: Create an issue on GitHub
 * **Describe the issue clearly:** What did you try to do? What did you expect to happen? What actually happened?
 * **Include relevant code snippets:** Show any relevant model, config, or page setup related to the issue.
 * **Share error messages:** If possible, paste the full error output or stack trace.

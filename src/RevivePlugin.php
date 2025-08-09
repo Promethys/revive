@@ -20,7 +20,7 @@ class RevivePlugin implements Plugin
 
     protected string | Closure | null $navigationGroup = null;
 
-    protected int | Closure $navigationSort = 1;
+    protected int | Closure $navigationSort = 100;
 
     protected string | Closure $navigationIcon = 'heroicon-o-archive-box-arrow-down';
 

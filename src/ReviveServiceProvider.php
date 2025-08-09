@@ -2,12 +2,13 @@
 
 namespace Promethys\Revive;
 
-use Filament\Support\Assets\Asset;
-use Filament\Support\Facades\FilamentAsset;
 use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Filament\Support\Assets\Asset;
 use Spatie\LaravelPackageTools\Package;
+use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Promethys\Revive\Commands\DiscoverSoftDeletedRecords;
 
 class ReviveServiceProvider extends PackageServiceProvider
 {
@@ -27,7 +28,8 @@ class ReviveServiceProvider extends PackageServiceProvider
                     ->endWith(function (InstallCommand $command) {
                         $command->info('✨ Happy coding 🔥 ✨');
                     });
-            });
+            })
+            ->hasCommand(DiscoverSoftDeletedRecords::class);
 
         if (file_exists($package->basePath('/../config/' . static::$name . '.php'))) {
             $package->hasConfigFile();

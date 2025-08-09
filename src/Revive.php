@@ -2,9 +2,10 @@
 
 namespace Promethys\Revive;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Promethys\Revive\Concerns\Recyclable;
 
 class Revive
 {
@@ -12,14 +13,31 @@ class Revive
     {
         $models = [];
         $modelNamespace = RevivePlugin::get()->getModelsNamespace();
+        $modelsPath = app_path('Models');
 
-        foreach (File::allFiles(app_path('Models')) as $file) {
-            $modelClass = $modelNamespace . pathinfo($file->getFilename(), PATHINFO_FILENAME);
+        foreach (File::allFiles($modelsPath) as $file) {
+            if ($file->getExtension() !== 'php') {
+                continue;
+            }
 
-            if (class_exists($modelClass) && is_subclass_of($modelClass, Model::class)) {
-                if (in_array('Promethys\Revive\Concerns\Recyclable', class_uses_recursive($modelClass))) {
-                    $models[$modelClass] = class_basename($modelClass);
+            // Get the full relative path and convert to namespace
+            $relativePath = str_replace(
+                [$modelsPath . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, '.php'],
+                ['', '\\', ''],
+                $file->getPathname()
+            );
+
+            $modelClass = $modelNamespace . $relativePath;
+
+            try {
+                if (class_exists($modelClass) && is_subclass_of($modelClass, Model::class)) {
+                    if (in_array(Recyclable::class, class_uses_recursive($modelClass))) {
+                        $models[$modelClass] = class_basename($modelClass);
+                    }
                 }
+            } catch (\Throwable $th) {
+                // TODO: Log or handle the error
+                continue;
             }
         }
 
