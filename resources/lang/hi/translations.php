@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'मॉडल स्थायी रूप से हटा दिया गया',
                 'failure_notification_title' => 'मॉडल स्थायी रूप से हटाने में विफल',
-            ]
+            ],
         ],
     ],
 ];

@@ -25,7 +25,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model permanently deleted',
                 'failure_notification_title' => 'Failed to permanently delete model',
-            ]
+            ],
         ],
     ],
 ];

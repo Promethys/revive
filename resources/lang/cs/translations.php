@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model trvale smazán',
                 'failure_notification_title' => 'Trvalé smazání modelu selhalo',
-            ]
+            ],
         ],
     ],
 ];

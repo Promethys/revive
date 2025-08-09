@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Modell permanent raderad',
                 'failure_notification_title' => 'Misslyckades att permanent radera modell',
-            ]
+            ],
         ],
     ],
 ];

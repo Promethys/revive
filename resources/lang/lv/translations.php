@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Modelis neatgriezeniski izdzēsts',
                 'failure_notification_title' => 'Modeļa neatgriezeniska dzēšana neizdevās',
-            ]
+            ],
         ],
     ],
 ];

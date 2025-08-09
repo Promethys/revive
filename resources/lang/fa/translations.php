@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'مدل به طور دائمی حذف شد',
                 'failure_notification_title' => 'حذف دائمی مدل ناموفق بود',
-            ]
+            ],
         ],
     ],
 ];

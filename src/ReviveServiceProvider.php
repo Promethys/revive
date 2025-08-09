@@ -2,13 +2,13 @@
 
 namespace Promethys\Revive;
 
-use Livewire\Livewire;
 use Filament\Support\Assets\Asset;
-use Spatie\LaravelPackageTools\Package;
 use Filament\Support\Facades\FilamentAsset;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Livewire\Livewire;
 use Promethys\Revive\Commands\DiscoverSoftDeletedRecords;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class ReviveServiceProvider extends PackageServiceProvider
 {

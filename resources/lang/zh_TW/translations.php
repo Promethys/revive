@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => '模型已永久刪除',
                 'failure_notification_title' => '模型永久刪除失敗',
-            ]
+            ],
         ],
     ],
 ];

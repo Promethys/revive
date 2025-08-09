@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Modeli u fshi përgjithmonë',
                 'failure_notification_title' => 'Fshirja përgjithmonë e modelit dështoi',
-            ]
+            ],
         ],
     ],
 ];

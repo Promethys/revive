@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model dipadam secara kekal',
                 'failure_notification_title' => 'Gagal memadam model secara kekal',
-            ]
+            ],
         ],
     ],
 ];

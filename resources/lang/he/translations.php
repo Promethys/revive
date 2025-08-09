@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'המודל נמחק לצמיתות',
                 'failure_notification_title' => 'מחיקה לצמיתות של המודל נכשלה',
-            ]
+            ],
         ],
     ],
 ];

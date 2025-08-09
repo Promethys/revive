@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Модель удалена навсегда',
                 'failure_notification_title' => 'Не удалось удалить модель навсегда',
-            ]
+            ],
         ],
     ],
 ];

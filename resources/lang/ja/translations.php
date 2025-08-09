@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'モデルが完全に削除されました',
                 'failure_notification_title' => 'モデルの完全削除に失敗しました',
-            ]
+            ],
         ],
     ],
 ];

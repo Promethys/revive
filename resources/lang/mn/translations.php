@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Загвар бүрмөсөн устгагдлаа',
                 'failure_notification_title' => 'Загвар бүрмөсөн устгахад алдаа гарлаа',
-            ]
+            ],
         ],
     ],
 ];

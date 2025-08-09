@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'মডেল স্থায়ীভাবে মুছে ফেলা হয়েছে',
                 'failure_notification_title' => 'মডেল স্থায়ীভাবে মুছে ফেলতে ব্যর্থ',
-            ]
+            ],
         ],
     ],
 ];

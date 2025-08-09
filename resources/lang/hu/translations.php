@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Modell véglegesen törölve',
                 'failure_notification_title' => 'A modell végleges törlése sikertelen',
-            ]
+            ],
         ],
     ],
 ];

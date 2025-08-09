@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Mô hình đã được xóa vĩnh viễn',
                 'failure_notification_title' => 'Không thể xóa vĩnh viễn mô hình',
-            ]
+            ],
         ],
     ],
 ];

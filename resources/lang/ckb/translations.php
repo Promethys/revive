@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'مۆدێل بە تەواوی سڕایەوە',
                 'failure_notification_title' => 'شکستی سڕینەوەی تەواوی مۆدێل',
-            ]
+            ],
         ],
     ],
 ];

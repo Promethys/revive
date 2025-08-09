@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'मोडेल स्थायी रूपमा मेटियो',
                 'failure_notification_title' => 'मोडेल स्थायी रूपमा मेट्न असफल भयो',
-            ]
+            ],
         ],
     ],
 ];

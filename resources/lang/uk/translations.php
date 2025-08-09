@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Модель видалено назавжди',
                 'failure_notification_title' => 'Не вдалося видалити модель назавжди',
-            ]
+            ],
         ],
     ],
 ];

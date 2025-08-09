@@ -2,12 +2,10 @@
 
 namespace Promethys\Revive\Commands;
 
-use Promethys\Revive\Revive;
 use Illuminate\Console\Command;
-use Promethys\Revive\RevivePlugin;
-use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Promethys\Revive\Revive;
 
 class DiscoverSoftDeletedRecords extends Command
 {
@@ -34,6 +32,7 @@ class DiscoverSoftDeletedRecords extends Command
 
         if (empty($models)) {
             $this->warn('No recyclable models found. Make sure your models use the Recyclable trait.');
+
             return 1;
         }
 
@@ -45,6 +44,7 @@ class DiscoverSoftDeletedRecords extends Command
 
             if (empty($models)) {
                 $this->error("Model '{$specificModel}' not found in recyclable models.");
+
                 return 1;
             }
         }
@@ -56,8 +56,9 @@ class DiscoverSoftDeletedRecords extends Command
         $totalProcessed = 0;
 
         foreach ($models as $modelClass => $modelName) {
-            if (!$this->modelUsesSoftDeletes($modelClass)) {
+            if (! $this->modelUsesSoftDeletes($modelClass)) {
                 $this->warn("⚠️  Model {$modelName} doesn't use SoftDeletes trait. Skipping...");
+
                 continue;
             }
 
@@ -68,13 +69,13 @@ class DiscoverSoftDeletedRecords extends Command
                 $discoveredCount = 0;
 
                 if ($trashedRecords->isEmpty()) {
-                    $this->line("   No soft-deleted records found.");
+                    $this->line('   No soft-deleted records found.');
                 } else {
                     foreach ($trashedRecords as $record) {
                         if ($this->shouldDiscoverRecord($record, $dryRun)) {
                             $discoveredCount++;
 
-                            if (!$dryRun) {
+                            if (! $dryRun) {
                                 $this->discoverRecord($record);
                             }
                         }
@@ -89,6 +90,7 @@ class DiscoverSoftDeletedRecords extends Command
 
             } catch (\Exception $e) {
                 $this->error("❌ Error processing {$modelName}: " . $e->getMessage());
+
                 continue;
             }
         }
@@ -96,13 +98,13 @@ class DiscoverSoftDeletedRecords extends Command
         $this->newLine();
 
         if ($dryRun) {
-            $this->info("🔍 Dry run completed:");
+            $this->info('🔍 Dry run completed:');
             $this->info("   • {$totalProcessed} total soft-deleted records found");
             $this->info("   • {$totalDiscovered} records would be discovered");
             $this->newLine();
             $this->comment('Run without --dry-run to actually discover the records.');
         } else {
-            $this->info("✨ Discovery completed:");
+            $this->info('✨ Discovery completed:');
             $this->info("   • {$totalProcessed} total soft-deleted records scanned");
             $this->info("   • {$totalDiscovered} new records discovered and added to recycle bin");
         }

@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model kalıcı olarak silindi',
                 'failure_notification_title' => 'Model kalıcı olarak silinemedi',
-            ]
+            ],
         ],
     ],
 ];

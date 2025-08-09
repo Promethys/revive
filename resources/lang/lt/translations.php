@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Modelis visam laikui ištrintas',
                 'failure_notification_title' => 'Modelio ištrynimas visam laikui nepavyko',
-            ]
+            ],
         ],
     ],
 ];

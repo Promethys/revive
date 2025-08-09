@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'ម៉ូដែលត្រូវបានលុបជាអចិន្ត្រៃយ៍',
                 'failure_notification_title' => 'បរាជ័យក្នុងការលុបម៉ូដែលជាអចិន្ត្រៃយ៍',
-            ]
+            ],
         ],
     ],
 ];

@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model butunlay o\'chirildi',
                 'failure_notification_title' => 'Modelni butunlay o\'chirish muvaffaqiyatsiz tugadi',
-            ]
+            ],
         ],
     ],
 ];

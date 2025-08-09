@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Malli poistettu pysyvästi',
                 'failure_notification_title' => 'Mallin pysyvä poistaminen epäonnistui',
-            ]
+            ],
         ],
     ],
 ];

@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Моделът е изтрит завинаги',
                 'failure_notification_title' => 'Неуспешно окончателно изтриване на модела',
-            ]
+            ],
         ],
     ],
 ];

@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model permanent verwijderd',
                 'failure_notification_title' => 'Permanent verwijderen van model mislukt',
-            ]
+            ],
         ],
     ],
 ];

@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model bi temamî hate jêbirin',
                 'failure_notification_title' => 'Jêbirina bi temamî ya modelê têk çû',
-            ]
+            ],
         ],
     ],
 ];

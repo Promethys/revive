@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model trajno izbrisan',
                 'failure_notification_title' => 'Trajni izbris modela ni uspel',
-            ]
+            ],
         ],
     ],
 ];

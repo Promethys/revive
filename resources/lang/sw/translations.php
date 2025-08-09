@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Muundo umefutwa kabisa',
                 'failure_notification_title' => 'Imeshindwa kufuta muundo kabisa',
-            ]
+            ],
         ],
     ],
 ];

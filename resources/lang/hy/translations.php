@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Մոդելը մշտապես ջնջվեց',
                 'failure_notification_title' => 'Մոդելի մշտական ջնջումը չհաջողվեց',
-            ]
+            ],
         ],
     ],
 ];

@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Το μοντέλο διαγράφηκε οριστικά',
                 'failure_notification_title' => 'Αποτυχία οριστικής διαγραφής μοντέλου',
-            ]
+            ],
         ],
     ],
 ];

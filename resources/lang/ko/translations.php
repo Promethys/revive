@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => '모델이 영구적으로 삭제되었습니다',
                 'failure_notification_title' => '모델 영구 삭제에 실패했습니다',
-            ]
+            ],
         ],
     ],
 ];

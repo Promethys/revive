@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'تم حذف النموذج نهائياً',
                 'failure_notification_title' => 'فشل في حذف النموذج نهائياً',
-            ]
+            ],
         ],
     ],
 ];

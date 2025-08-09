@@ -24,7 +24,7 @@ return [
             'force_delete' => [
                 'success_notification_title' => 'Model șters definitiv',
                 'failure_notification_title' => 'Ștergerea definitivă a modelului a eșuat',
-            ]
+            ],
         ],
     ],
 ];
