@@ -3,28 +3,31 @@
 namespace Promethys\Revive\Tables;
 
 use Carbon\Carbon;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ForceDeleteAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
-use Filament\Tables\Actions\RestoreAction;
-use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\App;
 use Livewire\Component;
+use Filament\Tables\Table;
+use Filament\Actions\ViewAction;
+use Filament\Actions\RestoreAction;
+use Illuminate\Support\Facades\App;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Notifications\Notification;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\Contracts\HasActions;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Actions\ForceDeleteBulkAction;
 use Promethys\Revive\Models\RecycleBinItem;
+use Illuminate\Database\Eloquent\Collection;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Actions\Concerns\InteractsWithActions;
 
-class RecycleBin extends Component implements HasForms, HasTable
+class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
 {
-    use InteractsWithForms;
+    use InteractsWithActions;
+    use InteractsWithSchemas;
     use InteractsWithTable;
 
     public function table(Table $table): Table

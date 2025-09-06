@@ -2,12 +2,13 @@
 
 namespace Promethys\Revive\Pages;
 
+use Filament\Panel;
 use Filament\Pages\Page;
 use Promethys\Revive\RevivePlugin;
 
 class RecycleBin extends Page
 {
-    protected static string $view = 'revive::pages.recycle-bin';
+    protected string $view = 'revive::pages.recycle-bin';
 
     public static function getNavigationGroup(): ?string
     {
@@ -34,7 +35,7 @@ class RecycleBin extends Page
         return RevivePlugin::get()->getNavigationLabel();
     }
 
-    public static function getSlug(): string
+    public static function getSlug(?Panel $panel = null): string
     {
         return RevivePlugin::get()->getSlug();
     }
