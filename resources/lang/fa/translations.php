@@ -26,5 +26,28 @@ return [
                 'failure_notification_title' => 'حذف دائمی مدل ناموفق بود',
             ],
         ],
+
+        'bulk_actions' => [
+            'restore' => [
+                'success_notification_title' => '{1} مدل با موفقیت بازیابی شد|[2,*] همه :count مدل با موفقیت بازیابی شدند',
+                'success_notification_body' => '{1} مدل بازیابی شد.|[2,*] همه :count مدل بازیابی شدند.',
+
+                'warning_notification_title' => 'بازیابی به صورت جزئی انجام شد',
+                'warning_notification_body' => ':success از :total مدل بازیابی شد. :failed مدل قابل بازیابی نبودند.',
+
+                'failure_notification_title' => 'بازیابی ناموفق بود',
+                'failure_notification_body' => '{1} مدل قابل بازیابی نبود.|[2,*] هیچ‌یک از :count مدل قابل بازیابی نبود.',
+            ],
+            'force_delete' => [
+                'success_notification_title' => '{1} مدل برای همیشه حذف شد|[2,*] همه :count مدل برای همیشه حذف شدند',
+                'success_notification_body' => '{1} مدل برای همیشه حذف شد.|[2,*] همه :count مدل برای همیشه حذف شدند.',
+
+                'warning_notification_title' => 'حذف به صورت جزئی انجام شد',
+                'warning_notification_body' => ':success از :total مدل برای همیشه حذف شد. :failed مدل قابل حذف نبودند.',
+
+                'failure_notification_title' => 'حذف ناموفق بود',
+                'failure_notification_body' => '{1} مدل قابل حذف دائمی نبود.|[2,*] هیچ‌یک از :count مدل قابل حذف دائمی نبود.',
+            ],
+        ],
     ],
 ];

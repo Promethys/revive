@@ -1,3 +1,3 @@
 <x-filament::page>
-    @livewire('revive.tables.recycle-bin')
+    @livewire($recycleBinComponent, $componentParams)
 </x-filament::page>

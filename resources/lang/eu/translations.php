@@ -26,5 +26,28 @@ return [
                 'failure_notification_title' => 'Eredua betirako ezabatzeak huts egin du',
             ],
         ],
+
+        'bulk_actions' => [
+            'restore' => [
+                'success_notification_title' => '{1} Eredua ondo berreskuratu da|[2,*] :count eredu guztiak ondo berreskuratu dira',
+                'success_notification_body' => '{1} Eredua berreskuratu da.|[2,*] :count eredu guztiak berreskuratu dira.',
+
+                'warning_notification_title' => 'Berreskuratzea partzialki burutu da',
+                'warning_notification_body' => ':total ereduetatik :success berreskuratu dira. :failed ereduak ezin izan dira berreskuratu.',
+
+                'failure_notification_title' => 'Berreskuratzea huts egin du',
+                'failure_notification_body' => '{1} Eredua ezin izan da berreskuratu.|[2,*] :count eredutik bat bera ere ezin izan da berreskuratu.',
+            ],
+            'force_delete' => [
+                'success_notification_title' => '{1} Eredua behin betiko ezabatu da|[2,*] :count eredu guztiak behin betiko ezabatu dira',
+                'success_notification_body' => '{1} Eredua behin betiko ezabatu da.|[2,*] :count eredu guztiak behin betiko ezabatu dira.',
+
+                'warning_notification_title' => 'Ezabatzea partzialki burutu da',
+                'warning_notification_body' => ':total ereduetatik :success behin betiko ezabatu dira. :failed ereduak ezin izan dira ezabatu.',
+
+                'failure_notification_title' => 'Ezabatzea huts egin du',
+                'failure_notification_body' => '{1} Eredua ezin izan da behin betiko ezabatu.|[2,*] :count eredutik bat bera ere ezin izan da behin betiko ezabatu.',
+            ],
+        ],
     ],
 ];

@@ -2,38 +2,81 @@
 
 namespace Promethys\Revive\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Promethys\Revive\Revive;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Database\Eloquent\Model;
+use Promethys\Revive\Traits\Recyclable;
+use Promethys\Revive\Models\RecycleBinItem;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DiscoverSoftDeletedRecords extends Command
 {
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'revive:discover-soft-deleted 
-                           {--dry-run : Show what would be discovered without making changes}
-                           {--model= : Specific model to discover (optional)}';
+    protected $signature = 'revive:discover-soft-deleted
+                            {--model= : Specific model to discover (class name or full class path)}
+                            {--dry-run : Preview changes without making them}
+                            {--with-scope : Include user/tenant scoping information}';
 
     /**
      * The console command description.
      */
     protected $description = 'Discover existing soft-deleted records from recyclable models';
 
+    protected int $totalDiscovered = 0;
+    protected int $totalProcessed = 0;
+    protected array $modelStats = [];
+
     /**
      * Execute the console command.
      */
     public function handle()
     {
+        $this->info('Discovering soft-deleted records...');
+        $this->newLine();
+
+        $models = $this->getModelsToDiscover();
+
+        if (empty($models)) {
+            $this->warn('No models found with the Recyclable trait.');
+
+            return 1;
+        }
+
+        foreach ($models as $modelClass => $modelName) {
+            if (!$this->modelUsesSoftDeletes($modelClass)) {
+                $this->warn("⚠️  Model {$modelName} doesn't use SoftDeletes trait. Skipping...");
+
+                continue;
+            }
+
+            try {
+                $this->discoverModelRecords($modelClass, $modelName);
+            } catch (\Exception $e) {
+                $this->error("❌ Error processing {$modelName}: " . $e->getMessage());
+
+                continue;
+            }
+        }
+
+        $this->newLine();
+
+        $this->displaySummary();
+
+        return 1;
+    }
+
+    protected function getModelsToDiscover()
+    {
         $models = Revive::getRecyclableModels();
         $specificModel = $this->option('model');
-        $dryRun = $this->option('dry-run');
 
         if (empty($models)) {
             $this->warn('No recyclable models found. Make sure your models use the Recyclable trait.');
 
-            return 1;
+            return [];
         }
 
         // Filter to specific model if provided
@@ -45,71 +88,91 @@ class DiscoverSoftDeletedRecords extends Command
             if (empty($models)) {
                 $this->error("Model '{$specificModel}' not found in recyclable models.");
 
-                return 1;
+                return [];
             }
         }
 
-        $this->info('Discovering soft-deleted records...');
-        $this->newLine();
+        return $models;
+    }
 
-        $totalDiscovered = 0;
-        $totalProcessed = 0;
+    protected function discoverModelRecords($modelClass, $modelName)
+    {
+        $this->line("🔍 Scanning <info>{$modelName}</info>...");
 
-        foreach ($models as $modelClass => $modelName) {
-            if (! $this->modelUsesSoftDeletes($modelClass)) {
-                $this->warn("⚠️  Model {$modelName} doesn't use SoftDeletes trait. Skipping...");
+        $trashedRecords = $modelClass::onlyTrashed()->get();
+        $discoveredCount = 0;
 
-                continue;
-            }
+        if ($trashedRecords->isEmpty()) {
+            $this->line('   No soft-deleted records found.');
+            // $this->modelStats[$modelClass] = [
+            //     'scanned' => 0,
+            //     'discovered' => 0,
+            //     'already_tracked' => 0
+            // ];
+            return;
+        } else {
+            foreach ($trashedRecords as $record) {
+                if ($this->shouldDiscoverRecord($record)) {
+                    $discoveredCount++;
 
-            try {
-                $this->line("🔍 Scanning <info>{$modelName}</info>...");
-
-                $trashedRecords = $modelClass::onlyTrashed()->get();
-                $discoveredCount = 0;
-
-                if ($trashedRecords->isEmpty()) {
-                    $this->line('   No soft-deleted records found.');
-                } else {
-                    foreach ($trashedRecords as $record) {
-                        if ($this->shouldDiscoverRecord($record, $dryRun)) {
-                            $discoveredCount++;
-
-                            if (! $dryRun) {
-                                $this->discoverRecord($record);
-                            }
-                        }
+                    if (!$this->option('dry-run')) {
+                        $this->discoverRecord($record);
                     }
-
-                    $action = $dryRun ? 'would be discovered' : 'discovered';
-                    $this->line("   ✅ {$discoveredCount}/{$trashedRecords->count()} records {$action}");
                 }
-
-                $totalDiscovered += $discoveredCount;
-                $totalProcessed += $trashedRecords->count();
-
-            } catch (\Exception $e) {
-                $this->error("❌ Error processing {$modelName}: " . $e->getMessage());
-
-                continue;
             }
+
+            $action = $this->option('dry-run') ? 'would be discovered' : 'discovered';
+            $this->line("   ✅ {$discoveredCount}/{$trashedRecords->count()} records {$action}");
         }
 
+        $this->totalDiscovered += $discoveredCount;
+        $this->totalProcessed += $trashedRecords->count();
+        // $this->modelStats[$modelClass] = [
+        //     'scanned' => $totalSoftDeleted,
+        //     'discovered' => $discoveredCount,
+        //     'already_tracked' => $alreadyTrackedCount
+        // ];
+    }
+
+    protected function displaySummary()
+    {
         $this->newLine();
 
-        if ($dryRun) {
+        if ($this->option('dry-run')) {
             $this->info('🔍 Dry run completed:');
-            $this->info("   • {$totalProcessed} total soft-deleted records found");
-            $this->info("   • {$totalDiscovered} records would be discovered");
-            $this->newLine();
-            $this->comment('Run without --dry-run to actually discover the records.');
         } else {
             $this->info('✨ Discovery completed:');
-            $this->info("   • {$totalProcessed} total soft-deleted records scanned");
-            $this->info("   • {$totalDiscovered} new records discovered and added to recycle bin");
         }
 
-        return 0;
+        $this->line("   • {$this->totalProcessed} total soft-deleted records found");
+        $this->line("   • {$this->totalDiscovered}" . ($this->option('dry-run') ? ' records would be discovered' : ' new records discovered and added to recycle bin'));
+
+        if ($this->option('with-scope')) {
+            $this->newLine();
+            $this->line('🔍 User/tenant scoping information was ' . ($this->option('dry-run') ? 'analyzed' : 'included'));
+        }
+
+        // Detailed breakdown
+        if ($this->getOutput()->getVerbosity() >= 1) {
+            $this->newLine();
+            $this->line('📊 Detailed breakdown:');
+
+            foreach ($this->modelStats as $modelClass => $stats) {
+                $name = $this->getShortClassName($modelClass);
+
+                if (isset($stats['error'])) {
+                    $this->line("   • {$name}: Error - {$stats['error']}");
+                } else {
+                    $this->line("   • {$name}: {$stats['discovered']} discovered, {$stats['already_tracked']} already tracked");
+                }
+            }
+        }
+
+        if ($this->option('dry-run')) {
+            $this->newLine();
+            $this->comment('This was a dry run. No changes were made to the database.');
+            $this->comment('Run without --dry-run to actually add these records to the recycle bin.');
+        }
     }
 
     /**
@@ -123,7 +186,7 @@ class DiscoverSoftDeletedRecords extends Command
     /**
      * Check if a record should be discovered
      */
-    private function shouldDiscoverRecord($record, $dryRun)
+    private function shouldDiscoverRecord($record)
     {
         return is_null($record->recycleBinItem);
     }
