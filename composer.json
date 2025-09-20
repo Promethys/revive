@@ -1,5 +1,6 @@
 {
     "name": "promethys/revive",
+    "version": "2.1.0",
     "description": "A 'RecycleBin' page where users can restore or delete permanently soft-deleted models.",
     "keywords": [
         "Promethys",
@@ -23,9 +24,9 @@
     ],
     "require": {
         "php": "^8.2",
-        "filament/filament": "^3.0",
-        "filament/forms": "^3.0",
-        "filament/tables": "^3.0",
+        "filament/filament": "^4.0|^3.0",
+        "filament/forms": "^4.0|^3.0",
+        "filament/tables": "^4.0|^3.0",
         "illuminate/contracts": "^12.0|^11.0",
         "illuminate/database": "*",
         "illuminate/support": "*",
@@ -34,7 +35,7 @@
     "require-dev": {
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^8.1",
-        "orchestra/testbench": "^8.0",
+        "orchestra/testbench": "^10.0|^9.0|^8.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-arch": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",

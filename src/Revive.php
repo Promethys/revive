@@ -2,7 +2,6 @@
 
 namespace Promethys\Revive;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Promethys\Revive\Concerns\Recyclable;
@@ -12,7 +11,7 @@ class Revive
     public static function getRecyclableModels()
     {
         $models = [];
-        $modelNamespace = RevivePlugin::get()->getModelsNamespace();
+        $modelNamespace = RevivePlugin::get()?->getModelsNamespace() ?? 'App\\Models\\';
         $modelsPath = app_path('Models');
 
         foreach (File::allFiles($modelsPath) as $file) {
@@ -36,63 +35,17 @@ class Revive
                     }
                 }
             } catch (\Throwable $th) {
-                // TODO: Log or handle the error
+                \Log::warning("Error when processing Recyclable model $modelClass", [
+                    'message' => $th->getMessage(),
+                    'file' => $th->getFile(),
+                    'line' => $th->getLine(),
+                    'trace' => $th->getTrace(),
+                ]);
+
                 continue;
             }
         }
 
         return $models;
     }
-
-    // /**
-    //  * All models in recycle bin for all Recyclable classes.
-    //  */
-    // public static function showAllTrashed()
-    // {
-    //     $models = array_keys(static::getRecyclableModels());
-
-    //     return collect($models)->mapWithKeys(fn (string $className) => [$className => self::showTrashed($className)->get()]);
-    // }
-
-    // /**
-    //  * All models in recycle bin for given class.
-    //  *
-    //  * @param  class-string<Model>|Model  $model
-    //  */
-    // public static function showTrashed(string|Model $model): Builder
-    // {
-    //     $class = is_string($model) ? $model : get_class($model);
-
-    //     return $class::onlyTrashed()->selectRaw(
-    //         "'$class' as model_type, id, deleted_at"
-    //     );
-    // }
-
-    // /**
-    //  * Restore the model.
-    //  *
-    //  * @param  class-string<Model>|object  $model
-    //  */
-    // public static function restoreTrashed(string|object $model, string $id = null): void
-    // {
-    //     if (is_object($model)) {
-    //         $model::withTrashed()->restore();
-    //     } else {
-    //         $model::withTrashed()->find($id)->restore();
-    //     }
-    // }
-
-    // /**
-    //  * Force delete the model.
-    //  *
-    //  * @param  class-string<Model>|object  $model
-    //  */
-    // public static function forceDeleteTrashed(string|object $model, string $id = null): void
-    // {
-    //     if (is_object($model)) {
-    //         $model::withTrashed()->forceDelete();
-    //     } else {
-    //         $model::withTrashed()->find($id)->forceDelete();
-    //     }
-    // }
 }

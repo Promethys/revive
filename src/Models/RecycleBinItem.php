@@ -12,6 +12,8 @@ class RecycleBinItem extends Model
         'model_type',
         'state',
         'deleted_at',
+        'deleted_by',
+        'tenant_id',
     ];
 
     protected $casts = [
