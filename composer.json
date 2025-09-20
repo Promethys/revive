@@ -1,5 +1,6 @@
 {
     "name": "promethys/revive",
+    "version": "2.1.0",
     "description": "A 'RecycleBin' page where users can restore or delete permanently soft-deleted models.",
     "keywords": [
         "Promethys",
