@@ -2,13 +2,10 @@
 
 namespace Promethys\Revive\Commands;
 
-use Promethys\Revive\Revive;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
-use Promethys\Revive\Traits\Recyclable;
-use Promethys\Revive\Models\RecycleBinItem;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Promethys\Revive\Revive;
 
 class DiscoverSoftDeletedRecords extends Command
 {
@@ -26,7 +23,9 @@ class DiscoverSoftDeletedRecords extends Command
     protected $description = 'Discover existing soft-deleted records from recyclable models';
 
     protected int $totalDiscovered = 0;
+
     protected int $totalProcessed = 0;
+
     protected array $modelStats = [];
 
     /**
@@ -46,7 +45,7 @@ class DiscoverSoftDeletedRecords extends Command
         }
 
         foreach ($models as $modelClass => $modelName) {
-            if (!$this->modelUsesSoftDeletes($modelClass)) {
+            if (! $this->modelUsesSoftDeletes($modelClass)) {
                 $this->warn("⚠️  Model {$modelName} doesn't use SoftDeletes trait. Skipping...");
 
                 continue;
@@ -104,6 +103,7 @@ class DiscoverSoftDeletedRecords extends Command
 
         if ($trashedRecords->isEmpty()) {
             $this->line('   No soft-deleted records found.');
+
             // $this->modelStats[$modelClass] = [
             //     'scanned' => 0,
             //     'discovered' => 0,
@@ -115,7 +115,7 @@ class DiscoverSoftDeletedRecords extends Command
                 if ($this->shouldDiscoverRecord($record)) {
                     $discoveredCount++;
 
-                    if (!$this->option('dry-run')) {
+                    if (! $this->option('dry-run')) {
                         $this->discoverRecord($record);
                     }
                 }

@@ -2,17 +2,16 @@
 
 namespace Promethys\Revive\Concerns;
 
-use Promethys\Revive\Revive;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-use Promethys\Revive\Models\RecycleBinItem;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Auth;
+use Promethys\Revive\Models\RecycleBinItem;
 
 trait Recyclable
 {
     public static function bootRecyclable(): void
     {
-        if (!method_exists(static::class, 'bootSoftDeletes')) {
+        if (! method_exists(static::class, 'bootSoftDeletes')) {
             throw new \Exception(static::class . ' must use SoftDeletes to be recyclable.');
         }
     }
@@ -46,7 +45,7 @@ trait Recyclable
             RecycleBinItem::where('model_id', $model->getKey())
                 ->where('model_type', get_class($model))
                 ->first()
-                    ?->delete();
+                ?->delete();
 
             \Log::info("Permanently deleted {$model->getTable()} #{$model->id}");
         });

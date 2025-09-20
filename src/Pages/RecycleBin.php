@@ -2,10 +2,10 @@
 
 namespace Promethys\Revive\Pages;
 
-use Filament\Panel;
 use Filament\Pages\Page;
-use Promethys\Revive\RevivePlugin;
+use Filament\Panel;
 use Illuminate\Support\Facades\Auth;
+use Promethys\Revive\RevivePlugin;
 
 class RecycleBin extends Page
 {

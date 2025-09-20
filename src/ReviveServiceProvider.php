@@ -2,15 +2,14 @@
 
 namespace Promethys\Revive;
 
-use Livewire\Livewire;
 use Filament\Support\Assets\Asset;
-use Spatie\LaravelPackageTools\Package;
-use Filament\Support\Facades\FilamentAsset;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Livewire\Livewire;
 use Promethys\Revive\Commands\DiscoverSoftDeletedRecords;
 use Promethys\Revive\Pages\RecycleBin as RecycleBinPage;
 use Promethys\Revive\Tables\RecycleBin as RecycleBinTable;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class ReviveServiceProvider extends PackageServiceProvider
 {
@@ -21,7 +20,7 @@ class ReviveServiceProvider extends PackageServiceProvider
     public function boot()
     {
         parent::boot();
-        
+
         // Register Livewire components
         $this->registerLivewireComponents();
     }
@@ -31,7 +30,7 @@ class ReviveServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasMigrations([
                 '2025_04_05_173836_create_recycle_bin_items_table',
-                '2025_08_09_183550_add_user_and_tenant_to_recycle_bin_items_table'
+                '2025_08_09_183550_add_user_and_tenant_to_recycle_bin_items_table',
             ])
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
@@ -102,7 +101,7 @@ class ReviveServiceProvider extends PackageServiceProvider
     {
         return [
             'create_recycle_bin_items_table',
-            'add_user_and_tenant_to_recycle_bin_items_table'
+            'add_user_and_tenant_to_recycle_bin_items_table',
         ];
     }
 

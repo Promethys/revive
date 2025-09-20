@@ -4,7 +4,6 @@ namespace Promethys\Revive;
 
 use Closure;
 use Filament\Contracts\Plugin;
-use Filament\FilamentManager;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;
@@ -14,35 +13,44 @@ class RevivePlugin implements Plugin
 {
     use EvaluatesClosures;
 
-    protected bool|Closure $authorizeUsing = true;
+    protected bool | Closure $authorizeUsing = true;
+
     protected string $recycleBin = RecycleBin::class;
-    protected string|Closure|null $navigationGroup = null;
-    protected int|Closure $navigationSort = 100;
-    protected string|Closure $navigationIcon = 'heroicon-o-archive-box-arrow-down';
-    protected string|Closure $activeNavigationIcon = 'heroicon-o-archive-box-arrow-down';
-    protected string|Closure|null $navigationLabel = null;
-    protected string|Closure $slug = 'recycle-bin';
-    protected string|Closure $title = '';
-    protected array|Closure $models = [];
+
+    protected string | Closure | null $navigationGroup = null;
+
+    protected int | Closure $navigationSort = 100;
+
+    protected string | Closure $navigationIcon = 'heroicon-o-archive-box-arrow-down';
+
+    protected string | Closure $activeNavigationIcon = 'heroicon-o-archive-box-arrow-down';
+
+    protected string | Closure | null $navigationLabel = null;
+
+    protected string | Closure $slug = 'recycle-bin';
+
+    protected string | Closure $title = '';
+
+    protected array | Closure $models = [];
+
     protected string $modelsNamespace = 'App\\Models\\';
+
     protected bool $enableUserScoping = true;
+
     protected bool $enableTenantScoping = true;
+
     protected bool $showAllRecords = false;
 
     /**
      * Create a new instance of the plugin.
-     *
-     * @return static
      */
     public static function make(): static
     {
-        return new static();
+        return new static;
     }
 
     /**
      * Get the unique plugin ID.
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -51,15 +59,13 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the plugin instance from the current panel.
-     *
-     * @return static | null
      */
-    public static function get(): static|null
+    public static function get(): ?static
     {
         try {
             $currentPanel = filament()->getCurrentPanel();
 
-            if (!$currentPanel) {
+            if (! $currentPanel) {
                 return null;
             }
 
@@ -84,9 +90,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Register plugin pages with the Filament panel.
-     *
-     * @param Panel $panel
-     * @return void
      */
     public function register(Panel $panel): void
     {
@@ -98,9 +101,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Boot the plugin (called after registration).
-     *
-     * @param Panel $panel
-     * @return void
      */
     public function boot(Panel $panel): void
     {
@@ -109,11 +109,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set authorization logic for accessing the plugin.
-     *
-     * @param bool | Closure $callback
-     * @return static
      */
-    public function authorize(bool|Closure $callback = true): static
+    public function authorize(bool | Closure $callback = true): static
     {
         $this->authorizeUsing = $callback;
 
@@ -122,8 +119,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Check if the current user is authorized to access the plugin.
-     *
-     * @return bool
      */
     public function isAuthorized(): bool
     {
@@ -132,11 +127,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set the navigation group for the plugin in the sidebar.
-     *
-     * @param string | Closure | null $navigationGroup
-     * @return static
      */
-    public function navigationGroup(string|Closure|null $navigationGroup): static
+    public function navigationGroup(string | Closure | null $navigationGroup): static
     {
         $this->navigationGroup = $navigationGroup;
 
@@ -145,8 +137,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the navigation group name.
-     *
-     * @return string | null
      */
     public function getNavigationGroup(): ?string
     {
@@ -155,11 +145,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set the navigation sort order for the plugin.
-     *
-     * @param int | Closure $navigationSort
-     * @return static
      */
-    public function navigationSort(int|Closure $navigationSort): static
+    public function navigationSort(int | Closure $navigationSort): static
     {
         $this->navigationSort = $navigationSort;
 
@@ -168,8 +155,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the navigation sort order.
-     *
-     * @return int
      */
     public function getNavigationSort(): int
     {
@@ -178,11 +163,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set the navigation icon for the plugin.
-     *
-     * @param string | Closure $navigationIcon
-     * @return static
      */
-    public function navigationIcon(string|Closure $navigationIcon): static
+    public function navigationIcon(string | Closure $navigationIcon): static
     {
         $this->navigationIcon = $navigationIcon;
 
@@ -191,8 +173,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the navigation icon name.
-     *
-     * @return string
      */
     public function getNavigationIcon(): string
     {
@@ -201,11 +181,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set the active navigation icon for the plugin.
-     *
-     * @param string | Closure $activeNavigationIcon
-     * @return static
      */
-    public function activeNavigationIcon(string|Closure $activeNavigationIcon): static
+    public function activeNavigationIcon(string | Closure $activeNavigationIcon): static
     {
         $this->activeNavigationIcon = $activeNavigationIcon;
 
@@ -214,8 +191,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the active navigation icon name.
-     *
-     * @return string
      */
     public function getActiveNavigationIcon(): string
     {
@@ -224,11 +199,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set the navigation label for the plugin.
-     *
-     * @param string | Closure | null $navigationLabel
-     * @return static
      */
-    public function navigationLabel(string|Closure|null $navigationLabel): static
+    public function navigationLabel(string | Closure | null $navigationLabel): static
     {
         $this->navigationLabel = $navigationLabel;
 
@@ -237,8 +209,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the navigation label.
-     *
-     * @return string
      */
     public function getNavigationLabel(): string
     {
@@ -247,11 +217,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set the page slug for the plugin.
-     *
-     * @param string | Closure $slug
-     * @return static
      */
-    public function slug(string|Closure $slug): static
+    public function slug(string | Closure $slug): static
     {
         $this->slug = $slug;
 
@@ -260,8 +227,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the page slug.
-     *
-     * @return string
      */
     public function getSlug(): string
     {
@@ -270,11 +235,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Set the page title for the plugin.
-     *
-     * @param string | Closure $title
-     * @return static
      */
-    public function title(string|Closure $title): static
+    public function title(string | Closure $title): static
     {
         $this->title = empty($title) ? __('revive::translations.pages.title') : $title;
 
@@ -283,8 +245,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the page title.
-     *
-     * @return string
      */
     public function getTitle(): string
     {
@@ -294,10 +254,7 @@ class RevivePlugin implements Plugin
     /**
      * Set the namespace for models managed by the plugin.
      *
-     * @internal This method is just here for future features, not used yet but does not throw exception. 
-     * 
-     * @param string $modelsNamespace
-     * @return static
+     * @internal This method is just here for future features, not used yet but does not throw exception.
      */
     public function modelsNamespace(string $modelsNamespace): static
     {
@@ -308,8 +265,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the models namespace.
-     *
-     * @return string
      */
     public function getModelsNamespace(): string
     {
@@ -318,11 +273,8 @@ class RevivePlugin implements Plugin
 
     /**
      * Limit the recycle bin to specific models.
-     *
-     * @param array|Closure $models
-     * @return static
      */
-    public function models(array|Closure $models): static
+    public function models(array | Closure $models): static
     {
         $this->models = $models;
 
@@ -331,8 +283,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Get the list of models managed by the recycle bin.
-     *
-     * @return array
      */
     public function getModels(): array
     {
@@ -341,9 +291,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Enable or disable user-based scoping for records.
-     *
-     * @param bool $enable
-     * @return static
      */
     public function enableUserScoping(bool $enable = true): static
     {
@@ -354,8 +301,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Check if user-based scoping is enabled.
-     *
-     * @return bool
      */
     public function isUserScopingEnabled(): bool
     {
@@ -364,9 +309,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Enable or disable tenant-based scoping for records.
-     *
-     * @param bool $enable
-     * @return static
      */
     public function enableTenantScoping(bool $enable = true): static
     {
@@ -377,8 +319,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Check if tenant-based scoping is enabled.
-     *
-     * @return bool
      */
     public function isTenantScopingEnabled(): bool
     {
@@ -387,9 +327,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Show all records, ignoring user and tenant scoping (admin mode).
-     *
-     * @param bool $showAll
-     * @return static
      */
     public function showAllRecords(bool $showAll = true): static
     {
@@ -400,8 +337,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Check if all records should be shown (admin mode).
-     *
-     * @return bool
      */
     public function shouldShowAllRecords(): bool
     {
@@ -410,8 +345,6 @@ class RevivePlugin implements Plugin
 
     /**
      * Disable both user and tenant scoping and show all records.
-     *
-     * @return static
      */
     public function withoutScoping(): static
     {

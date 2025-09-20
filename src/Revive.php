@@ -2,7 +2,6 @@
 
 namespace Promethys\Revive;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Promethys\Revive\Concerns\Recyclable;

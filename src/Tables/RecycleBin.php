@@ -3,28 +3,28 @@
 namespace Promethys\Revive\Tables;
 
 use Carbon\Carbon;
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Actions\ViewAction;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Notifications\Notification;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Actions\Contracts\HasActions;
-use Filament\Schemas\Contracts\HasSchemas;
-use Filament\Actions\ForceDeleteBulkAction;
+use Livewire\Component;
 use Promethys\Revive\Models\RecycleBinItem;
-use Illuminate\Database\Eloquent\Collection;
-use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Schemas\Concerns\InteractsWithSchemas;
 
 class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
 {
@@ -81,7 +81,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $this->enableTenantScoping = $enableTenantScoping;
 
         // Auto-detect current user and tenant if not provided
-        if (!$this->showAllRecords) {
+        if (! $this->showAllRecords) {
             if ($this->user === null && $this->enableUserScoping) {
                 $this->user = Auth::user();
             }
@@ -118,7 +118,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 TextColumn::make('deleted_by')
                     ->label('Deleted By')
                     ->getStateUsing(function (RecycleBinItem $record) {
-                        if (!$record->deleted_by) {
+                        if (! $record->deleted_by) {
                             return null;
                         }
 
@@ -126,13 +126,14 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                         $userModel = config('auth.providers.users.model', \App\Models\User::class);
                         if (class_exists($userModel)) {
                             $user = $userModel::find($record->deleted_by);
+
                             return $user ? ($user->name ?? $user->email ?? "User #{$user->id}") : "User #{$record->deleted_by}";
                         }
 
                         return "User #{$record->deleted_by}";
                     })
                     ->placeholder('N/A')
-                    ->visible(fn() => $this->showAllRecords || !$this->enableUserScoping),
+                    ->visible(fn () => $this->showAllRecords || ! $this->enableUserScoping),
 
                 TextColumn::make('deleted_at')
                     ->label(__('revive::translations.tables.columns.deleted_at'))
@@ -179,11 +180,11 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                                 throw new \Exception;
                             }
                         } catch (\Throwable $th) {
-                            \Log::error("Unable to restore model.", [
+                            \Log::error('Unable to restore model.', [
                                 'message' => $th->getMessage(),
                                 'file' => $th->getFile(),
                                 'line' => $th->getLine(),
-                                'trace' => $th->getTrace()
+                                'trace' => $th->getTrace(),
                             ]);
 
                             return false;
@@ -210,11 +211,11 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                                 throw new \Exception;
                             }
                         } catch (\Throwable $th) {
-                            \Log::error("Unable to permanently delete model.", [
+                            \Log::error('Unable to permanently delete model.', [
                                 'message' => $th->getMessage(),
                                 'file' => $th->getFile(),
                                 'line' => $th->getLine(),
-                                'trace' => $th->getTrace()
+                                'trace' => $th->getTrace(),
                             ]);
 
                             return false;
@@ -236,8 +237,9 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
 
                         foreach ($models as $model) {
                             try {
-                                if ($this->restoreModel($model))
+                                if ($this->restoreModel($model)) {
                                     $success++;
+                                }
                             } catch (\Throwable $th) {
                                 \Log::error("Restore failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
                             }
@@ -254,8 +256,9 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
 
                         foreach ($models as $model) {
                             try {
-                                if ($this->forceDeleteModel($model))
+                                if ($this->forceDeleteModel($model)) {
                                     $success++;
+                                }
                             } catch (\Throwable $th) {
                                 \Log::error("Force delete failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
                             }
@@ -272,18 +275,18 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $query = RecycleBinItem::query();
 
         // Apply model filtering
-        if (!empty($this->models)) {
+        if (! empty($this->models)) {
             $query->whereIn('model_type', $this->models);
         }
 
         // Apply user scoping
-        if (!$this->showAllRecords && $this->enableUserScoping && $this->user) {
+        if (! $this->showAllRecords && $this->enableUserScoping && $this->user) {
             $userId = is_object($this->user) ? $this->user->getKey() : $this->user;
             $query->where('deleted_by', $userId);
         }
 
         // Apply tenant scoping
-        if (!$this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
+        if (! $this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
             $tenantId = is_object($this->tenant) ? $this->tenant->getKey() : $this->tenant;
             $query->where('tenant_id', $tenantId);
         }
@@ -317,7 +320,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 ->body(__('revive::translations.tables.bulk_actions.' . $action . '.warning_notification_body', [
                     'success' => $success,
                     'total' => $total,
-                    'failed' => $total - $success
+                    'failed' => $total - $success,
                 ]))
                 ->warning()
                 ->send();
