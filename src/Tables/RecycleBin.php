@@ -228,7 +228,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                         ->danger()
                         ->title(__('revive::translations.tables.actions.force_delete.failure_notification_title'))),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 RestoreBulkAction::make('restore_selected')
                     ->button()
                     ->action(function (Collection $models) {

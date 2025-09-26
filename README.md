@@ -34,7 +34,7 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 
 ## Installation
 
-### Latest Version (V2 - Recommended)
+### Latest Version (V2 - Recommended - Filament v4)
 
 Install the latest version with user and multi-tenancy support:
 
@@ -43,7 +43,7 @@ composer require promethys/revive
 php artisan revive:install
 ```
 
-### Version 1 (Legacy)
+### Version 1 (for Filament v3)
 
 If you need to install V1 (without user/tenant scoping):
 
@@ -214,7 +214,7 @@ public function panel(Panel $panel): Panel
 ```php
 namespace App\Models;
 
-use Promethys\Revive\Traits\Recyclable;
+use Promethys\Revive\Concerns\Recyclable;
 use Vendor\Package\Models\Foo as BaseFoo;
 
 class Foo extends BaseFoo
