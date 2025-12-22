@@ -100,7 +100,8 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         return $table
             ->query($this->getQuery())
             ->emptyStateIcon('heroicon-o-archive-box')
-            ->emptyStateHeading(__('revive::translations.tables.empty_state'))
+            ->emptyStateHeading(__('revive::translations.tables.empty_state.title'))
+            ->emptyStateDescription(__('revive::translations.tables.empty_state.description'))
             ->defaultSort('deleted_at', 'desc')
             ->recordAction('view_details')
             ->columns([
@@ -116,7 +117,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                     ->searchable(),
 
                 TextColumn::make('deleted_by')
-                    ->label('Deleted By')
+                    ->label(__('revive::translations.tables.columns.model_type'))
                     ->getStateUsing(function (RecycleBinItem $record) {
                         if (! $record->deleted_by) {
                             return null;
@@ -168,8 +169,8 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                     ->button()
                     ->visible(true)
                     ->requiresConfirmation()
-                    ->modalHeading('Restore Item')
-                    ->modalDescription('Are you sure you want to restore this item?')
+                    ->modalHeading(__('revive::translations.tables.actions.restore.modal_heading'))
+                    ->modalDescription(__('revive::translations.tables.actions.restore.modal_description'))
                     ->using(function ($record) {
                         try {
                             $isRestored = $this->restoreModel($record);
@@ -199,8 +200,8 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 ForceDeleteAction::make('force_delete')
                     ->button()
                     ->visible(true)
-                    ->modalHeading('Permanently Delete Item')
-                    ->modalDescription('Are you sure you want to permanently delete this item? This action cannot be undone.')
+                    ->modalHeading(__('revive::translations.tables.actions.force_delete.modal_heading'))
+                    ->modalDescription(__('revive::translations.tables.actions.force_delete.modal_description'))
                     ->using(function ($record) {
                         try {
                             $isDeleted = $this->forceDeleteModel($record);
