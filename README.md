@@ -6,6 +6,8 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/promethys/revive/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/promethys/revive/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/promethys/revive.svg?style=flat-square)](https://packagist.org/packages/promethys/revive)
 
+If this plugin is useful to you, consider [giving it a ⭐ on GitHub](https://github.com/Promethys/revive).
+
 **Revive** is a plugin for [FilamentPHP](https://filamentphp.com) that brings a central **Recycle Bin** to your application. It lets you restore or permanently delete soft-deleted Eloquent models in just a few clicks.
 
 This plugin is especially useful for SaaS applications, admin dashboards, or any multi-user platform where recovering accidentally deleted data is important.
