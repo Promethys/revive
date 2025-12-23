@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Promethys\Revive\Models\RecycleBinItem;
 
@@ -181,7 +182,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                                 throw new \Exception;
                             }
                         } catch (\Throwable $th) {
-                            \Log::error('Unable to restore model.', [
+                            Log::error('Unable to restore model.', [
                                 'message' => $th->getMessage(),
                                 'file' => $th->getFile(),
                                 'line' => $th->getLine(),
@@ -212,7 +213,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                                 throw new \Exception;
                             }
                         } catch (\Throwable $th) {
-                            \Log::error('Unable to permanently delete model.', [
+                            Log::error('Unable to permanently delete model.', [
                                 'message' => $th->getMessage(),
                                 'file' => $th->getFile(),
                                 'line' => $th->getLine(),
@@ -242,7 +243,8 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                                     $success++;
                                 }
                             } catch (\Throwable $th) {
-                                \Log::error("Restore failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
+                                /** @phpstan-ignore property.notFound,property.notFound (Eloquent false positive) */
+                                Log::error("Restore failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
                             }
                         }
 
@@ -261,7 +263,8 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                                     $success++;
                                 }
                             } catch (\Throwable $th) {
-                                \Log::error("Force delete failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
+                                /** @phpstan-ignore property.notFound,property.notFound (Eloquent false positive) */
+                                Log::error("Force delete failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
                             }
                         }
 

@@ -5,6 +5,7 @@ namespace Promethys\Revive\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Promethys\Revive\Models\RecycleBinItem;
 
 trait Recyclable
@@ -38,7 +39,7 @@ trait Recyclable
                 'tenant_id' => $model->getTenantId(),
             ]);
 
-            \Log::info("Deleted {$model->getTable()} #{$model->id}");
+            Log::info("Deleted {$model->getTable()} #{$model->id}");
         });
 
         static::forceDeleted(function ($model) {
@@ -47,13 +48,13 @@ trait Recyclable
                 ->first()
                 ?->delete();
 
-            \Log::info("Permanently deleted {$model->getTable()} #{$model->id}");
+            Log::info("Permanently deleted {$model->getTable()} #{$model->id}");
         });
 
         static::restored(function ($model) {
             $model->recycleBinItem?->delete();
 
-            \Log::info("Restored {$model->getTable()} #{$model->id}");
+            Log::info("Restored {$model->getTable()} #{$model->id}");
         });
     }
 

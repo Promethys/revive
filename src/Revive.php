@@ -35,7 +35,7 @@ class Revive
                     }
                 }
             } catch (\Throwable $th) {
-                \Log::warning("Error when processing Recyclable model $modelClass", [
+                \Illuminate\Support\Facades\Log::warning("Error when processing Recyclable model $modelClass", [
                     'message' => $th->getMessage(),
                     'file' => $th->getFile(),
                     'line' => $th->getLine(),
