@@ -120,11 +120,13 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 TextColumn::make('deleted_by')
                     ->label(__('revive::translations.tables.columns.model_type'))
                     ->getStateUsing(function (RecycleBinItem $record) {
+                        /** @phpstan-ignore property.notFound (Eloquent false positive) */
                         if (! $record->deleted_by) {
                             return null;
                         }
 
                         // Try to get user name
+                        /** @phpstan-ignore class.notFound (Default Laravel User model namespace) */
                         $userModel = config('auth.providers.users.model', \App\Models\User::class);
                         if (class_exists($userModel)) {
                             $user = $userModel::find($record->deleted_by);
@@ -163,7 +165,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 ViewAction::make('view_details')
                     ->button()
                     ->modalHeading(__('revive::translations.tables.actions.view_details.modal_heading'))
-                    ->infolist([
+                    ->schema([
                         KeyValueEntry::make('state'),
                     ]),
                 RestoreAction::make('restore')

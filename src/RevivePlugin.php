@@ -9,7 +9,7 @@ use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;
 use Promethys\Revive\Pages\RecycleBin;
 
-class RevivePlugin implements Plugin
+final class RevivePlugin implements Plugin
 {
     use EvaluatesClosures;
 
@@ -71,6 +71,7 @@ class RevivePlugin implements Plugin
 
             // Get the plugin instance directly from the current panel
             if ($currentPanel->hasPlugin(app(static::class)->getId())) {
+                /** @phpstan-ignore return.type (`static` is RevivePlugin, extends Plugin. False positive) */
                 return $currentPanel->getPlugin(app(static::class)->getId());
             }
 

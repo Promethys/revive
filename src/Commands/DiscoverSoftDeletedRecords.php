@@ -153,12 +153,14 @@ class DiscoverSoftDeletedRecords extends Command
         }
 
         // Detailed breakdown
-        if ($this->getOutput()->getVerbosity() >= 1) {
+        if ($this->getOutput()->isVerbose()) {
             $this->newLine();
             $this->line('📊 Detailed breakdown:');
 
             foreach ($this->modelStats as $modelClass => $stats) {
-                $name = $this->getShortClassName($modelClass);
+                // FIXME: restore removed `getShortClassName` method
+                // $name = $this->getShortClassName($modelClass);
+                $name = $modelClass;
 
                 if (isset($stats['error'])) {
                     $this->line("   • {$name}: Error - {$stats['error']}");

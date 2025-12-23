@@ -54,7 +54,8 @@ class RecycleBin extends Page
 
     public static function getSlug(?Panel $panel = null): string
     {
-        return $panel->getPlugin('revive')?->getSlug() ?? parent::getSlug();
+        /** @phpstan-ignore method.notFound (`getSlug` exists for the RevivePlugin, not in Plugin. False positive) */
+        return $panel->getPlugin('revive')->getSlug() ?? parent::getSlug();
     }
 
     public function getTitle(): string
