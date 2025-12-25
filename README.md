@@ -438,6 +438,217 @@ This is ideal if:
 
 ---
 
+## Customization
+
+The plugin allows you to fully customize both the **RecycleBin page** and **RecycleBin table** by extending the base classes and registering your custom implementations.
+
+### Customizing the Table
+
+You can extend the `RecycleBin` table component to customize columns, filters, actions, and more.
+
+#### 1. Create a Custom Table Class
+
+Create a class that extends `Promethys\Revive\Tables\RecycleBin`:
+
+```php
+<?php
+
+namespace App\Livewire;
+
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Promethys\Revive\Tables\RecycleBin as BaseRecycleBinTable;
+
+class CustomRecycleBinTable extends BaseRecycleBinTable
+{
+    // Customize table columns
+    protected function getTableColumns(): array
+    {
+        return [
+            ...parent::getTableColumns(), // Include default columns
+
+            // Add your custom columns
+            TextColumn::make('tenant_id')
+                ->label('Tenant')
+                ->sortable(),
+        ];
+    }
+
+    // Customize table filters
+    protected function getTableFilters(): array
+    {
+        return [
+            ...parent::getTableFilters(), // Include default filters
+
+            // Add your custom filters
+            SelectFilter::make('deleted_by')
+                ->label('Deleted By')
+                ->searchable()
+                ->multiple(),
+        ];
+    }
+
+    // Customize record actions
+    protected function getTableRecordActions(): array
+    {
+        // Option 1: Extend default actions
+        return [
+            ...parent::getTableRecordActions(),
+            // Add custom actions here
+        ];
+
+        // Option 2: Completely replace default actions
+        return [
+            // Your custom actions only
+        ];
+    }
+
+    // Customize bulk actions
+    protected function getTableToolbarActions(): array
+    {
+        return [
+            ...parent::getTableToolbarActions(),
+            // Add custom bulk actions
+        ];
+    }
+}
+```
+
+#### 2. Register Your Custom Table
+
+In your panel provider, register the custom table using `registerTable()`:
+
+```php
+use App\Livewire\CustomRecycleBinTable;
+use Promethys\Revive\RevivePlugin;
+
+$panel->plugins([
+    RevivePlugin::make()
+        ->registerTable(CustomRecycleBinTable::class)
+]);
+```
+
+#### Available Table Methods to Override
+
+| Method | Description |
+|--------|-------------|
+| `getTableColumns()` | Define the table columns |
+| `getTableFilters()` | Define table filters |
+| `getTableRecordActions()` | Define actions for each row (view, restore, delete) |
+| `getTableToolbarActions()` | Define bulk actions (toolbar actions) |
+| `getTableHeaderActions()` | Define header actions |
+| `getQuery()` | Customize the base query |
+| `restoreModel($record)` | Customize restore behavior |
+| `forceDeleteModel($record)` | Customize force delete behavior |
+
+### Customizing the Page
+
+You can extend the `RecycleBin` page to customize its appearance, layout, or behavior.
+
+#### 1. Create a Custom Page Class
+
+Create a class that extends `Promethys\Revive\Pages\RecycleBin`:
+
+```php
+<?php
+
+namespace App\Filament\Pages;
+
+use Promethys\Revive\Pages\RecycleBin as BaseRecycleBinPage;
+
+class CustomRecycleBinPage extends BaseRecycleBinPage
+{
+    // Use a custom view
+    protected string $view = 'filament.pages.custom-recycle-bin';
+
+    // Override page methods as needed
+    public static function getNavigationBadge(): ?string
+    {
+        // Add a badge showing count of deleted items
+        return RecycleBinItem::count();
+    }
+}
+```
+
+#### 2. Create a Custom View (Optional)
+
+If you specified a custom view, create it at `resources/views/filament/pages/custom-recycle-bin.blade.php`:
+
+```blade
+<x-filament-panels::page>
+    {{-- Custom header or content --}}
+    <div class="mb-4">
+        <h2 class="text-xl font-bold">Custom Recycle Bin Header</h2>
+        <p class="text-gray-600">Manage your deleted records here.</p>
+    </div>
+
+    {{-- Render the table --}}
+    @livewire($this->recycleBinComponent, $this->componentParams)
+
+    {{-- Custom footer or additional content --}}
+    <div class="mt-4 text-sm text-gray-500">
+        Remember to permanently delete old records regularly!
+    </div>
+</x-filament-panels::page>
+```
+
+#### 3. Register Your Custom Page
+
+In your panel provider, register the custom page using `registerPage()`:
+
+```php
+use App\Filament\Pages\CustomRecycleBinPage;
+use Promethys\Revive\RevivePlugin;
+
+$panel->plugins([
+    RevivePlugin::make()
+        ->registerPage(CustomRecycleBinPage::class)
+]);
+```
+
+### Advanced: Overriding Core Behavior
+
+For advanced customization, you can override the restore and delete logic:
+
+```php
+use Illuminate\Support\Facades\Log;
+
+class CustomRecycleBinTable extends BaseRecycleBinTable
+{
+    protected function restoreModel($record)
+    {
+        // Add custom pre-restore logic
+        Log::info("Restoring {$record->model_type}#{$record->model_id}");
+
+        // Perform the restore
+        $result = parent::restoreModel($record);
+
+        // Add custom post-restore logic
+        if ($result) {
+            // Send notification, update cache, etc.
+        }
+
+        return $result;
+    }
+
+    protected function forceDeleteModel($record)
+    {
+        // Add custom pre-delete logic
+        $this->cleanupRelatedData($record);
+
+        // Perform the deletion
+        return parent::forceDeleteModel($record);
+    }
+
+    private function cleanupRelatedData($record)
+    {
+        // Your custom cleanup logic
+    }
+}
+```
+
+---
+
 ## Security Considerations
 
 ### Authorization

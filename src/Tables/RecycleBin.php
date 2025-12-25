@@ -82,7 +82,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $this->enableTenantScoping = $enableTenantScoping;
 
         // Auto-detect current user and tenant if not provided
-        if (! $this->showAllRecords) {
+        if (!$this->showAllRecords) {
             if ($this->user === null && $this->enableUserScoping) {
                 $this->user = Auth::user();
             }
@@ -105,175 +105,11 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
             ->emptyStateDescription(__('revive::translations.tables.empty_state.description'))
             ->defaultSort('deleted_at', 'desc')
             ->recordAction('view_details')
-            ->columns([
-                TextColumn::make('model_id')
-                    ->label(__('revive::translations.tables.columns.model_id'))
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('model_type')
-                    ->label(__('revive::translations.tables.columns.model_type'))
-                    ->badge()
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('deleted_by')
-                    ->label(__('revive::translations.tables.columns.model_type'))
-                    ->getStateUsing(function (RecycleBinItem $record) {
-                        /** @phpstan-ignore property.notFound (Eloquent false positive) */
-                        if (! $record->deleted_by) {
-                            return null;
-                        }
-
-                        // Try to get user name
-                        /** @phpstan-ignore class.notFound (Default Laravel User model namespace) */
-                        $userModel = config('auth.providers.users.model', \App\Models\User::class);
-                        if (class_exists($userModel)) {
-                            $user = $userModel::find($record->deleted_by);
-
-                            return $user ? ($user->name ?? $user->email ?? "User #{$user->id}") : "User #{$record->deleted_by}";
-                        }
-
-                        return "User #{$record->deleted_by}";
-                    })
-                    ->placeholder('N/A')
-                    ->visible(fn () => $this->showAllRecords || ! $this->enableUserScoping),
-
-                TextColumn::make('deleted_at')
-                    ->label(__('revive::translations.tables.columns.deleted_at'))
-                    ->dateTime()
-                    ->tooltip(function ($state) {
-                        $date = new Carbon($state);
-
-                        return $date
-                            ->locale(App::getLocale())
-                            ->diffForHumans();
-                    })
-                    ->sortable(),
-            ])
-            ->filters([
-                SelectFilter::make('model_type')
-                    ->label(__('revive::translations.tables.columns.model_type'))
-                    ->options($this->getModelTypeOptions())
-                    ->searchable()
-                    ->multiple(),
-            ])
-            ->headerActions([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make('view_details')
-                    ->button()
-                    ->modalHeading(__('revive::translations.tables.actions.view_details.modal_heading'))
-                    ->schema([
-                        KeyValueEntry::make('state'),
-                    ]),
-                RestoreAction::make('restore')
-                    ->button()
-                    ->visible(true)
-                    ->requiresConfirmation()
-                    ->modalHeading(__('revive::translations.tables.actions.restore.modal_heading'))
-                    ->modalDescription(__('revive::translations.tables.actions.restore.modal_description'))
-                    ->using(function ($record) {
-                        try {
-                            $isRestored = $this->restoreModel($record);
-
-                            if ($isRestored === true) {
-                                return $isRestored;
-                            } else {
-                                throw new \Exception;
-                            }
-                        } catch (\Throwable $th) {
-                            Log::error('Unable to restore model.', [
-                                'message' => $th->getMessage(),
-                                'file' => $th->getFile(),
-                                'line' => $th->getLine(),
-                                'trace' => $th->getTrace(),
-                            ]);
-
-                            return false;
-                        }
-                    })
-                    ->successNotification(Notification::make()
-                        ->success()
-                        ->title(__('revive::translations.tables.actions.restore.success_notification_title')))
-                    ->failureNotification(Notification::make()
-                        ->danger()
-                        ->title(__('revive::translations.tables.actions.restore.failure_notification_title'))),
-                ForceDeleteAction::make('force_delete')
-                    ->button()
-                    ->visible(true)
-                    ->modalHeading(__('revive::translations.tables.actions.force_delete.modal_heading'))
-                    ->modalDescription(__('revive::translations.tables.actions.force_delete.modal_description'))
-                    ->using(function ($record) {
-                        try {
-                            $isDeleted = $this->forceDeleteModel($record);
-
-                            if ($isDeleted === true) {
-                                return $isDeleted;
-                            } else {
-                                throw new \Exception;
-                            }
-                        } catch (\Throwable $th) {
-                            Log::error('Unable to permanently delete model.', [
-                                'message' => $th->getMessage(),
-                                'file' => $th->getFile(),
-                                'line' => $th->getLine(),
-                                'trace' => $th->getTrace(),
-                            ]);
-
-                            return false;
-                        }
-                    })
-                    ->successNotification(Notification::make()
-                        ->success()
-                        ->title(__('revive::translations.tables.actions.force_delete.success_notification_title')))
-                    ->failureNotification(Notification::make()
-                        ->danger()
-                        ->title(__('revive::translations.tables.actions.force_delete.failure_notification_title'))),
-            ])
-            ->toolbarActions([
-                RestoreBulkAction::make('restore_selected')
-                    ->button()
-                    ->action(function (Collection $models) {
-                        $total = $models->count();
-                        $success = 0;
-
-                        foreach ($models as $model) {
-                            try {
-                                if ($this->restoreModel($model)) {
-                                    $success++;
-                                }
-                            } catch (\Throwable $th) {
-                                /** @phpstan-ignore property.notFound,property.notFound (Eloquent false positive) */
-                                Log::error("Restore failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
-                            }
-                        }
-
-                        $this->sendBulkNotification('restore', $success, $total);
-                    })
-                    ->deselectRecordsAfterCompletion(),
-                ForceDeleteBulkAction::make('force_delete_selected')
-                    ->button()
-                    ->action(function (Collection $models) {
-                        $total = $models->count();
-                        $success = 0;
-
-                        foreach ($models as $model) {
-                            try {
-                                if ($this->forceDeleteModel($model)) {
-                                    $success++;
-                                }
-                            } catch (\Throwable $th) {
-                                /** @phpstan-ignore property.notFound,property.notFound (Eloquent false positive) */
-                                Log::error("Force delete failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
-                            }
-                        }
-
-                        $this->sendBulkNotification('force_delete', $success, $total);
-                    })
-                    ->deselectRecordsAfterCompletion(),
-            ]);
+            ->columns($this->getTableColumns())
+            ->filters($this->getTableFilters())
+            ->headerActions($this->getTableHeaderActions())
+            ->recordActions($this->getTableRecordActions())
+            ->toolbarActions($this->getTableToolbarActions());
     }
 
     protected function getQuery(): Builder
@@ -281,23 +117,212 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $query = RecycleBinItem::query();
 
         // Apply model filtering
-        if (! empty($this->models)) {
+        if (!empty($this->models)) {
             $query->whereIn('model_type', $this->models);
         }
 
         // Apply user scoping
-        if (! $this->showAllRecords && $this->enableUserScoping && $this->user) {
+        if (!$this->showAllRecords && $this->enableUserScoping && $this->user) {
             $userId = is_object($this->user) ? $this->user->getKey() : $this->user;
             $query->where('deleted_by', $userId);
         }
 
         // Apply tenant scoping
-        if (! $this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
+        if (!$this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
             $tenantId = is_object($this->tenant) ? $this->tenant->getKey() : $this->tenant;
             $query->where('tenant_id', $tenantId);
         }
 
         return $query;
+    }
+
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('model_id')
+                ->label(__('revive::translations.tables.columns.model_id'))
+                ->sortable()
+                ->searchable(),
+
+            TextColumn::make('model_type')
+                ->label(__('revive::translations.tables.columns.model_type'))
+                ->badge()
+                ->sortable()
+                ->searchable(),
+
+            TextColumn::make('deleted_by')
+                ->label(__('revive::translations.tables.columns.deleted_by'))
+                ->getStateUsing(function (RecycleBinItem $record) {
+                    /** @phpstan-ignore property.notFound (Eloquent false positive) */
+                    if (!$record->deleted_by) {
+                        return null;
+                    }
+
+                    // Try to get user name
+                    /** @phpstan-ignore class.notFound (Default Laravel User model namespace) */
+                    $userModel = config('auth.providers.users.model', \App\Models\User::class);
+                    if (class_exists($userModel)) {
+                        $user = $userModel::find($record->deleted_by);
+
+                        return $user ? ($user->name ?? $user->email ?? "User #{$user->id}") : "User #{$record->deleted_by}";
+                    }
+
+                    return "User #{$record->deleted_by}";
+                })
+                ->placeholder('N/A')
+                ->visible(fn() => $this->showAllRecords || !$this->enableUserScoping),
+
+            TextColumn::make('deleted_at')
+                ->label(__('revive::translations.tables.columns.deleted_at'))
+                ->dateTime()
+                ->tooltip(function ($state) {
+                    $date = new Carbon($state);
+
+                    return $date
+                        ->locale(App::getLocale())
+                        ->diffForHumans();
+                })
+                ->sortable(),
+        ];
+    }
+
+    protected function getTableFilters(): array
+    {
+        return [
+            SelectFilter::make('model_type')
+                ->label(__('revive::translations.tables.columns.model_type'))
+                ->options($this->getModelTypeOptions())
+                ->searchable()
+                ->multiple(),
+        ];
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    protected function getTableRecordActions(): array
+    {
+        return [
+            ViewAction::make('view_details')
+                ->button()
+                ->modalHeading(__('revive::translations.tables.actions.view_details.modal_heading'))
+                ->schema([
+                    KeyValueEntry::make('state'),
+                ]),
+            RestoreAction::make('restore')
+                ->button()
+                ->visible(true)
+                ->requiresConfirmation()
+                ->modalHeading(__('revive::translations.tables.actions.restore.modal_heading'))
+                ->modalDescription(__('revive::translations.tables.actions.restore.modal_description'))
+                ->using(function ($record) {
+                    try {
+                        $isRestored = $this->restoreModel($record);
+
+                        if ($isRestored === true) {
+                            return $isRestored;
+                        } else {
+                            throw new \Exception;
+                        }
+                    } catch (\Throwable $th) {
+                        Log::error('Unable to restore model.', [
+                            'message' => $th->getMessage(),
+                            'file' => $th->getFile(),
+                            'line' => $th->getLine(),
+                            'trace' => $th->getTrace(),
+                        ]);
+
+                        return false;
+                    }
+                })
+                ->successNotification(Notification::make()
+                    ->success()
+                    ->title(__('revive::translations.tables.actions.restore.success_notification_title')))
+                ->failureNotification(Notification::make()
+                    ->danger()
+                    ->title(__('revive::translations.tables.actions.restore.failure_notification_title'))),
+            ForceDeleteAction::make('force_delete')
+                ->button()
+                ->visible(true)
+                ->modalHeading(__('revive::translations.tables.actions.force_delete.modal_heading'))
+                ->modalDescription(__('revive::translations.tables.actions.force_delete.modal_description'))
+                ->using(function ($record) {
+                    try {
+                        $isDeleted = $this->forceDeleteModel($record);
+
+                        if ($isDeleted === true) {
+                            return $isDeleted;
+                        } else {
+                            throw new \Exception;
+                        }
+                    } catch (\Throwable $th) {
+                        Log::error('Unable to permanently delete model.', [
+                            'message' => $th->getMessage(),
+                            'file' => $th->getFile(),
+                            'line' => $th->getLine(),
+                            'trace' => $th->getTrace(),
+                        ]);
+
+                        return false;
+                    }
+                })
+                ->successNotification(Notification::make()
+                    ->success()
+                    ->title(__('revive::translations.tables.actions.force_delete.success_notification_title')))
+                ->failureNotification(Notification::make()
+                    ->danger()
+                    ->title(__('revive::translations.tables.actions.force_delete.failure_notification_title'))),
+        ];
+    }
+
+    protected function getTableToolbarActions(): array
+    {
+        return [
+            RestoreBulkAction::make('restore_selected')
+                ->button()
+                ->action(function (Collection $models) {
+                    $total = $models->count();
+                    $success = 0;
+
+                    foreach ($models as $model) {
+                        try {
+                            if ($this->restoreModel($model)) {
+                                $success++;
+                            }
+                        } catch (\Throwable $th) {
+                            /** @phpstan-ignore property.notFound,property.notFound (Eloquent false positive) */
+                            Log::error("Restore failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
+                        }
+                    }
+
+                    $this->sendBulkNotification('restore', $success, $total);
+                })
+                ->deselectRecordsAfterCompletion(),
+            ForceDeleteBulkAction::make('force_delete_selected')
+                ->button()
+                ->action(function (Collection $models) {
+                    $total = $models->count();
+                    $success = 0;
+
+                    foreach ($models as $model) {
+                        try {
+                            if ($this->forceDeleteModel($model)) {
+                                $success++;
+                            }
+                        } catch (\Throwable $th) {
+                            /** @phpstan-ignore property.notFound,property.notFound (Eloquent false positive) */
+                            Log::error("Force delete failed for {$model->model_type}#{$model->model_id}: {$th->getMessage()}");
+                        }
+                    }
+
+                    $this->sendBulkNotification('force_delete', $success, $total);
+                })
+                ->deselectRecordsAfterCompletion(),
+        ];
     }
 
     protected function getModelTypeOptions(): array

@@ -7,7 +7,8 @@ use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Livewire\Component;
-use Promethys\Revive\Pages\RecycleBin;
+use Promethys\Revive\Pages\RecycleBin as RecycleBinPage;
+use Promethys\Revive\Tables\RecycleBin as RecycleBinTable;
 
 final class RevivePlugin implements Plugin
 {
@@ -15,7 +16,8 @@ final class RevivePlugin implements Plugin
 
     protected bool | Closure $authorizeUsing = true;
 
-    protected string $recycleBin = RecycleBin::class;
+    protected string $page = RecycleBinPage::class;
+    protected string $table = RecycleBinTable::class; // raw value 'revive::tables.recycle-bin'
 
     protected string | Closure | null $navigationGroup = null;
 
@@ -96,8 +98,44 @@ final class RevivePlugin implements Plugin
     {
         $panel
             ->pages([
-                $this->recycleBin,
+                $this->getPage(),
             ]);
+    }
+
+    /**
+     * Register a custom page
+     */
+    public function registerPage(string $page): static
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Return the page namespace
+     */
+    public function getPage(): string
+    {
+        return $this->page;
+    }
+
+    /**
+     * Register custom table
+     */
+    public function registerTable(string $table): static
+    {
+        $this->table = $table;
+
+        return $this;
+    }
+
+    /**
+     * Return the table namespace
+     */
+    public function getTable(): string
+    {
+        return $this->table;
     }
 
     /**

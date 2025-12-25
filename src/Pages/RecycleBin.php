@@ -73,7 +73,7 @@ class RecycleBin extends Page
         $plugin = static::getPlugin();
 
         return [
-            'recycleBinComponent' => 'revive::tables.recycle-bin',
+            'recycleBinComponent' => $plugin->getTable(),
             'componentParams' => [
                 'user' => $plugin->shouldShowAllRecords() ? null : Auth::user(),
                 'tenant' => $plugin->shouldShowAllRecords() ? null : $this->getCurrentTenant(),
