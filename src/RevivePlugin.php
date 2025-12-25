@@ -35,11 +35,11 @@ final class RevivePlugin implements Plugin
 
     protected string $modelsNamespace = 'App\\Models\\';
 
-    protected bool $enableUserScoping = true;
+    protected bool | Closure $enableUserScoping = true;
 
-    protected bool $enableTenantScoping = true;
+    protected bool | Closure $enableTenantScoping = true;
 
-    protected bool $showAllRecords = false;
+    protected bool | Closure $showAllRecords = false;
 
     /**
      * Create a new instance of the plugin.
@@ -293,7 +293,7 @@ final class RevivePlugin implements Plugin
     /**
      * Enable or disable user-based scoping for records.
      */
-    public function enableUserScoping(bool $enable = true): static
+    public function enableUserScoping(bool | Closure $enable = true): static
     {
         $this->enableUserScoping = $enable;
 
@@ -305,13 +305,13 @@ final class RevivePlugin implements Plugin
      */
     public function isUserScopingEnabled(): bool
     {
-        return $this->enableUserScoping;
+        return $this->evaluate($this->enableUserScoping);
     }
 
     /**
      * Enable or disable tenant-based scoping for records.
      */
-    public function enableTenantScoping(bool $enable = true): static
+    public function enableTenantScoping(bool | Closure $enable = true): static
     {
         $this->enableTenantScoping = $enable;
 
@@ -323,13 +323,13 @@ final class RevivePlugin implements Plugin
      */
     public function isTenantScopingEnabled(): bool
     {
-        return $this->enableTenantScoping;
+        return $this->evaluate($this->enableTenantScoping);
     }
 
     /**
      * Show all records, ignoring user and tenant scoping (admin mode).
      */
-    public function showAllRecords(bool $showAll = true): static
+    public function showAllRecords(bool | Closure $showAll = true): static
     {
         $this->showAllRecords = $showAll;
 
@@ -341,7 +341,7 @@ final class RevivePlugin implements Plugin
      */
     public function shouldShowAllRecords(): bool
     {
-        return $this->showAllRecords;
+        return $this->evaluate($this->showAllRecords);
     }
 
     /**
