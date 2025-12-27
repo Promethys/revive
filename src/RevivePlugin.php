@@ -17,6 +17,7 @@ final class RevivePlugin implements Plugin
     protected bool | Closure $authorizeUsing = true;
 
     protected string $page = RecycleBinPage::class;
+
     protected string $table = RecycleBinTable::class; // raw value 'revive::tables.recycle-bin'
 
     protected string | Closure | null $navigationGroup = null;
