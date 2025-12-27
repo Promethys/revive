@@ -15,6 +15,13 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 
 ---
 
+## Release Strategy
+
+- **v1.x**: Maintenance mode - critical bug fixes only
+- **v2.x**: Active development - new features, improvements
+
+---
+
 ## Features
 
 - View, restore, and permanently delete soft-deleted records from a dedicated Filament page
@@ -27,15 +34,14 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 
 ---
 
-## ⚠️ Filament v4 Compatibility
+## Filament v4 Compatibility
 
-Filament v4 is currently in **beta**, and this plugin does **not support** it yet.
+Filament v4 is supported starting from **plugin v2**.
 
-We will begin testing and adapting the package soon. Until then, please use this plugin with **Filament v3.x** only.
+- **v1.x**: compatible with **Filament v3.x only**
+- **v2.x**: compatible with **Filament v4**
 
-> Trying to install this plugin on Filament v4 may result in unexpected errors or breaking changes.
-
-Stay tuned for updates when full support becomes available.
+> If you are using Filament v4, make sure you install **plugin v2**.
 
 ---
 
@@ -44,7 +50,7 @@ Stay tuned for updates when full support becomes available.
 Install the package via Composer:
 
 ```bash
-composer require promethys/revive
+composer require promethys/revive:^1.0
 php artisan revive:install
 ```
 
