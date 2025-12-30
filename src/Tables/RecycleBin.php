@@ -216,10 +216,9 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
             RestoreAction::make('restore')
                 ->button()
                 ->visible(true)
-                ->requiresConfirmation()
                 ->modalHeading(__('revive::translations.tables.actions.restore.modal_heading'))
                 ->modalDescription(__('revive::translations.tables.actions.restore.modal_description'))
-                ->using(function ($record) {
+                ->action(function ($record) {
                     try {
                         $isRestored = $this->restoreModel($record);
 
@@ -250,7 +249,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 ->visible(true)
                 ->modalHeading(__('revive::translations.tables.actions.force_delete.modal_heading'))
                 ->modalDescription(__('revive::translations.tables.actions.force_delete.modal_description'))
-                ->using(function ($record) {
+                ->action(function ($record) {
                     try {
                         $isDeleted = $this->forceDeleteModel($record);
 
