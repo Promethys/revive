@@ -2,48 +2,52 @@
 
 return [
     'pages' => [
-        'title' => 'Tullantı qutusu',
+        'title' => 'Zibil qutusu',
     ],
     'tables' => [
         'empty_state' => [
-            'title' => 'Heç bir bərpa edilə bilən modeliniz yoxdur.',
-            'description' => 'Elementləri sildikdə, onlar bərpa etmək və ya həmişəlik silmək üçün burada görünəcək.',
+            'title' => 'Zibil qutusu boşdur',
+            'description' => 'Elementləri sildikdə, bərpa və ya daimi silmə üçün burada görünəcəklər.',
         ],
         'columns' => [
             'model_id' => 'Model ID',
-            'model_type' => 'Model Növü',
-            'deleted_by' => 'Tərəfindən silindi',
-            'deleted_at' => 'Silinmə Tarixi',
+            'model_type' => 'Model növü',
+            'deleted_by' => 'Silib',
+            'deleted_at' => 'Silinmə tarixi',
         ],
         'actions' => [
             'view_details' => [
-                'modal_heading' => 'Qeydin detalları',
+                'modal_heading' => 'Qeyd detalları',
             ],
             'restore' => [
-                'success_notification_title' => 'Model bərpa edildi',
-                'failure_notification_title' => 'Modeli bərpa etmək alınmadı',
+                'modal_heading' => 'Qeydi bərpa et',
+                'modal_description' => 'Bu qeydi bərpa etmək istədiyinizə əminsiniz? Qeyd əvvəlki yerinə qaytarılacaq.',
+                'success_notification_title' => 'Qeyd bərpa edildi',
+                'failure_notification_title' => 'Qeydi bərpa etmək mümkün olmadı',
             ],
             'force_delete' => [
-                'success_notification_title' => 'Model həmişəlik silindi',
-                'failure_notification_title' => 'Modeli həmişəlik silmək alınmadı',
+                'modal_heading' => 'Qeydi daimi sil',
+                'modal_description' => 'Bu qeydi daimi silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.',
+                'success_notification_title' => 'Qeyd daimi silindi',
+                'failure_notification_title' => 'Qeydi daimi silmək mümkün olmadı',
             ],
         ],
         'bulk_actions' => [
             'restore' => [
-                'success_notification_title' => '{1} Model uğurla bərpa edildi|[2,*] Bütün :count modellər uğurla bərpa edildi',
-                'success_notification_body' => '{1} Model bərpa edildi.|[2,*] Bütün :count modellər bərpa edildi.',
+                'success_notification_title' => '{1} Qeyd uğurla bərpa edildi|[2,*] Bütün :count qeydlər uğurla bərpa edildi',
+                'success_notification_body' => '{1} Qeyd bərpa edildi.|[2,*] Bütün :count qeydlər bərpa edildi.',
                 'warning_notification_title' => 'Bərpa qismən tamamlandı',
-                'warning_notification_body' => ':total modeldən :success bərpa edildi. :failed modeli bərpa etmək mümkün olmadı.',
+                'warning_notification_body' => ':total qeyddən :success bərpa edildi. :failed qeydi bərpa etmək mümkün olmadı.',
                 'failure_notification_title' => 'Bərpa uğursuz oldu',
-                'failure_notification_body' => '{1} Model bərpa edilə bilmədi.|[2,*] Heç bir :count model bərpa edilə bilmədi.',
+                'failure_notification_body' => '{1} Qeyd bərpa edilə bilmədi.|[2,*] :count qeyddən heç biri bərpa edilə bilmədi.',
             ],
             'force_delete' => [
-                'success_notification_title' => '{1} Model daimi silindi|[2,*] Bütün :count modellər daimi silindi',
-                'success_notification_body' => '{1} Model daimi silindi.|[2,*] Bütün :count modellər daimi silindi.',
-                'warning_notification_title' => 'Silinmə qismən tamamlandı',
-                'warning_notification_body' => 'Daimi silinmə :success modeldən :total modelə. :failed modeli silmək mümkün olmadı.',
-                'failure_notification_title' => 'Silinmə uğursuz oldu',
-                'failure_notification_body' => '{1} Model daimi silinə bilmədi.|[2,*] Heç bir :count model daimi silinə bilmədi.',
+                'success_notification_title' => '{1} Qeyd daimi silindi|[2,*] Bütün :count qeydlər daimi silindi',
+                'success_notification_body' => '{1} Qeyd daimi silindi.|[2,*] Bütün :count qeydlər daimi silindi.',
+                'warning_notification_title' => 'Silmə qismən tamamlandı',
+                'warning_notification_body' => ':total qeyddən :success silindi. :failed qeydi silmək mümkün olmadı.',
+                'failure_notification_title' => 'Silmə uğursuz oldu',
+                'failure_notification_body' => '{1} Qeyd daimi silinə bilmədi.|[2,*] :count qeyddən heç biri daimi silinə bilmədi.',
             ],
         ],
     ],

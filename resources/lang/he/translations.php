@@ -2,48 +2,52 @@
 
 return [
     'pages' => [
-        'title' => 'פח מחזור',
+        'title' => 'סל המיחזור',
     ],
     'tables' => [
         'empty_state' => [
-            'title' => 'אין לך אף מודל לשחזור.',
-            'description' => 'כאשר אתה מוחק פריטים, הם יופיעו כאן לשחזור או למחיקה לצמיתות.',
+            'title' => 'סל המיחזור ריק',
+            'description' => 'כאשר מוחקים פריטים, הם יופיעו כאן לשחזור או למחיקה לצמיתות.',
         ],
         'columns' => [
             'model_id' => 'מזהה מודל',
             'model_type' => 'סוג מודל',
             'deleted_by' => 'נמחק על ידי',
-            'deleted_at' => 'נמחק בתאריך',
+            'deleted_at' => 'תאריך מחיקה',
         ],
         'actions' => [
             'view_details' => [
-                'modal_heading' => 'פרטי רשומה',
+                'modal_heading' => 'פרטי הרשומה',
             ],
             'restore' => [
-                'success_notification_title' => 'המודל שוחזר',
-                'failure_notification_title' => 'שחזור המודל נכשל',
+                'modal_heading' => 'שחזור רשומה',
+                'modal_description' => 'האם אתה בטוח שברצונך לשחזר רשומה זו?',
+                'success_notification_title' => 'הרשומה שוחזרה',
+                'failure_notification_title' => 'השחזור נכשל',
             ],
             'force_delete' => [
-                'success_notification_title' => 'המודל נמחק לצמיתות',
-                'failure_notification_title' => 'מחיקה לצמיתות של המודל נכשלה',
+                'modal_heading' => 'מחיקה לצמיתות של רשומה',
+                'modal_description' => 'לא ניתן לבטל פעולה זו.',
+                'success_notification_title' => 'הרשומה נמחקה לצמיתות',
+                'failure_notification_title' => 'המחיקה לצמיתות נכשלה',
             ],
         ],
         'bulk_actions' => [
             'restore' => [
-                'success_notification_title' => '{1} המודל שוחזר בהצלחה|[2,*] כל :count המודלים שוחזרו בהצלחה',
-                'success_notification_body' => '{1} המודל שוחזר.|[2,*] כל :count המודלים שוחזרו.',
-                'warning_notification_title' => 'השחזור הושלם חלקית',
-                'warning_notification_body' => 'שוחזרו :success מתוך :total מודלים. לא ניתן היה לשחזר :failed מודלים.',
+                'success_notification_title' => '{1} הרשומה שוחזרה|[2,*] כל :count הרשומות שוחזרו',
+                'success_notification_body' => '{1} הרשומה שוחזרה.|[2,*] כל :count הרשומות שוחזרו.',
+                'warning_notification_title' => 'שחזור חלקי',
+                'warning_notification_body' => 'שוחזרו :success מתוך :total רשומות. :failed נכשלו.',
                 'failure_notification_title' => 'השחזור נכשל',
-                'failure_notification_body' => '{1} לא ניתן היה לשחזר את המודל.|[2,*] אף אחד מ־:count המודלים לא שוחזר.',
+                'failure_notification_body' => '{1} הרשומה לא שוחזרה.|[2,*] אף אחת מ־:count הרשומות לא שוחזרה.',
             ],
             'force_delete' => [
-                'success_notification_title' => '{1} המודל נמחק לצמיתות|[2,*] כל :count המודלים נמחקו לצמיתות',
-                'success_notification_body' => '{1} המודל נמחק לצמיתות.|[2,*] כל :count המודלים נמחקו לצמיתות.',
-                'warning_notification_title' => 'המחיקה הושלמה חלקית',
-                'warning_notification_body' => 'נמחקו לצמיתות :success מתוך :total מודלים. לא ניתן היה למחוק :failed מודלים.',
+                'success_notification_title' => '{1} הרשומה נמחקה לצמיתות|[2,*] כל :count הרשומות נמחקו לצמיתות',
+                'success_notification_body' => '{1} הרשומה נמחקה לצמיתות.|[2,*] כל :count הרשומות נמחקו לצמיתות.',
+                'warning_notification_title' => 'מחיקה חלקית',
+                'warning_notification_body' => 'נמחקו :success מתוך :total רשומות. :failed נכשלו.',
                 'failure_notification_title' => 'המחיקה נכשלה',
-                'failure_notification_body' => '{1} לא ניתן היה למחוק לצמיתות את המודל.|[2,*] אף אחד מ־:count המודלים לא נמחק לצמיתות.',
+                'failure_notification_body' => '{1} הרשומה לא נמחקה לצמיתות.|[2,*] אף אחת מ־:count הרשומות לא נמחקה.',
             ],
         ],
     ],

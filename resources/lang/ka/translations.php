@@ -2,17 +2,17 @@
 
 return [
     'pages' => [
-        'title' => 'ნაგულისყენი ურნა',
+        'title' => 'ნაგვის ყუთი',
     ],
     'tables' => [
         'empty_state' => [
-            'title' => 'არ გაქვთ გადამუშავებადი მოდელი.',
-            'description' => 'როდესაც ელემენტებს წაშლით, ისინი აქ გამოჩნდება აღდგენის ან სამუდამოდ წაშლისთვის.',
+            'title' => 'ნაგვის ყუთი ცარიელია',
+            'description' => 'წაშლილი ელემენტები აქ გამოჩნდება აღდგენის ან სამუდამოდ წაშლისთვის.',
         ],
         'columns' => [
             'model_id' => 'მოდელის ID',
             'model_type' => 'მოდელის ტიპი',
-            'deleted_by' => 'წაშლილია მიერ',
+            'deleted_by' => 'წაშალა',
             'deleted_at' => 'წაშლის თარიღი',
         ],
         'actions' => [
@@ -20,30 +20,34 @@ return [
                 'modal_heading' => 'ჩანაწერის დეტალები',
             ],
             'restore' => [
-                'success_notification_title' => 'მოდელი აღდგა',
-                'failure_notification_title' => 'მოდელის აღდგენა ვერ მოხერხდა',
+                'modal_heading' => 'ჩანაწერის აღდგენა',
+                'modal_description' => 'დარწმუნებული ხართ, რომ გსურთ ამ ჩანაწერის აღდგენა? ჩანაწერი დაბრუნდება საწყის მდებარეობაზე.',
+                'success_notification_title' => 'ჩანაწერი აღდგენილია',
+                'failure_notification_title' => 'ჩანაწერის აღდგენა ვერ მოხერხდა',
             ],
             'force_delete' => [
-                'success_notification_title' => 'მოდელი სამუდამოდ წაიშალა',
-                'failure_notification_title' => 'მოდელის სამუდამო წაშლა ვერ მოხერხდა',
+                'modal_heading' => 'ჩანაწერის სამუდამოდ წაშლა',
+                'modal_description' => 'დარწმუნებული ხართ, რომ გსურთ ამ ჩანაწერის სამუდამოდ წაშლა? ეს ქმედება შეუქცევადია და ჩანაწერი სრულად წაიშლება მონაცემთა ბაზიდან.',
+                'success_notification_title' => 'ჩანაწერი სამუდამოდ წაიშალა',
+                'failure_notification_title' => 'ჩანაწერის სამუდამოდ წაშლა ვერ მოხერხდა',
             ],
         ],
         'bulk_actions' => [
             'restore' => [
-                'success_notification_title' => '{1} მოდელი წარმატებით აღდგა|[2,*] ყველა :count მოდელი წარმატებით აღდგა',
-                'success_notification_body' => '{1} მოდელი აღდგა.|[2,*] ყველა :count მოდელი აღდგა.',
+                'success_notification_title' => '{1} ჩანაწერი წარმატებით აღდგენილია|[2,*] ყველა :count ჩანაწერი წარმატებით აღდგენილია',
+                'success_notification_body' => '{1} ჩანაწერი აღდგენილია|[2,*] ყველა :count ჩანაწერი აღდგენილია',
                 'warning_notification_title' => 'აღდგენა ნაწილობრივ დასრულდა',
-                'warning_notification_body' => ':total მოდელიდან :success აღდგა. :failed მოდელის აღდგენა ვერ მოხერხდა.',
+                'warning_notification_body' => 'აღდგენილია :success ჩანაწერი :total-დან. :failed ჩანაწერის აღდგენა ვერ მოხერხდა.',
                 'failure_notification_title' => 'აღდგენა ვერ მოხერხდა',
-                'failure_notification_body' => '{1} მოდელის აღდგენა ვერ მოხერხდა.|[2,*] :count მოდელიდან ვერაფერი აღდგა.',
+                'failure_notification_body' => '{1} ჩანაწერის აღდგენა ვერ მოხერხდა|[2,*] :count ჩანაწერიდან არც ერთი არ აღდგენილა',
             ],
             'force_delete' => [
-                'success_notification_title' => '{1} მოდელი სამუდამოდ წაიშალა|[2,*] ყველა :count მოდელი სამუდამოდ წაიშალა',
-                'success_notification_body' => '{1} მოდელი სამუდამოდ წაიშალა.|[2,*] ყველა :count მოდელი სამუდამოდ წაიშალა.',
+                'success_notification_title' => '{1} ჩანაწერი სამუდამოდ წაიშალა|[2,*] ყველა :count ჩანაწერი სამუდამოდ წაიშალა',
+                'success_notification_body' => '{1} ჩანაწერი სამუდამოდ წაიშალა|[2,*] ყველა :count ჩანაწერი სამუდამოდ წაიშალა',
                 'warning_notification_title' => 'წაშლა ნაწილობრივ დასრულდა',
-                'warning_notification_body' => ':total მოდელიდან :success სამუდამოდ წაიშალა. :failed მოდელი ვერ წაიშალა.',
+                'warning_notification_body' => 'სამუდამოდ წაიშალა :success ჩანაწერი :total-დან. :failed ჩანაწერის წაშლა ვერ მოხერხდა.',
                 'failure_notification_title' => 'წაშლა ვერ მოხერხდა',
-                'failure_notification_body' => '{1} მოდელი სამუდამოდ ვერ წაიშალა.|[2,*] :count მოდელიდან ვერაფერი წაიშალა.',
+                'failure_notification_body' => '{1} ჩანაწერის სამუდამოდ წაშლა ვერ მოხერხდა|[2,*] :count ჩანაწერიდან არც ერთი არ წაიშალა',
             ],
         ],
     ],
