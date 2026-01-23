@@ -18,8 +18,9 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 
 ## Release Strategy
 
-- **V1.x**: Maintenance mode - critical bug fixes only
-- **V2.x**: Active development - new features, improvements
+- **V1.x**: Legacy - Filament v3 (critical bug fixes only)
+- **V2.x**: Maintenance mode - Filament v4
+- **V3.x**: Active development - Filament v5
 
 ---
 
@@ -29,25 +30,37 @@ This plugin is especially useful for SaaS applications, admin dashboards, or any
 - Register multiple models as "Recyclable" with a simple trait
 - Filter items by model type or search through deleted records
 - Customize the plugin's appearance and behavior with ease
-- **User and multi-tenancy support (V2)**
-- **Filament V4 support (V2)**
+- State snapshots - stores model data at deletion time for reference
+- Discover existing soft-deleted records with CLI command
+- User and multi-tenancy support **(V2+)**
 
 ---
 
 ## Installation
 
-### Latest Version (V2 - Recommended - Filament v4)
+### Latest Version (V3 - Recommended - Filament v5)
 
-Install the latest version with user and multi-tenancy support:
+Install the latest version for Filament v5:
 
 ```bash
 composer require promethys/revive
 php artisan revive:install
 ```
 
+> **Requirements:** PHP 8.2+, Laravel 11+, Filament v5
+
+### Version 2 (for Filament v4)
+
+If you need to install V2 for Filament v4:
+
+```bash
+composer require promethys/revive:^2.0
+php artisan revive:install
+```
+
 ### Version 1 (for Filament v3)
 
-If you need to install V1 (without user/tenant scoping):
+If you need to install V1 for Filament v3:
 
 ```bash
 composer require promethys/revive:^1.0
@@ -63,6 +76,23 @@ php artisan vendor:publish --tag="revive-migrations"
 php artisan migrate
 ```
 
+### Upgrading from V2 to V3
+
+If you're currently using V2 and want to upgrade to V3 for Filament v5:
+
+```bash
+# 1. Ensure you have PHP 8.2+, Laravel 11/12, and Filament v5
+
+# 2. Update your composer constraint
+composer require promethys/revive:^3.0
+
+# 3. Clear caches
+php artisan config:clear
+php artisan cache:clear
+```
+
+> **Note:** V3 has no database schema changes from V2. The upgrade primarily involves compatibility with Filament v5's API changes.
+
 ### Upgrading from V1 to V2
 
 If you're currently using V1 and want to upgrade to V2:
@@ -75,7 +105,7 @@ composer require promethys/revive:^2.0
 php artisan vendor:publish --tag="revive-migrations"
 php artisan migrate
 
-# 3. Update your plugin configuration (see Migration guide below)
+# 3. Update your plugin configuration (see Configuration section below)
 ```
 
 
@@ -111,9 +141,9 @@ $panel->plugins([
 ]);
 ```
 
-### User and Multi-Tenancy Configuration (V2)
+### User and Multi-Tenancy Configuration
 
-**V2** introduces powerful scoping features that allow users to see only their own deleted items or items within their tenant/organization:
+Revive provides powerful scoping features that allow users to see only their own deleted items or items within their tenant/organization:
 
 ```php
 use Promethys\Revive\RevivePlugin;
@@ -247,7 +277,7 @@ class Post extends Model
 
 > ℹ️ **Important:** Adding the `Recyclable` trait without using `SoftDeletes` will throw an exception.
 
-### 2. Advanced User Scoping (V2)
+### 2. Advanced User Scoping
 
 #### Custom User and Tenant Detection
 
@@ -336,7 +366,7 @@ This command will:
 php artisan revive:discover-soft-deleted --dry-run
 ```
 
-**Include user/tenant scoping information (V2):**
+**Include user/tenant scoping information:**
 ```bash
 php artisan revive:discover-soft-deleted --with-scope
 ```
@@ -402,7 +432,7 @@ Instead, you can render the Livewire component directly in a Blade view:
 @livewire(\Promethys\Revive\Tables\RecycleBin::class)
 ```
 
-### Advanced Usage with Scoping (V2)
+### Advanced Usage with Scoping
 
 ```php
 <!-- User-scoped recycle bin -->
@@ -662,7 +692,7 @@ RevivePlugin::make()
     });
 ```
 
-> If you use the Tenant scoping of the plugin, please check the Filament [Multi-tenancy security section](https://filamentphp.com/docs/4.x/users/tenancy#tenancy-security) to understand the security implications of multi-tenancy and how to properly implement it.
+> If you use the Tenant scoping of the plugin, please check the Filament [Multi-tenancy security section](https://filamentphp.com/docs/5.x/users/tenancy#tenancy-security) to understand the security implications of multi-tenancy and how to properly implement it.
 
 ---
 
@@ -673,7 +703,7 @@ If you encounter a bug or unexpected behavior, please help us help you by follow
 * **[Create an issue on GitHub](https://github.com/Promethys/revive/issues)**: Create an issue on GitHub
 * **Describe the issue clearly:** What did you try to do? What did you expect to happen? What actually happened?
 * **Include relevant code snippets:** Show any relevant model, config, or page setup related to the issue.
-* **Share error messages:** If possible, paste the full error output or stack trace.
+* **Share error messages:** The plugin logs many thown Exception. If possible, paste the full error output or stack trace in your default logging channel. 
 * **Attach screenshots:** Visuals often help us understand UI-related bugs or logic problems more quickly.
 * **Mention your setup:** Let us know your PHP version, Laravel version, Filament version, and the version of this plugin.
 
