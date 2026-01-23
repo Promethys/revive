@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Promethys\Revive\Models\RecycleBinItem;
 
+/** @phpstan-ignore trait.unused (Recyclable trait can be used by Models that requires the plugin) */
 trait Recyclable
 {
     public static function bootRecyclable(): void
