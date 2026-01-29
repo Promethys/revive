@@ -12,6 +12,7 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Tables\Columns\TextColumn;
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Promethys\Revive\Models\RecycleBinItem;
 
@@ -82,7 +84,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $this->enableTenantScoping = $enableTenantScoping;
 
         // Auto-detect current user and tenant if not provided
-        if (! $this->showAllRecords) {
+        if (!$this->showAllRecords) {
             if ($this->user === null && $this->enableUserScoping) {
                 $this->user = Auth::user();
             }
@@ -117,18 +119,18 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $query = RecycleBinItem::query();
 
         // Apply model filtering
-        if (! empty($this->models)) {
+        if (!empty($this->models)) {
             $query->whereIn('model_type', $this->models);
         }
 
         // Apply user scoping
-        if (! $this->showAllRecords && $this->enableUserScoping && $this->user) {
+        if (!$this->showAllRecords && $this->enableUserScoping && $this->user) {
             $userId = is_object($this->user) ? $this->user->getKey() : $this->user;
             $query->where('deleted_by', $userId);
         }
 
         // Apply tenant scoping
-        if (! $this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
+        if (!$this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
             $tenantId = is_object($this->tenant) ? $this->tenant->getKey() : $this->tenant;
             $query->where('tenant_id', $tenantId);
         }
@@ -154,7 +156,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 ->label(__('revive::translations.tables.columns.deleted_by'))
                 ->getStateUsing(function (RecycleBinItem $record) {
                     /** @phpstan-ignore property.notFound (Eloquent false positive) */
-                    if (! $record->deleted_by) {
+                    if (!$record->deleted_by) {
                         return null;
                     }
 
@@ -170,7 +172,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                     return "User #{$record->deleted_by}";
                 })
                 ->placeholder('N/A')
-                ->visible(fn () => $this->showAllRecords || ! $this->enableUserScoping),
+                ->visible(fn() => $this->showAllRecords || !$this->enableUserScoping),
 
             TextColumn::make('deleted_at')
                 ->label(__('revive::translations.tables.columns.deleted_at'))
@@ -210,9 +212,11 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
             ViewAction::make('view_details')
                 ->button()
                 ->modalHeading(__('revive::translations.tables.actions.view_details.modal_heading'))
-                ->schema([
-                    KeyValueEntry::make('state'),
-                ]),
+                ->schema(fn($record) => $this->buildStateSchema(
+                    $this->normalizeState($record->state),
+                    $this->formatLabel(class_basename($record->model_type))
+                ))
+                ->slideOver(),
             RestoreAction::make('restore')
                 ->button()
                 ->visible(true)
@@ -371,6 +375,126 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
     protected function forceDeleteModel($record)
     {
         return $record->model?->forceDelete();
+    }
+
+    protected function normalizeState(mixed $state): array
+    {
+        if (is_string($state)) {
+            $decoded = json_decode($state, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                return $decoded;
+            }
+
+            return ['value' => $state];
+        }
+
+        if (is_array($state)) {
+            return $state;
+        }
+
+        if (is_object($state)) {
+            return (array) $state;
+        }
+
+        return ['value' => $state];
+    }
+
+    private function buildStateSchema(array $data, string $label): array
+    {
+        [$scalars, $nested] = $this->splitScalarAndNested($data);
+
+        $components = [];
+
+        if ($scalars !== []) {
+            $components[] = KeyValueEntry::make('state_' . Str::slug($label))
+                ->label($label)
+                ->getStateUsing(fn() => $scalars);
+        }
+
+        foreach ($nested as $key => $value) {
+            $nestedLabel = $this->formatLabel($key);
+
+            if ($this->isListArray($value)) {
+                $itemSections = [];
+                foreach ($value as $i => $item) {
+                    $itemArray = is_array($item) ? $item : (is_object($item) ? (array) $item : ['value' => $item]);
+                    $itemSections[] = Section::make("#{$i}")
+                        ->schema($this->buildStateSchema($itemArray, $nestedLabel))
+                        ->collapsed();
+                }
+
+                $components[] = Section::make($nestedLabel)
+                    ->schema($itemSections)
+                    ->collapsed();
+
+                continue;
+            }
+
+            $valueArray = is_array($value) ? $value : (array) $value;
+
+            $components[] = Section::make($nestedLabel)
+                ->schema($this->buildStateSchema($valueArray, $nestedLabel))
+                ->collapsed();
+        }
+
+        return $components;
+    }
+
+    private function splitScalarAndNested(array $data): array
+    {
+        $scalars = [];
+        $nested = [];
+
+        foreach ($data as $key => $value) {
+            $k = is_int($key) ? "#{$key}" : $key;
+
+            if (is_null($value)) {
+                $scalars[$k] = '—';
+
+                continue;
+            }
+
+            if (is_bool($value)) {
+                $scalars[$k] = $value ? __('Yes') : __('No');
+
+                continue;
+            }
+
+            if (is_scalar($value)) {
+                $scalars[$k] = (string) $value;
+
+                continue;
+            }
+
+            if (is_object($value)) {
+                $value = (array) $value;
+            }
+
+            if (is_array($value)) {
+                if ($value === []) {
+                    $scalars[$k] = '—';
+                } else {
+                    $nested[$k] = $value;
+                }
+
+                continue;
+            }
+
+            // unknown type
+            $scalars[$k] = '-';
+        }
+
+        return [$scalars, $nested];
+    }
+
+    private function isListArray(array $value): bool
+    {
+        return array_keys($value) === range(0, count($value) - 1);
+    }
+
+    private function formatLabel(mixed $value): string
+    {
+        return __(Str::of((string) $value)->headline()->lower()->ucfirst()->toString());
     }
 
     public function render()
