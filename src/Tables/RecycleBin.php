@@ -84,7 +84,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $this->enableTenantScoping = $enableTenantScoping;
 
         // Auto-detect current user and tenant if not provided
-        if (!$this->showAllRecords) {
+        if (! $this->showAllRecords) {
             if ($this->user === null && $this->enableUserScoping) {
                 $this->user = Auth::user();
             }
@@ -119,18 +119,18 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         $query = RecycleBinItem::query();
 
         // Apply model filtering
-        if (!empty($this->models)) {
+        if (! empty($this->models)) {
             $query->whereIn('model_type', $this->models);
         }
 
         // Apply user scoping
-        if (!$this->showAllRecords && $this->enableUserScoping && $this->user) {
+        if (! $this->showAllRecords && $this->enableUserScoping && $this->user) {
             $userId = is_object($this->user) ? $this->user->getKey() : $this->user;
             $query->where('deleted_by', $userId);
         }
 
         // Apply tenant scoping
-        if (!$this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
+        if (! $this->showAllRecords && $this->enableTenantScoping && $this->tenant) {
             $tenantId = is_object($this->tenant) ? $this->tenant->getKey() : $this->tenant;
             $query->where('tenant_id', $tenantId);
         }
@@ -156,7 +156,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                 ->label(__('revive::translations.tables.columns.deleted_by'))
                 ->getStateUsing(function (RecycleBinItem $record) {
                     /** @phpstan-ignore property.notFound (Eloquent false positive) */
-                    if (!$record->deleted_by) {
+                    if (! $record->deleted_by) {
                         return null;
                     }
 
@@ -172,7 +172,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
                     return "User #{$record->deleted_by}";
                 })
                 ->placeholder('N/A')
-                ->visible(fn() => $this->showAllRecords || !$this->enableUserScoping),
+                ->visible(fn () => $this->showAllRecords || ! $this->enableUserScoping),
 
             TextColumn::make('deleted_at')
                 ->label(__('revive::translations.tables.columns.deleted_at'))
@@ -212,7 +212,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
             ViewAction::make('view_details')
                 ->button()
                 ->modalHeading(__('revive::translations.tables.actions.view_details.modal_heading'))
-                ->schema(fn($record) => $this->buildStateSchema(
+                ->schema(fn ($record) => $this->buildStateSchema(
                     $this->normalizeState($record->state),
                     $this->formatLabel(class_basename($record->model_type))
                 ))
@@ -408,7 +408,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
         if ($scalars !== []) {
             $components[] = KeyValueEntry::make('state_' . Str::slug($label))
                 ->label($label)
-                ->getStateUsing(fn() => $scalars);
+                ->getStateUsing(fn () => $scalars);
         }
 
         foreach ($nested as $key => $value) {
