@@ -107,6 +107,7 @@ class ReviveServiceProvider extends PackageServiceProvider
 
     protected function registerLivewireComponents(): void
     {
+        /** @phpstan-ignore staticMethod.notFound (False positive) */
         Livewire::addNamespace(
             'revive',
             classNamespace: 'Promethys\\Revive',
