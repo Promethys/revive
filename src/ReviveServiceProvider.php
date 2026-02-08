@@ -107,6 +107,10 @@ class ReviveServiceProvider extends PackageServiceProvider
 
     protected function registerLivewireComponents(): void
     {
+        Livewire::addNamespace('revive',
+            classNamespace: 'Promethys\\Revive',
+        );
+
         Livewire::component('revive::pages.recycle-bin', RecycleBinPage::class);
         Livewire::component('revive::tables.recycle-bin', RecycleBinTable::class);
     }

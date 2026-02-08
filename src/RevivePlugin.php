@@ -18,7 +18,7 @@ final class RevivePlugin implements Plugin
 
     protected string $page = RecycleBinPage::class;
 
-    protected string $table = RecycleBinTable::class; // raw value 'revive::tables.recycle-bin'
+    protected string $table = RecycleBinTable::class;
 
     protected string | Closure | null $navigationGroup = null;
 
