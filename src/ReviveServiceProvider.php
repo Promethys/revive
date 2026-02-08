@@ -107,7 +107,8 @@ class ReviveServiceProvider extends PackageServiceProvider
 
     protected function registerLivewireComponents(): void
     {
-        Livewire::addNamespace('revive',
+        Livewire::addNamespace(
+            'revive',
             classNamespace: 'Promethys\\Revive',
         );
 
