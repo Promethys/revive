@@ -6,7 +6,6 @@ use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
-use Livewire\Component;
 use Promethys\Revive\Pages\RecycleBin as RecycleBinPage;
 use Promethys\Revive\Tables\RecycleBin as RecycleBinTable;
 
