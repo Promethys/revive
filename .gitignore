@@ -4,6 +4,7 @@
 .vscode
 build
 composer.lock
+package-lock.json
 coverage
 docs
 node_modules
