@@ -81,7 +81,7 @@ php artisan migrate
 If you're currently using V2 and want to upgrade to V3 for Filament v5:
 
 ```bash
-# 1. Ensure you have PHP 8.2+, Laravel 11/12, and Filament v5
+# 1. Ensure you have PHP 8.2+, Laravel 11+, and Filament v5
 
 # 2. Update your composer constraint
 composer require promethys/revive:^3.0
