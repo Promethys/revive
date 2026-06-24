@@ -13,13 +13,22 @@ use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\LivewireServiceProvider;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Promethys\Revive\ReviveServiceProvider;
+use Promethys\Revive\Tests\Traits\InteractsWithReviveDatabase;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
+use function Orchestra\Testbench\workbench_path; 
+
+#[WithMigration]
 class TestCase extends Orchestra
 {
+    use InteractsWithReviveDatabase;
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -48,13 +57,25 @@ class TestCase extends Orchestra
         ];
     }
 
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom([
+            workbench_path('database/migrations'),
+        ]);
+    }
+
+    /**
+     * Perform any work that should take place once the database has finished refreshing.
+     *
+     * @return void
+     */
+    protected function afterRefreshingDatabase()
+    {
+        $this->runReviveMigrations();
+    }
+
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_revive_table.php.stub';
-        $migration->up();
-        */
     }
 }

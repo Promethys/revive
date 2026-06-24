@@ -45,7 +45,7 @@ trait Recyclable
 
         static::forceDeleted(function ($model) {
             RecycleBinItem::where('model_id', $model->getKey())
-                ->where('model_type', get_class($model))
+                ->where('model_type', $model->getMorphClass())
                 ->first()
                 ?->delete();
 
@@ -53,7 +53,10 @@ trait Recyclable
         });
 
         static::restored(function ($model) {
-            $model->recycleBinItem?->delete();
+            RecycleBinItem::where('model_id', $model->getKey())
+                ->where('model_type', $model->getMorphClass())
+                ->first()
+                ?->delete();
 
             Log::info("Restored {$model->getTable()} #{$model->id}");
         });
