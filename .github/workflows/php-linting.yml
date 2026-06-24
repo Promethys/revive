@@ -18,3 +18,4 @@ jobs:
           preset: laravel
           verboseMode: true
           testMode: true
+          configPath: pint.json

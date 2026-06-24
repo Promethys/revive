@@ -2,16 +2,26 @@
 
 namespace Promethys\Revive\Tests\Feature\Concerns;
 
+use Carbon\Carbon;
+use Filament\Facades\Filament;
+use Filament\Panel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Promethys\Revive\Models\RecycleBinItem;
+use Promethys\Revive\RevivePlugin;
 use Promethys\Revive\Tests\TestCase;
+use Promethys\Revive\Tests\Traits\InteractsWithPanel;
 use Workbench\App\Models\Migration;
+use Workbench\App\Models\Team;
 use Workbench\App\Models\User;
+use Workbench\Database\Factories\PostFactory;
+use Workbench\Database\Factories\TeamFactory;
 use Workbench\Database\Factories\UserFactory;
 
 class RecyclableTest extends TestCase
 {
+    use InteractsWithPanel;
+
     public function test_recycle_bin_items_table_is_created_by_migration()
     {
         $this->assertTrue(Schema::hasTable('recycle_bin_items'));
@@ -50,16 +60,6 @@ class RecyclableTest extends TestCase
         $this->assertInstanceOf(RecycleBinItem::class, $user->recycleBinItem);
     }
 
-    // public function test_deleting_a_recyclable_model_logs_event()
-    // {
-    //     $user = UserFactory::new()->create();
-
-    //     $user->delete();
-
-    //     Log::shouldReceive('info')
-    //         ->with("Deleted {$user->getTable()} #{$user->id}");
-    // }
-
     public function test_force_deleting_a_recyclable_model_does_not_create_a_recycle_bin_item()
     {
         $user = UserFactory::new()->create();
@@ -97,37 +97,185 @@ class RecyclableTest extends TestCase
         $this->assertNull($user->recycleBinItem);
     }
 
-    // public function test_deleting_stores_a_state_snapshot_of_the_model(){}
+    public function test_deleting_stores_a_state_snapshot_of_the_model()
+    {
+        $user = UserFactory::new()->create();
+        $user->delete();
 
-    // public function test_deleting_stores_the_deleted_at_timestamp(){}
+        $this->assertDatabaseHas('recycle_bin_items', [
+            'model_id' => $user->id,
+            'model_type' => $user->getMorphClass(),
+        ]);
+        $this->assertArrayHasKey('name', $user->recycleBinItem->state);
+        $this->assertArrayHasKey('email', $user->recycleBinItem->state);
+        $this->assertContains($user->name, $user->recycleBinItem->state);
+        $this->assertContains($user->email, $user->recycleBinItem->state);
+    }
 
-    // public function test_force_deleting_an_already_trashed_model_removes_its_recycle_bin_item(){}
+    public function test_deleting_stores_the_deleted_at_timestamp()
+    {
+        $user = UserFactory::new()->create();
+        $user->delete();
 
-    // public function test_deleting_records_the_authenticated_user_as_deleted_by(){}
+        $recycleBinItem = RecycleBinItem::where('model_id', $user->id)
+            ->where('model_type', $user->getMorphClass())
+            ->first();
 
-    // public function test_deleting_records_deleted_by_from_the_model_attribute(){}
+        $this->assertNotNull($recycleBinItem->deleted_at);
+        $this->assertInstanceOf(Carbon::class, $recycleBinItem->deleted_at);
+        $this->assertTrue($recycleBinItem->deleted_at->isPast());
+    }
 
-    // public function test_deleting_falls_back_to_user_id_attribute_for_deleted_by(){}
+    public function test_force_deleting_an_already_trashed_model_removes_its_recycle_bin_item()
+    {
+        $user = UserFactory::new()->create();
+        $user->delete();
 
-    // public function test_get_deleted_by_user_can_be_overridden_by_the_model(){}
+        $this->assertDatabaseHas('recycle_bin_items', [
+            'model_id' => $user->id,
+            'model_type' => $user->getMorphClass(),
+        ]);
 
-    // public function test_trait_can_get_user_who_deleted_the_model(){}
+        $user->forceDelete();
 
-    // public function test_deleting_records_the_tenant_id_attribute(){}
+        $this->assertNull($user->recycleBinItem);
+        $this->assertDatabaseMissing('recycle_bin_items', [
+            'model_id' => $user->id,
+            'model_type' => $user->getMorphClass(),
+        ]);
+    }
 
-    // public function test_deleting_falls_back_to_team_id_attribute_for_tenant(){}
+    public function test_deleting_records_the_authenticated_user_as_deleted_by()
+    {
+        $this->actingAs(UserFactory::new()->create());
+        $post = PostFactory::new()->create(['user_id' => null]);
 
-    // public function test_deleting_records_the_current_filament_tenant_id(){}
+        $post->delete();
 
-    // public function test_get_tenant_id_can_be_overridden_by_the_model(){}
+        $this->assertEquals(auth()->id(), $post->recycleBinItem->deleted_by);
+    }
 
-    // public function test_trait_can_get_the_tenant_id(){}
+    public function test_deleting_records_deleted_by_from_the_model_attribute()
+    {
+        $post = PostFactory::new()->create();
+        $post->deleted_by = 999;
 
-    // public function test_deleting_a_recyclable_model_logs_event(){}
+        $post->delete();
 
-    // public function test_force_deleting_a_recyclable_model_logs_event(){}
+        $this->assertEquals(999, $post->recycleBinItem->deleted_by);
+    }
 
-    // public function test_restoring_a_recyclable_model_logs_event(){}
+    public function test_deleting_falls_back_to_user_id_attribute_for_deleted_by()
+    {
+        $post = PostFactory::new()->create(['user_id' => 999]);
 
-    // public function test_recycle_bin_query_scope_returns_only_trashed_records(){}
+        $post->delete();
+
+        $this->assertEquals(999, $post->recycleBinItem->deleted_by);
+    }
+
+    public function test_trait_can_get_user_who_deleted_the_model()
+    {
+        $this->actingAs(UserFactory::new()->create());
+        $post = PostFactory::new()->create(['user_id' => auth()->id()]);
+
+        $post->delete();
+
+        $this->assertEquals(auth()->id(), $post->getDeletedByUser());
+    }
+
+    public function test_deleting_records_the_tenant_id_attribute()
+    {
+        $user = UserFactory::new()->create();
+        $user->tenant_id = 999;
+
+        $user->delete();
+
+        $this->assertEquals(999, $user->recycleBinItem->tenant_id);
+    }
+
+    public function test_deleting_falls_back_to_team_id_attribute_for_tenant()
+    {
+        $user = UserFactory::new()->create(['team_id' => 999]);
+
+        $user->delete();
+
+        $this->assertEquals(999, $user->recycleBinItem->tenant_id);
+    }
+
+    public function test_deleting_records_the_current_filament_tenant_id()
+    {
+        $this->registerPanel(Panel::make()
+            ->default()
+            ->tenant(Team::class)
+            ->plugins([
+                RevivePlugin::make(),
+            ]));
+
+        $team = TeamFactory::new()->create();
+
+        $this->actingAs(UserFactory::new()->create(['team_id' => $team->id]));
+        Filament::setTenant($team);
+
+        $post = PostFactory::new()->create(['user_id' => auth()->id()]);
+
+        $post->delete();
+
+        $this->assertEquals($team->id, $post->recycleBinItem->tenant_id);
+    }
+
+    public function test_trait_can_get_the_tenant_id()
+    {
+        $team = TeamFactory::new()->create();
+        $user = UserFactory::new()->create(['team_id' => $team->id]);
+        $user->delete();
+
+        $this->assertEquals($user->team?->id, $user->getTenantId());
+    }
+
+    public function test_deleting_a_recyclable_model_logs_event()
+    {
+        $user = UserFactory::new()->create();
+
+        Log::shouldReceive('info')
+            ->once()
+            ->with("Deleted {$user->getTable()} #{$user->id}");
+
+        $user->delete();
+    }
+
+    public function test_force_deleting_a_recyclable_model_logs_event()
+    {
+        $user = UserFactory::new()->create();
+
+        Log::shouldReceive('info')
+            ->once()
+            ->with("Permanently deleted {$user->getTable()} #{$user->id}");
+
+        $user->forceDelete();
+    }
+
+    public function test_restoring_a_recyclable_model_logs_event()
+    {
+        $user = UserFactory::new()->create();
+        $user->delete();
+
+        Log::shouldReceive('info')
+            ->once()
+            ->with("Restored {$user->getTable()} #{$user->id}");
+
+        $user->restore();
+    }
+
+    public function test_recycle_bin_query_scope_returns_only_trashed_records()
+    {
+        $user1 = UserFactory::new()->create();
+        $user2 = UserFactory::new()->create();
+
+        $user1->delete();
+
+        $this->assertEquals(1, User::recycleBinQuery()->count());
+        $this->assertEquals($user1->id, User::recycleBinQuery()->first()?->id);
+        $this->assertNull(User::recycleBinQuery()->where('id', $user2->id)->first());
+    }
 }
