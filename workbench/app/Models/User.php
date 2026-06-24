@@ -13,7 +13,10 @@ use Workbench\Database\Factories\UserFactory;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, Recyclable;
+    use HasFactory;
+    use Notifiable;
+    use Recyclable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

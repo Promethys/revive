@@ -2,7 +2,6 @@
 
 namespace Promethys\Revive\Tests\Feature\Concerns;
 
-use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Promethys\Revive\Models\RecycleBinItem;
@@ -39,14 +38,14 @@ class RecyclableTest extends TestCase
 
         $this->assertDatabaseMissing('recycle_bin_items', [
             'model_id' => $user->id,
-            'model_type' => $user->getMorphClass()
+            'model_type' => $user->getMorphClass(),
         ]);
 
         $user->delete();
 
         $this->assertDatabaseHas('recycle_bin_items', [
             'model_id' => $user->id,
-            'model_type' => $user->getMorphClass()
+            'model_type' => $user->getMorphClass(),
         ]);
         $this->assertInstanceOf(RecycleBinItem::class, $user->recycleBinItem);
     }
@@ -67,14 +66,14 @@ class RecyclableTest extends TestCase
 
         $this->assertDatabaseMissing('recycle_bin_items', [
             'model_id' => $user->id,
-            'model_type' => $user->getMorphClass()
+            'model_type' => $user->getMorphClass(),
         ]);
 
         $user->forceDelete();
 
         $this->assertDatabaseMissing('recycle_bin_items', [
             'model_id' => $user->id,
-            'model_type' => $user->getMorphClass()
+            'model_type' => $user->getMorphClass(),
         ]);
         $this->assertNull($user->recycleBinItem);
     }
@@ -86,14 +85,14 @@ class RecyclableTest extends TestCase
 
         $this->assertDatabaseHas('recycle_bin_items', [
             'model_id' => $user->id,
-            'model_type' => $user->getMorphClass()
+            'model_type' => $user->getMorphClass(),
         ]);
 
         $user->restore();
 
         $this->assertDatabaseMissing('recycle_bin_items', [
             'model_id' => $user->id,
-            'model_type' => $user->getMorphClass()
+            'model_type' => $user->getMorphClass(),
         ]);
         $this->assertNull($user->recycleBinItem);
     }

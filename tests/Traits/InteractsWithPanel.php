@@ -29,7 +29,7 @@ trait InteractsWithPanel
         $this->registerPanel(Panel::make()
             ->default()
             ->plugins([
-                RevivePlugin::make()
+                RevivePlugin::make(),
             ]));
     }
 }

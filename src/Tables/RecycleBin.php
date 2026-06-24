@@ -2,6 +2,7 @@
 
 namespace Promethys\Revive\Tables;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -162,7 +163,7 @@ class RecycleBin extends Component implements HasActions, HasSchemas, HasTable
 
                     // Try to get user name
                     /** @phpstan-ignore class.notFound (Default Laravel User model namespace) */
-                    $userModel = config('auth.providers.users.model', \App\Models\User::class);
+                    $userModel = config('auth.providers.users.model', User::class);
                     if (class_exists($userModel)) {
                         $user = $userModel::find($record->deleted_by);
 

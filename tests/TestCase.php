@@ -21,7 +21,7 @@ use Promethys\Revive\ReviveServiceProvider;
 use Promethys\Revive\Tests\Traits\InteractsWithReviveDatabase;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
-use function Orchestra\Testbench\workbench_path; 
+use function Orchestra\Testbench\workbench_path;
 
 #[WithMigration]
 class TestCase extends Orchestra

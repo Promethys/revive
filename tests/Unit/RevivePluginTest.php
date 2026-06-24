@@ -49,7 +49,7 @@ class RevivePluginTest extends TestCase
     public function test_plugin_can_use_custom_authorization_logic()
     {
         $plugin = RevivePlugin::make()
-            ->authorize(fn() => false);
+            ->authorize(fn () => false);
 
         $this->assertFalse($plugin->isAuthorized());
     }

@@ -2,7 +2,6 @@
 
 namespace Promethys\Revive\Tests\Feature;
 
-use Filament\Facades\Filament;
 use Filament\Panel;
 use Promethys\Revive\Pages\RecycleBin as RecycleBinPage;
 use Promethys\Revive\RevivePlugin;
@@ -54,7 +53,7 @@ class RevivePluginTest extends TestCase
             ->default()
             ->plugins([
                 RevivePlugin::make()
-                    ->registerPage(CustomPage::class)
+                    ->registerPage(CustomPage::class),
             ]));
 
         $panel = filament()->getCurrentPanel();
