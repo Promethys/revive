@@ -23,6 +23,9 @@
             <directory suffix="Test.php">tests/Feature</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="APP_KEY" value="base64:2fl+Ktvkfl+E4mGWuLmZ8FCixe6jJ9zwjdqb0qXk6Vg="/>
+    </php>
     <coverage>
         <report>
             <html outputDirectory="build/coverage"/>
