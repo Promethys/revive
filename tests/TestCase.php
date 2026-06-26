@@ -2,12 +2,27 @@
 
 namespace Promethys\Revive\Tests;
 
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
+use Filament\Actions\ActionsServiceProvider;
+use Filament\FilamentServiceProvider;
+use Filament\Forms\FormsServiceProvider;
+use Filament\Infolists\InfolistsServiceProvider;
+use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Schemas\SchemasServiceProvider;
+use Filament\Support\SupportServiceProvider;
+use Filament\Tables\TablesServiceProvider;
+use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Promethys\Revive\ReviveServiceProvider;
 use Promethys\Revive\Tests\Traits\InteractsWithReviveDatabase;
+use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 use Workbench\App\Models\User;
 
 use function Orchestra\Testbench\workbench_path;
@@ -30,27 +45,27 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            \BladeUI\Heroicons\BladeHeroiconsServiceProvider::class,
-            \BladeUI\Icons\BladeIconsServiceProvider::class,
-            \Filament\Actions\ActionsServiceProvider::class,
-            \Filament\FilamentServiceProvider::class,
-            \Filament\Forms\FormsServiceProvider::class,
-            \Filament\Infolists\InfolistsServiceProvider::class,
-            \Filament\Notifications\NotificationsServiceProvider::class,
-            \Filament\Schemas\SchemasServiceProvider::class,
-            \Filament\Support\SupportServiceProvider::class,
-            \Filament\Tables\TablesServiceProvider::class,
-            \Filament\Widgets\WidgetsServiceProvider::class,
-            \Livewire\LivewireServiceProvider::class,
-            \Promethys\Revive\ReviveServiceProvider::class,
-            \RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            ActionsServiceProvider::class,
+            FilamentServiceProvider::class,
+            FormsServiceProvider::class,
+            InfolistsServiceProvider::class,
+            NotificationsServiceProvider::class,
+            SchemasServiceProvider::class,
+            SupportServiceProvider::class,
+            TablesServiceProvider::class,
+            WidgetsServiceProvider::class,
+            LivewireServiceProvider::class,
+            ReviveServiceProvider::class,
+            BladeCaptureDirectiveServiceProvider::class,
         ];
     }
 
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application  $app
      * @return void
      */
     protected function defineEnvironment($app)
