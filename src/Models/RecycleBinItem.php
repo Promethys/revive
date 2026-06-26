@@ -18,6 +18,7 @@ class RecycleBinItem extends Model
 
     protected $casts = [
         'state' => 'array',
+        'deleted_at' => 'datetime',
     ];
 
     protected $with = ['model'];

@@ -4,6 +4,7 @@ namespace Promethys\Revive;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Promethys\Revive\Concerns\Recyclable;
 
 class Revive
@@ -35,7 +36,7 @@ class Revive
                     }
                 }
             } catch (\Throwable $th) {
-                \Illuminate\Support\Facades\Log::warning("Error when processing Recyclable model $modelClass", [
+                Log::warning("Error when processing Recyclable model $modelClass", [
                     'message' => $th->getMessage(),
                     'file' => $th->getFile(),
                     'line' => $th->getLine(),
