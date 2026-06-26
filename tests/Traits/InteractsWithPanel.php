@@ -24,12 +24,19 @@ trait InteractsWithPanel
         Filament::setCurrentPanel($panel);
     }
 
-    public function registerPanelWithBasicPlugin(): void
+    public function registerPanelWithPlugin(?RevivePlugin $plugin = null, array $options = []): void
     {
-        $this->registerPanel(Panel::make()
+        $plugin ??= RevivePlugin::make();
+        $panel = Panel::make()
             ->default()
             ->plugins([
-                RevivePlugin::make(),
-            ]));
+                $plugin,
+            ]);
+
+        if (isset($options['tenant']) && ! is_null($options['tenant'])) {
+            $panel->tenant($options['tenant']);
+        }
+
+        $this->registerPanel($panel);
     }
 }

@@ -20,14 +20,14 @@ class RevivePluginTest extends TestCase
 
     public function test_can_get_plugin_inside_panel()
     {
-        $this->registerPanelWithBasicPlugin();
+        $this->registerPanelWithPlugin();
 
         $this->assertNotNull(RevivePlugin::get());
     }
 
     public function test_plugin_is_available_inside_panel()
     {
-        $this->registerPanelWithBasicPlugin();
+        $this->registerPanelWithPlugin();
 
         $this->assertTrue(RevivePlugin::isAvailable());
     }
@@ -39,7 +39,7 @@ class RevivePluginTest extends TestCase
 
     public function test_register_method_registers_plugin_page()
     {
-        $this->registerPanelWithBasicPlugin();
+        $this->registerPanelWithPlugin();
 
         $panel = filament()->getCurrentPanel();
 

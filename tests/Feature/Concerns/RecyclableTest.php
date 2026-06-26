@@ -12,6 +12,7 @@ use Promethys\Revive\RevivePlugin;
 use Promethys\Revive\Tests\TestCase;
 use Promethys\Revive\Tests\Traits\InteractsWithPanel;
 use Workbench\App\Models\Migration;
+use Workbench\App\Models\Post;
 use Workbench\App\Models\Team;
 use Workbench\App\Models\User;
 use Workbench\Database\Factories\PostFactory;
@@ -277,5 +278,52 @@ class RecyclableTest extends TestCase
         $this->assertEquals(1, User::recycleBinQuery()->count());
         $this->assertEquals($user1->id, User::recycleBinQuery()->first()?->id);
         $this->assertNull(User::recycleBinQuery()->where('id', $user2->id)->first());
+    }
+
+    public function test_recycle_bin_query_scope_filters_by_the_user_relation()
+    {
+        $user1 = UserFactory::new()->create();
+        $user2 = UserFactory::new()->create();
+
+        $post1 = PostFactory::new()->create(['user_id' => $user1->id]);
+        $post2 = PostFactory::new()->create(['user_id' => $user2->id]);
+
+        $post1->delete();
+        $post2->delete();
+
+        $results = Post::recycleBinQuery($user1)->get();
+
+        $this->assertTrue($results->contains('id', $post1->id));
+        $this->assertFalse($results->contains('id', $post2->id));
+    }
+
+    public function test_recycle_bin_query_scope_filters_by_the_tenant_team_id()
+    {
+        $team1 = TeamFactory::new()->create();
+        $team2 = TeamFactory::new()->create();
+
+        $user1 = UserFactory::new()->create(['team_id' => $team1->id]);
+        $user2 = UserFactory::new()->create(['team_id' => $team2->id]);
+
+        $user1->delete();
+        $user2->delete();
+
+        $results = User::recycleBinQuery(null, $team1)->get();
+
+        $this->assertTrue($results->contains('id', $user1->id));
+        $this->assertFalse($results->contains('id', $user2->id));
+    }
+
+    public function test_show_trashed_returns_only_trashed_records()
+    {
+        $user1 = UserFactory::new()->create();
+        $user2 = UserFactory::new()->create();
+
+        $user1->delete();
+
+        $results = User::showTrashed()->get();
+
+        $this->assertTrue($results->contains('id', $user1->id));
+        $this->assertFalse($results->contains('id', $user2->id));
     }
 }

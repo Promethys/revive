@@ -34,6 +34,7 @@ class User extends Authenticatable implements HasTenants
         'name',
         'email',
         'password',
+        'team_id',
     ];
 
     /**

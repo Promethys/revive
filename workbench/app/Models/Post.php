@@ -22,10 +22,6 @@ class Post extends BaseModel
         'user_id',
     ];
 
-    protected $casts = [
-        'deleted_by' => 'integer',
-    ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
