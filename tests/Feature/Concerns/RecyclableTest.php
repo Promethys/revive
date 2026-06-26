@@ -30,9 +30,9 @@ class RecyclableTest extends TestCase
 
     public function test_trait_does_not_throw_exception_when_used_with_soft_deletes()
     {
-        $this->assertDoesntThrow(
-            fn () => User::all()
-        );
+        UserFactory::new()->create();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, User::all());
     }
 
     public function test_trait_throws_exception_when_used_without_soft_deletes()
