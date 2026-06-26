@@ -5,6 +5,7 @@ namespace Promethys\Revive\Tests\Feature\Concerns;
 use Carbon\Carbon;
 use Filament\Facades\Filament;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Promethys\Revive\Models\RecycleBinItem;
@@ -32,7 +33,7 @@ class RecyclableTest extends TestCase
     {
         UserFactory::new()->create();
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, User::all());
+        $this->assertInstanceOf(Collection::class, User::all());
     }
 
     public function test_trait_throws_exception_when_used_without_soft_deletes()
