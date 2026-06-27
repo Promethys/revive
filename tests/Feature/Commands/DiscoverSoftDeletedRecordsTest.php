@@ -41,6 +41,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
 
         $this->artisan('revive:discover-soft-deleted')
             ->expectsOutputToContain('No recyclable models found')
+            ->assertFailed()
             ->run();
     }
 
@@ -52,7 +53,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
 
         $this->assertDatabaseCount('recycle_bin_items', 0);
 
-        $this->artisan('revive:discover-soft-deleted')->run();
+        $this->artisan('revive:discover-soft-deleted')->assertSuccessful()->run();
 
         $this->assertDatabaseCount('recycle_bin_items', 3);
         $this->assertDatabaseHas('recycle_bin_items', ['model_type' => Post::class]);
@@ -66,7 +67,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
 
         $this->assertDatabaseCount('recycle_bin_items', 3);
 
-        $this->artisan('revive:discover-soft-deleted')->run();
+        $this->artisan('revive:discover-soft-deleted')->assertSuccessful()->run();
 
         $this->assertDatabaseCount('recycle_bin_items', 3);
     }
@@ -81,6 +82,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
 
         $this->artisan('revive:discover-soft-deleted', ['--dry-run' => true])
             ->expectsOutputToContain('Dry run')
+            ->assertSuccessful()
             ->run();
 
         $this->assertDatabaseCount('recycle_bin_items', 0);
@@ -93,7 +95,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
         $this->softDeleteWithoutTracking(PostFactory::new()->times(2)->create());
         $this->softDeleteWithoutTracking(UserFactory::new()->times(2)->create());
 
-        $this->artisan('revive:discover-soft-deleted', ['--model' => 'Post'])->run();
+        $this->artisan('revive:discover-soft-deleted', ['--model' => 'Post'])->assertSuccessful()->run();
 
         $this->assertDatabaseCount('recycle_bin_items', 2);
         $this->assertDatabaseHas('recycle_bin_items', ['model_type' => Post::class]);
@@ -106,6 +108,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
 
         $this->artisan('revive:discover-soft-deleted', ['--model' => 'NonExistentModel'])
             ->expectsOutputToContain("Model 'NonExistentModel' not found")
+            ->assertFailed()
             ->run();
     }
 
@@ -115,6 +118,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
 
         $this->artisan('revive:discover-soft-deleted')
             ->expectsOutputToContain("doesn't use SoftDeletes")
+            ->assertSuccessful()
             ->run();
     }
 
@@ -126,6 +130,7 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
 
         $this->artisan('revive:discover-soft-deleted', ['--with-scope' => true])
             ->expectsOutputToContain('scoping information was')
+            ->assertSuccessful()
             ->run();
     }
 }

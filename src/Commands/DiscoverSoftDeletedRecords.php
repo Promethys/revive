@@ -41,7 +41,7 @@ class DiscoverSoftDeletedRecords extends Command
         if (empty($models)) {
             $this->warn('No models found with the Recyclable trait.');
 
-            return 1;
+            return self::FAILURE;
         }
 
         foreach ($models as $modelClass => $modelName) {
@@ -64,7 +64,7 @@ class DiscoverSoftDeletedRecords extends Command
 
         $this->displaySummary();
 
-        return 1;
+        return self::SUCCESS;
     }
 
     protected function getModelsToDiscover()
