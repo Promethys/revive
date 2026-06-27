@@ -14,6 +14,7 @@ class DiscoverSoftDeletedRecords extends Command
      */
     protected $signature = 'revive:discover-soft-deleted
                             {--model= : Specific model to discover (class name or full class path)}
+                            {--panel= : The Filament panel whose Revive config to use (defaults to the default panel)}
                             {--dry-run : Preview changes without making them}
                             {--with-scope : Include user/tenant scoping information}';
 
@@ -35,6 +36,8 @@ class DiscoverSoftDeletedRecords extends Command
     {
         $this->info('Discovering soft-deleted records...');
         $this->newLine();
+
+        $this->setDiscoveryPanel();
 
         $models = $this->getModelsToDiscover();
 
@@ -65,6 +68,26 @@ class DiscoverSoftDeletedRecords extends Command
         $this->displaySummary();
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Make a Filament panel current so the configured model namespaces resolve.
+     * In console no panel is active by default, which would otherwise fall back
+     * to App\Models and ignore modelsNamespace().
+     */
+    protected function setDiscoveryPanel(): void
+    {
+        $panel = $this->option('panel');
+
+        if (! $panel && filament()->getCurrentPanel()) {
+            return;
+        }
+
+        try {
+            filament()->setCurrentPanel($panel ?: filament()->getDefaultPanel());
+        } catch (\Throwable $e) {
+            $this->warn('Could not resolve a Filament panel; using the default model namespace.');
+        }
     }
 
     protected function getModelsToDiscover()

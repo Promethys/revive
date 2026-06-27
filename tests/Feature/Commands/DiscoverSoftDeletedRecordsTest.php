@@ -2,6 +2,7 @@
 
 namespace Promethys\Revive\Tests\Feature\Commands;
 
+use Filament\Panel;
 use Illuminate\Support\Collection;
 use Promethys\Revive\Models\RecycleBinItem;
 use Promethys\Revive\RevivePlugin;
@@ -56,6 +57,28 @@ class DiscoverSoftDeletedRecordsTest extends TestCase
         $this->artisan('revive:discover-soft-deleted')->assertSuccessful()->run();
 
         $this->assertDatabaseCount('recycle_bin_items', 3);
+        $this->assertDatabaseHas('recycle_bin_items', ['model_type' => Post::class]);
+    }
+
+    public function test_it_resolves_the_default_panel_when_none_is_current()
+    {
+        // Register a default panel into the registry (so getDefaultPanel() can
+        // find it) but leave no panel current, mimicking a real console run.
+        filament()->registerPanel(
+            Panel::make()
+                ->default()
+                ->id('discovery')
+                ->plugins([
+                    RevivePlugin::make()->modelsNamespace('Workbench\\App\\Models\\'),
+                ])
+        );
+        filament()->setCurrentPanel(null);
+
+        $this->softDeleteWithoutTracking(PostFactory::new()->times(2)->create());
+
+        $this->artisan('revive:discover-soft-deleted')->assertSuccessful()->run();
+
+        $this->assertDatabaseCount('recycle_bin_items', 2);
         $this->assertDatabaseHas('recycle_bin_items', ['model_type' => Post::class]);
     }
 

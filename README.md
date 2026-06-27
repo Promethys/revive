@@ -410,6 +410,16 @@ php artisan revive:discover-soft-deleted --model=Product
 php artisan revive:discover-soft-deleted --model="App\Models\Shop\Product"
 ```
 
+**Target a specific panel:**
+```bash
+php artisan revive:discover-soft-deleted --panel=admin
+```
+The command reads which model namespaces to scan from a panel's `RevivePlugin`
+configuration (see [Model namespaces](#model-namespaces)). On the command line no
+panel is "current", so Revive uses your **default** panel unless you pass `--panel`.
+If your recyclable models live outside `App\Models` and aren't being discovered,
+make sure the panel you target is the one configured with `->modelsNamespace(...)`.
+
 **Combine options:**
 ```bash
 php artisan revive:discover-soft-deleted --model=Category --dry-run --with-scope
