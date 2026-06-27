@@ -12,18 +12,15 @@ use Workbench\App\Models\User;
 use Workbench\Database\Factories\PostFactory;
 use Workbench\Database\Factories\UserFactory;
 
-use function Orchestra\Testbench\workbench_path;
-
 class DiscoverSoftDeletedRecordsTest extends TestCase
 {
     use InteractsWithPanel;
 
-    // Point the command's model discovery at the workbench models: app_path('Models')
-    // -> workbench/app/Models, and the namespace -> Workbench\App\Models\.
+    // Point the command's model discovery at the workbench models. The namespace
+    // is resolved to its directory via Composer's PSR-4 map (Workbench\App\ ->
+    // workbench/app), so no app path override is needed.
     protected function discoverWorkbenchModels(string $namespace = 'Workbench\\App\\Models\\'): void
     {
-        $this->app->useAppPath(workbench_path('app'));
-
         $this->registerPanelWithPlugin(
             RevivePlugin::make()->modelsNamespace($namespace)
         );

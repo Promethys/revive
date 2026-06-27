@@ -240,8 +240,39 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-> ⚠️ The plugin currently supports only models in the `App\Models` namespace. 
-> If you want to register a third-party model (e.g., from another package), create a wrapper class that extends it and add the `Recyclable` trait there: 
+### Model namespaces
+
+By default, the plugin scans the `App\Models` namespace for recyclable models. If your
+models live elsewhere (DDD or modular layouts), pass one or more namespaces to
+`modelsNamespace()`. Each namespace is resolved to its directory through Composer's
+PSR-4 autoload map, so no path configuration is required.
+
+```php
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            RevivePlugin::make()
+                // A single custom namespace...
+                ->modelsNamespace('App\\Domain\\Models')
+
+                // ...or several at once (this replaces the default App\Models):
+                ->modelsNamespace([
+                    'App\\Models',
+                    'App\\Domain\\Blog\\Models',
+                    'Modules\\Shop\\Models',
+                ]),
+        ]);
+}
+```
+
+> ℹ️ Passing an array **replaces** the default `App\Models`. Include it explicitly if
+> you still want it scanned. A namespace that can't be resolved to an existing
+> directory is skipped (and logged), never fatal.
+
+> ⚠️ To register a third-party model (e.g., from another package) without exposing its
+> namespace, create a wrapper class in one of your scanned namespaces that extends it and
+> adds the `Recyclable` trait:
 
 ```php
 namespace App\Models;

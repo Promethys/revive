@@ -35,7 +35,10 @@ final class RevivePlugin implements Plugin
 
     protected array | Closure $models = [];
 
-    protected string $modelsNamespace = 'App\\Models\\';
+    /**
+     * @var string|array<int, string>|Closure
+     */
+    protected string | array | Closure $modelsNamespaces = ['App\\Models\\'];
 
     protected bool | Closure $enableUserScoping = true;
 
@@ -291,23 +294,43 @@ final class RevivePlugin implements Plugin
     }
 
     /**
-     * Set the namespace for models managed by the plugin.
+     * Set the namespace(s) for models managed by the plugin.
      *
-     * @internal This method is just here for future features, not used yet but does not throw exception.
+     * Accepts a single namespace or an array of namespaces. Each is resolved to
+     * its directory through Composer's PSR-4 map during model discovery.
+     *
+     * @param  string|array<int, string>|Closure  $namespaces
      */
-    public function modelsNamespace(string $modelsNamespace): static
+    public function modelsNamespace(string | array | Closure $namespaces): static
     {
-        $this->modelsNamespace = $modelsNamespace;
+        $this->modelsNamespaces = $namespaces;
 
         return $this;
     }
 
     /**
-     * Get the models namespace.
+     * Get the models namespaces, normalized to a trailing-backslash array.
+     *
+     * @return array<int, string>
+     */
+    public function getModelsNamespaces(): array
+    {
+        $namespaces = $this->evaluate($this->modelsNamespaces);
+
+        return array_map(
+            fn (string $namespace): string => rtrim($namespace, '\\') . '\\',
+            (array) $namespaces
+        );
+    }
+
+    /**
+     * Get the first models namespace.
+     *
+     * @deprecated Use getModelsNamespaces() instead.
      */
     public function getModelsNamespace(): string
     {
-        return $this->evaluate($this->modelsNamespace);
+        return $this->getModelsNamespaces()[0] ?? 'App\\Models\\';
     }
 
     /**
