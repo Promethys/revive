@@ -49,6 +49,12 @@ php artisan revive:install
 
 > **Requirements:** PHP 8.2+, Laravel 11+, Filament v5
 
+> ℹ️ Re-running `revive:install` is safe: it won't duplicate the migrations. This
+> relies on `spatie/laravel-package-tools` **≥ 1.93.1** (required by this package).
+> On older versions the install command republishes the migrations with a fresh
+> timestamp each time — run `composer update spatie/laravel-package-tools` if you
+> see duplicates.
+
 ### Version 2 (for Filament v4)
 
 If you need to install V2 for Filament v4:
